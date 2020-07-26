@@ -40,6 +40,14 @@ void GSQS_Execute(GSQS_SquareStrip_t *this)
 	printf("GSQS_Execute\n");
 }
 
+void GSQS_Render(GSQS_SquareStrip_t *this)
+{
+	printf("GSQS_Render\n");
+//	for (uint16_t eleIx=0;eleIx<noElems;eleIx++)
+//	{
+//
+//	}
+}
 /* local functions ------------------------------------------------------------*/
 /* none */
 

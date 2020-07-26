@@ -16,12 +16,12 @@ LINESTRIP_OBJ_SRC_PATH=$(LINESTRIP_OBJ_PATH)/src
 # used includes
 LINESTRIP_INCLUDES_PATHS=$(sort	-I$(LINESTRIP_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(SOMETHING_INCLUDES_PATHS))
+									$(WRAPPER2D_INCLUDES_PATHS))
 
 LINESTRIP_INCLUDES=$(sort	$(LINESTRIP_OBJ_INCLUDE_PATH)/$(LINESTRIP_OBJ_NAME).h \
 									$(LINESTRIP_OBJ_PATH)/$(LINESTRIP_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(SOMETHING_INCLUDES))
+									$(WRAPPER2D_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

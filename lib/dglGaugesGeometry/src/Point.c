@@ -10,7 +10,7 @@
 
 /* application includes--------------------------------------------------------*/
 #include <Point.h>
-
+#include <Wrapper2D.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -30,14 +30,28 @@
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void GPNT_Init(GPNT_Point_t *this)
+void GPNT_Init(GPNT_Point_t *this, float32_t x, float32_t y)
 {
-	printf("GPNT_Init\n");
+	//DEBUG printf("GPNT_Init\n");
+	this->x=x;
+	this->y=y;
 }
 
 void GPNT_Execute(GPNT_Point_t *this)
 {
-	printf("GPNT_Execute\n");
+	//DEBUG printf("GPNT_Execute\n");
+}
+
+void GPNT_Render(GPNT_Point_t *this)
+{
+	//DEBUG printf("GPNT_Render %f %f\n",this->x,this->y);
+	D2DW_RenderPoint(this->x,this->y);
+}
+
+void GPNT_SetPosition(GPNT_Point_t *this, float32_t x, float32_t y)
+{
+	this->x=x;
+	this->y=y;
 }
 
 /* local functions ------------------------------------------------------------*/

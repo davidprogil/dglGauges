@@ -16,12 +16,12 @@ POINT_OBJ_SRC_PATH=$(POINT_OBJ_PATH)/src
 # used includes
 POINT_INCLUDES_PATHS=$(sort	-I$(POINT_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(SOMETHING_INCLUDES_PATHS))
+									$(WRAPPER2D_INCLUDES_PATHS))
 
 POINT_INCLUDES=$(sort	$(POINT_OBJ_INCLUDE_PATH)/$(POINT_OBJ_NAME).h \
 									$(POINT_OBJ_PATH)/$(POINT_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(SOMETHING_INCLUDES))
+									$(WRAPPER2D_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

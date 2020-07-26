@@ -31,7 +31,7 @@ typedef struct _GSQS_SquareStrip_t_
 /* public functions--------------------------------------------------------------*/
 void GSQS_Init(GSQS_SquareStrip_t *this);
 void GSQS_Execute(GSQS_SquareStrip_t *this);
-
+void GSQS_Render(GSQS_SquareStrip_t *this);
 
 /* end */
 #endif /* GSQS_SquareStrip_H */

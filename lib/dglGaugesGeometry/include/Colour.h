@@ -29,13 +29,20 @@ typedef struct _GCOL_Colour_t_
 }GCOL_Colour_t;
 
 /* public variables-------------------------------------------------------------*/
-/* none */
+extern  GCOL_Colour_t GCOL_White;
+extern  GCOL_Colour_t GCOL_Red;
+extern  GCOL_Colour_t GCOL_Green;
+extern  GCOL_Colour_t GCOL_Blue;
+extern  GCOL_Colour_t GCOL_Red_half;
+extern  GCOL_Colour_t GCOL_Green_half;
+extern  GCOL_Colour_t GCOL_Blue_half;
+
 
 /* public functions--------------------------------------------------------------*/
 void GCOL_Init(GCOL_Colour_t *this);
 void GCOL_Execute(GCOL_Colour_t *this);
-
-
+void GCOL_CopyFrom(GCOL_Colour_t *this,GCOL_Colour_t *source);
+void GCOL_SetRenderColour(GCOL_Colour_t *this);
 /* end */
 #endif /* GCOL_Colour_H */
 

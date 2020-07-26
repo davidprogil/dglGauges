@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 /* application includes--------------------------------------------------------*/
-#include <Panel.h>
+#include <CarSimulation.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -30,49 +30,28 @@
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this)
+void SCAR_Init(SCAR_CarSimulation_t *this)
 {
-	printf("GPAN_Init\n");
-	/* canvas */
-	GCNV_Init(			&this->myCanvas);
+	printf("SCAR_Init\n");
 
-	this->instrumentsNo=0;
-	this->instruments[0]=NULL;
+	this->isRunning=M_FALSE;
+	this->isShowing=M_FALSE;
 
+	SMFD_Init(&this->carMfd);
 }
 
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)
+void SCAR_Execute(SCAR_CarSimulation_t *this)
 {
-	this->instruments[this->instrumentsNo]=instrument;
-	GCNV_ApplyParentWindow(instrument,&this->myCanvas.realWindow);
-	this->instrumentsNo++;
-}
+	printf("SCAR_Execute\n");
 
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
-{
-	GCNV_ApplyParentWindow(&this->myCanvas,parentWindow);
-}
-
-void GPAN_Execute(GPAN_Panel_t *this)
-{
-	printf("GPAN_Execute\n");
-}
-void GPAN_Render(GPAN_Panel_t *this)
-{
-	//debug printf("GPAN_Render\n");
-	GCNV_Render(&this->myCanvas);
-
-	//TODO render instruments
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
+	if (this->isRunning)
 	{
-		GCNV_Render(this->instruments[ix]);
+
 	}
 }
 
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
-{
-	GCNV_SetPosition(&this->myCanvas,ox,oy,dx,dy,parentWindow);
-}
+
+
 
 /* local functions ------------------------------------------------------------*/
 /* none */

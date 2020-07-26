@@ -11,28 +11,35 @@ COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)include
 COMMON_INCLUDES=$(PROJECT_PATH)include/myTypes.h
 CC=gcc
 CFLAGS=-Wall -c
-LDFLAGS=-Wall
+LDFLAGS=-Wall 
 
 #--------------------------------------------------------------------------------
 # project components
+include ./lib/dglRenderWrapper/dglRenderWrapper.mk
 include ./lib/dglGaugesGeometry/dglGaugesGeometry.mk
 include ./lib/dglGaugesBase/dglGaugesBase.mk
+
+include ./lib/carSimulator/carSimulator.mk
 
 
 #--------------------------------------------------------------------------------
 # includes and objects 
 MAIN_INCLUDES_PATHS=$(sort 	$(COMMON_INCLUDES_PATHS) \
-							$(DGLGAUGESBASE_COMPONENT_INCLUDES_PATHS))
+							$(CARSIMULATOR_COMPONENT_INCLUDES_PATHS))
 							
 MAIN_INCLUDES=		$(sort 	$(COMMON_INCLUDES) \
 							Makefile \
-							$(DGLGAUGESBASE_COMPONENT_INCLUDES))
+							$(CARSIMULATOR_COMPONENT_INCLUDES))
 
 MAIN_OBJECTS=		$(DGLGAUGESBASE_COMPONENT_OBJ) \
-					$(DGLGAUGESGEOMETRY_COMPONENT_OBJ)
+					$(DGLGAUGESGEOMETRY_COMPONENT_OBJ) \
+					$(CARSIMULATOR_COMPONENT_OBJ) \
+					$(DGLRENDERWRAPPER_COMPONENT_OBJ)
 
-MAIN_OUTPUT_FOLDERS =  $(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER) \
-					$(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER)
+MAIN_OUTPUT_FOLDERS =  	$(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER) \
+						$(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER) \
+						$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER) \
+						$(DGLRENDERWRAPPER_COMPONENT_OUTPUT_FOLDER)
 
 #--------------------------------------------------------------------------------
 # no need to change anything below this line
@@ -48,7 +55,7 @@ MAIN_SRC=$(MAIN_OBJ_PATH)/$(MAIN_OBJ_NAME).c
 MAIN_OUTPUT_FOLDER=$(MAIN_OBJ_PATH)/bin
 MAIN_OBJ=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).o
 MAIN_EXE=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).exe
-MAIN_LIBS=
+MAIN_LIBS=-lrt -lpthread -lGL -lglut -lm -lGLU 
 
 #------------------------------------------------------------------------------#							
 # may need to delete this

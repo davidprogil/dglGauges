@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 /* application includes--------------------------------------------------------*/
-#include <Panel.h>
+#include <SimulationView.h>
+#include <KeyboardAndMouse.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -24,55 +26,63 @@
 /* none */
 
 /* local variables ------------------------------------------------------------*/
-/* none */
+static SVIW_SimulationView_t *thisView=NULL; /* singleton */
 
 /* local prototypes -----------------------------------------------------------*/
-/* none */
+void SVIW_Execute();
 
 /* public functions -----------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this)
+void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction)
 {
-	printf("GPAN_Init\n");
-	/* canvas */
-	GCNV_Init(			&this->myCanvas);
+	printf("SVIW_Init\n");
+	thisView=this;
+	thisView->isEnabled = M_FALSE;
+	thisView->carSimulation=carSimulation;
+	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,640,480);
 
-	this->instrumentsNo=0;
-	this->instruments[0]=NULL;
 
 }
 
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)
+void SVIW_Enable(bool_t isEnabled)
 {
-	this->instruments[this->instrumentsNo]=instrument;
-	GCNV_ApplyParentWindow(instrument,&this->myCanvas.realWindow);
-	this->instrumentsNo++;
+	printf("SVIW_Enable\n");
+	thisView->isEnabled=isEnabled;
+	UpdateView();
 }
 
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
+void SVIW_Start()
 {
-	GCNV_ApplyParentWindow(&this->myCanvas,parentWindow);
+	printf("SVIW_Start\n");
+	D2DW_Start();
 }
 
-void GPAN_Execute(GPAN_Panel_t *this)
-{
-	printf("GPAN_Execute\n");
-}
-void GPAN_Render(GPAN_Panel_t *this)
-{
-	//debug printf("GPAN_Render\n");
-	GCNV_Render(&this->myCanvas);
 
-	//TODO render instruments
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
+/* AKA render */
+void SVIW_Execute()
+{
+	printf("SVIW_Execute\n");
+	if ((thisView!=NULL) && (thisView->isEnabled))
 	{
-		GCNV_Render(this->instruments[ix]);
+		//D2DW_RenderSampleView();//TODO remove
+
+		D2DW_StartView();
+		//D2DW_RenderSample();
+
+		if (NULL!=thisView->carSimulation)
+		{
+			/* render car */
+			//TODO
+
+			/* render mfd */
+			GMFD_Render(&thisView->carSimulation->carMfd.mfd);
+		}
+
+		D2DW_Flush();
 	}
+	D2DW_Timer(SVIW_Execute,1000/*msecs*/);
 }
 
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
-{
-	GCNV_SetPosition(&this->myCanvas,ox,oy,dx,dy,parentWindow);
-}
+
 
 /* local functions ------------------------------------------------------------*/
 /* none */

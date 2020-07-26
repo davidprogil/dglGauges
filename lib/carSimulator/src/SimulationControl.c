@@ -7,9 +7,11 @@
 /* system includes-------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>  //Header file for sleep(). man 3 sleep for details.
+#include <pthread.h>
 
 /* application includes--------------------------------------------------------*/
-#include <Panel.h>
+#include <SimulationControl.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -30,48 +32,55 @@
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this)
+void SCRT_Init(SCRT_SimulationControl_t *this)
 {
-	printf("GPAN_Init\n");
-	/* canvas */
-	GCNV_Init(			&this->myCanvas);
+	printf("SCRT_Init\n");
 
-	this->instrumentsNo=0;
-	this->instruments[0]=NULL;
+	this->isRunning=M_FALSE;
+	this->isShowing=M_FALSE;
+
+	SCAR_Init(&this->car);
+	SKBM_Init(&this->interaction);
+	SVIW_Init(&this->view,&this->car,SKBM_Keyboard);
+
+
 
 }
 
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)
+void SCRT_Execute(SCRT_SimulationControl_t *this)
 {
-	this->instruments[this->instrumentsNo]=instrument;
-	GCNV_ApplyParentWindow(instrument,&this->myCanvas.realWindow);
-	this->instrumentsNo++;
-}
+	printf("SCRT_Execute\n");
 
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
-{
-	GCNV_ApplyParentWindow(&this->myCanvas,parentWindow);
-}
-
-void GPAN_Execute(GPAN_Panel_t *this)
-{
-	printf("GPAN_Execute\n");
-}
-void GPAN_Render(GPAN_Panel_t *this)
-{
-	//debug printf("GPAN_Render\n");
-	GCNV_Render(&this->myCanvas);
-
-	//TODO render instruments
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
+	if (this->isRunning)
 	{
-		GCNV_Render(this->instruments[ix]);
+
 	}
 }
 
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
+void SCRT_Render(SCRT_SimulationControl_t *this)
 {
-	GCNV_SetPosition(&this->myCanvas,ox,oy,dx,dy,parentWindow);
+	//TODO not used
+	printf("SCRT_Render\n");
+	if (this->isShowing)
+	{
+		SVIW_Execute();
+	}
+}
+
+void SCRT_Start(SCRT_SimulationControl_t *this,bool_t isShowing)
+{
+	printf("SCRT_Start\n");
+	this->isRunning=M_TRUE;
+	this->isShowing=isShowing;
+	SVIW_Enable(isShowing);
+	SVIW_Start();
+
+}
+
+void SCRT_Stop(SCRT_SimulationControl_t *this)
+{
+	printf("SCRT_Stop\n");
+	this->isRunning=M_FALSE;
 }
 
 /* local functions ------------------------------------------------------------*/

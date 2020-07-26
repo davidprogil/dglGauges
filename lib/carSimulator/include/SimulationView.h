@@ -4,43 +4,40 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef GPAN_Panel_H
-#define GPAN_Panel_H
+#ifndef SVIW_SimulationView_H
+#define SVIW_SimulationView_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
-#include <Canvas.h>
+#include <Wrapper2D.h>
+#include <CarSimulation.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-#define GPAN_MAX_INSTRUMENTS_NO (64)
+/* none */
 
 /* types------------------------------------------------------------------------*/
-typedef struct _GPAN_Panel_t_
+typedef struct _SVIW_SimulationView_t_
 {
-	GCNV_Canvas_t myCanvas;
-
-	//TODO support for subPanels
-
-	void *instruments[GPAN_MAX_INSTRUMENTS_NO];
-	uint8_t instrumentsNo;
-}GPAN_Panel_t;
+	bool_t isEnabled;
+	D2DW_Wrapper2D_t wrapper2D;
+	SCAR_CarSimulation_t *carSimulation;
+}SVIW_SimulationView_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this);
-void GPAN_Execute(GPAN_Panel_t *this);
-void GPAN_Render(GPAN_Panel_t *this);
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow);
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument);
+void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction);
+void SVIW_Execute();
+void SVIW_Enable(bool_t isEnabled);
+void SVIW_Start();
+
 /* end */
-#endif /* GPAN_Panel_H */
+#endif /* SVIW_SimulationView_H */
 

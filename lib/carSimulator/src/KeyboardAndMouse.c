@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 /* application includes--------------------------------------------------------*/
-#include <Panel.h>
+#include <KeyboardAndMouse.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -24,54 +24,34 @@
 /* none */
 
 /* local variables ------------------------------------------------------------*/
-/* none */
+SKBM_KeyboardAndMouse_t *thisKeyboardAndMouse=NULL; /* singleton */
 
 /* local prototypes -----------------------------------------------------------*/
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this)
+void SKBM_Init(SKBM_KeyboardAndMouse_t *this)
 {
-	printf("GPAN_Init\n");
-	/* canvas */
-	GCNV_Init(			&this->myCanvas);
-
-	this->instrumentsNo=0;
-	this->instruments[0]=NULL;
-
+	printf("SKBM_Init\n");
+	thisKeyboardAndMouse=this;
 }
 
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)
+void SKBM_Execute(SKBM_KeyboardAndMouse_t *this)
 {
-	this->instruments[this->instrumentsNo]=instrument;
-	GCNV_ApplyParentWindow(instrument,&this->myCanvas.realWindow);
-	this->instrumentsNo++;
-}
-
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
-{
-	GCNV_ApplyParentWindow(&this->myCanvas,parentWindow);
-}
-
-void GPAN_Execute(GPAN_Panel_t *this)
-{
-	printf("GPAN_Execute\n");
-}
-void GPAN_Render(GPAN_Panel_t *this)
-{
-	//debug printf("GPAN_Render\n");
-	GCNV_Render(&this->myCanvas);
-
-	//TODO render instruments
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
+	printf("SKBM_Execute\n");
+	if (NULL != thisKeyboardAndMouse)
 	{
-		GCNV_Render(this->instruments[ix]);
+
 	}
 }
 
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
+void SKBM_Keyboard(int key, int x, int y)
 {
-	GCNV_SetPosition(&this->myCanvas,ox,oy,dx,dy,parentWindow);
+	printf("SKBM_Keyboard\n");
+	if (NULL != thisKeyboardAndMouse)
+	{
+
+	}
 }
 
 /* local functions ------------------------------------------------------------*/

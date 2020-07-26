@@ -9,10 +9,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <unistd.h>  //Header file for sleep(). man 3 sleep for details.
 
 /* application includes--------------------------------------------------------*/
 #include<myTypes.h>
-#include<Mfd.h>
+#include<SimulationControl.h>
+
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -26,7 +28,7 @@
 /* none */
 
 /* local variables ------------------------------------------------------------*/
-GMFD_Mfd_t myFfd;
+SCRT_SimulationControl_t myCarSimulator;
 
 /* local prototypes -----------------------------------------------------------*/
 /* none */
@@ -47,7 +49,11 @@ int main(void)
 	 * 	- instr 2 2
 	 */
 
-	GMFD_Init(&myFfd);
+	SCRT_Init(&myCarSimulator);
+
+	/* pass application control to simulator */
+	SCRT_Start(&myCarSimulator,M_TRUE);
+
 
 	return EXIT_SUCCESS;
 }

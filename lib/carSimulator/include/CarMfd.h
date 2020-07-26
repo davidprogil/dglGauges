@@ -4,43 +4,44 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef GPAN_Panel_H
-#define GPAN_Panel_H
+#ifndef SMFD_CarMfd_H
+#define SMFD_CarMfd_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
-#include <Canvas.h>
+#include <Mfd.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-#define GPAN_MAX_INSTRUMENTS_NO (64)
+/* none */
 
 /* types------------------------------------------------------------------------*/
-typedef struct _GPAN_Panel_t_
+typedef struct _SMFD_CarMfd_t_
 {
-	GCNV_Canvas_t myCanvas;
-
-	//TODO support for subPanels
-
-	void *instruments[GPAN_MAX_INSTRUMENTS_NO];
-	uint8_t instrumentsNo;
-}GPAN_Panel_t;
+	GMFD_Mfd_t mfd;
+	GPAN_Panel_t actuatorsPanel;
+	GCNV_Canvas_t directionBar;//TODO change to instrument
+	GCNV_Canvas_t pedalBar;//TODO change to instrument
+	GCNV_Canvas_t leftIndicatorLed;//TODO change to instrument
+	GCNV_Canvas_t rightIndicatorLed;//TODO change to instrument
+	GPAN_Panel_t fuelPanel;
+	GPAN_Panel_t sensorsPanel;
+	GPAN_Panel_t dashboardPanel;
+}SMFD_CarMfd_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this);
-void GPAN_Execute(GPAN_Panel_t *this);
-void GPAN_Render(GPAN_Panel_t *this);
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow);
-void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument);
+void SMFD_Init(SMFD_CarMfd_t *this);
+void SMFD_Execute(SMFD_CarMfd_t *this);
+
+
 /* end */
-#endif /* GPAN_Panel_H */
+#endif /* SMFD_CarMfd_H */
 

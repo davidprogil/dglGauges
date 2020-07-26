@@ -26,14 +26,16 @@
 typedef struct _GCNV_Canvas_t_
 {
 	/* is shown */
-	bool_t isShown;
+	bool_t isShowing;
 	/* is paused (no update)*/
-	bool_t isUpdated;
+	bool_t isExecutioning;
 	/* is show border */
 	bool_t isShowBorder;
 
 	/* window (start and dimensions) */
 	GWIN_Window_t window;
+	/* real window*/
+	GWIN_Window_t realWindow;
 
 	/* background colour */
 	GCOL_Colour_t backColour;
@@ -46,6 +48,12 @@ typedef struct _GCNV_Canvas_t_
 
 	/* function to update contents */
 	//todo
+
+	/* instrument object */
+	//TODO
+
+	/* type */
+	//TODO
 
 	/* main label */
 	GLAB_Label_t label;
@@ -62,6 +70,9 @@ typedef struct _GCNV_Canvas_t_
 /* public functions--------------------------------------------------------------*/
 void GCNV_Init(GCNV_Canvas_t *this);
 void GCNV_Execute(GCNV_Canvas_t *this);
+void GCNV_Render(GCNV_Canvas_t *this);
+void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
+void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
 
 
 /* end */
