@@ -31,6 +31,8 @@ typedef struct _SCRT_SimulationControl_t_
 	SKBM_KeyboardAndMouse_t interaction;
 	SVIW_SimulationView_t 	view;
 
+	pthread_t thread_id;
+
 }SCRT_SimulationControl_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -38,7 +40,7 @@ typedef struct _SCRT_SimulationControl_t_
 
 /* public functions--------------------------------------------------------------*/
 void SCRT_Init(SCRT_SimulationControl_t *this);
-void SCRT_Execute(SCRT_SimulationControl_t *this);
+void *SCRT_Execute(void *thisVoid);
 void SCRT_Render(SCRT_SimulationControl_t *this);
 void SCRT_Start(SCRT_SimulationControl_t *this,bool_t isShowing);
 void SCRT_Stop(SCRT_SimulationControl_t *this);

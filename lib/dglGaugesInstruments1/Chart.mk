@@ -6,31 +6,31 @@
 
 #------------------------------------------------------------------------------#
 # object name
-LABEL_OBJ_NAME=Label
+CHART_OBJ_NAME=Chart
 # component name
-LABEL_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESBASE_COMPONENT_NAME)
+CHART_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESINSTRUMENTS1_COMPONENT_NAME)
 # include and source paths - no need to change
-LABEL_OBJ_INCLUDE_PATH=$(LABEL_OBJ_PATH)/include
-LABEL_OBJ_SRC_PATH=$(LABEL_OBJ_PATH)/src
+CHART_OBJ_INCLUDE_PATH=$(CHART_OBJ_PATH)/include
+CHART_OBJ_SRC_PATH=$(CHART_OBJ_PATH)/src
 
 # used includes
-LABEL_INCLUDES_PATHS=$(sort	-I$(LABEL_OBJ_INCLUDE_PATH) \
+CHART_INCLUDES_PATHS=$(sort	-I$(CHART_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(WINDOW_INCLUDES_PATHS))
+									$(SOMETHING_INCLUDES_PATHS))
 
-LABEL_INCLUDES=$(sort	$(LABEL_OBJ_INCLUDE_PATH)/$(LABEL_OBJ_NAME).h \
-									$(LABEL_OBJ_PATH)/$(LABEL_OBJ_NAME).mk \
+CHART_INCLUDES=$(sort	$(CHART_OBJ_INCLUDE_PATH)/$(CHART_OBJ_NAME).h \
+									$(CHART_OBJ_PATH)/$(CHART_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(WINDOW_INCLUDES))
+									$(SOMETHING_INCLUDES))
 
 
 #------------------------------------------------------------------------------#
 # no need to change anything below this line
-LABEL_SRC=$(LABEL_OBJ_SRC_PATH)/$(LABEL_OBJ_NAME).c
-LABEL_OUTPUT_FOLDER=$(LABEL_OBJ_PATH)/bin
-LABEL_OBJ=$(LABEL_OUTPUT_FOLDER)/$(LABEL_OBJ_NAME).o
+CHART_SRC=$(CHART_OBJ_SRC_PATH)/$(CHART_OBJ_NAME).c
+CHART_OUTPUT_FOLDER=$(CHART_OBJ_PATH)/bin
+CHART_OBJ=$(CHART_OUTPUT_FOLDER)/$(CHART_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(LABEL_OBJ): $(LABEL_INCLUDES) $(LABEL_SRC)  $(LABEL_OUTPUT_FOLDER) 
-	$(CC) $(CFLAGS) -o $(LABEL_OBJ) $(LABEL_INCLUDES_PATHS) $(LABEL_SRC)
+$(CHART_OBJ): $(CHART_INCLUDES) $(CHART_SRC) 
+	$(CC) $(CFLAGS) -o $(CHART_OBJ) $(CHART_INCLUDES_PATHS) $(CHART_SRC)

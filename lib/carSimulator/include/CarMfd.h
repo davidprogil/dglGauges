@@ -13,6 +13,8 @@
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
 #include <Mfd.h>
+#include <Sign.h>
+#include <Bar.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -25,7 +27,7 @@ typedef struct _SMFD_CarMfd_t_
 {
 	GMFD_Mfd_t mfd;
 	GPAN_Panel_t actuatorsPanel;
-	GCNV_Canvas_t directionBar;//TODO change to instrument
+	GIBR_Bar_t directionBar;
 	GCNV_Canvas_t pedalBar;//TODO change to instrument
 	GCNV_Canvas_t leftIndicatorLed;//TODO change to instrument
 	GCNV_Canvas_t rightIndicatorLed;//TODO change to instrument

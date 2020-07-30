@@ -37,6 +37,8 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->isRunning=M_FALSE;
 	this->isShowing=M_FALSE;
 
+	this->direction=0.0f;
+
 	SMFD_Init(&this->carMfd);
 }
 
@@ -46,7 +48,7 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 
 	if (this->isRunning)
 	{
-
+		this->direction=rand()*90.0f-45.0f;
 	}
 }
 

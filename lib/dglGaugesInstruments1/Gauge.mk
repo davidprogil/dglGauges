@@ -6,31 +6,31 @@
 
 #------------------------------------------------------------------------------#
 # object name
-LABEL_OBJ_NAME=Label
+GAUGE_OBJ_NAME=Gauge
 # component name
-LABEL_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESBASE_COMPONENT_NAME)
+GAUGE_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESINSTRUMENTS1_COMPONENT_NAME)
 # include and source paths - no need to change
-LABEL_OBJ_INCLUDE_PATH=$(LABEL_OBJ_PATH)/include
-LABEL_OBJ_SRC_PATH=$(LABEL_OBJ_PATH)/src
+GAUGE_OBJ_INCLUDE_PATH=$(GAUGE_OBJ_PATH)/include
+GAUGE_OBJ_SRC_PATH=$(GAUGE_OBJ_PATH)/src
 
 # used includes
-LABEL_INCLUDES_PATHS=$(sort	-I$(LABEL_OBJ_INCLUDE_PATH) \
+GAUGE_INCLUDES_PATHS=$(sort	-I$(GAUGE_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(WINDOW_INCLUDES_PATHS))
+									$(SOMETHING_INCLUDES_PATHS))
 
-LABEL_INCLUDES=$(sort	$(LABEL_OBJ_INCLUDE_PATH)/$(LABEL_OBJ_NAME).h \
-									$(LABEL_OBJ_PATH)/$(LABEL_OBJ_NAME).mk \
+GAUGE_INCLUDES=$(sort	$(GAUGE_OBJ_INCLUDE_PATH)/$(GAUGE_OBJ_NAME).h \
+									$(GAUGE_OBJ_PATH)/$(GAUGE_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(WINDOW_INCLUDES))
+									$(SOMETHING_INCLUDES))
 
 
 #------------------------------------------------------------------------------#
 # no need to change anything below this line
-LABEL_SRC=$(LABEL_OBJ_SRC_PATH)/$(LABEL_OBJ_NAME).c
-LABEL_OUTPUT_FOLDER=$(LABEL_OBJ_PATH)/bin
-LABEL_OBJ=$(LABEL_OUTPUT_FOLDER)/$(LABEL_OBJ_NAME).o
+GAUGE_SRC=$(GAUGE_OBJ_SRC_PATH)/$(GAUGE_OBJ_NAME).c
+GAUGE_OUTPUT_FOLDER=$(GAUGE_OBJ_PATH)/bin
+GAUGE_OBJ=$(GAUGE_OUTPUT_FOLDER)/$(GAUGE_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(LABEL_OBJ): $(LABEL_INCLUDES) $(LABEL_SRC)  $(LABEL_OUTPUT_FOLDER) 
-	$(CC) $(CFLAGS) -o $(LABEL_OBJ) $(LABEL_INCLUDES_PATHS) $(LABEL_SRC)
+$(GAUGE_OBJ): $(GAUGE_INCLUDES) $(GAUGE_SRC) 
+	$(CC) $(CFLAGS) -o $(GAUGE_OBJ) $(GAUGE_INCLUDES_PATHS) $(GAUGE_SRC)

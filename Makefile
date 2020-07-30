@@ -18,6 +18,7 @@ LDFLAGS=-Wall
 include ./lib/dglRenderWrapper/dglRenderWrapper.mk
 include ./lib/dglGaugesGeometry/dglGaugesGeometry.mk
 include ./lib/dglGaugesBase/dglGaugesBase.mk
+include ./lib/dglGaugesInstruments1/dglGaugesInstruments1.mk
 
 include ./lib/carSimulator/carSimulator.mk
 
@@ -34,12 +35,14 @@ MAIN_INCLUDES=		$(sort 	$(COMMON_INCLUDES) \
 MAIN_OBJECTS=		$(DGLGAUGESBASE_COMPONENT_OBJ) \
 					$(DGLGAUGESGEOMETRY_COMPONENT_OBJ) \
 					$(CARSIMULATOR_COMPONENT_OBJ) \
-					$(DGLRENDERWRAPPER_COMPONENT_OBJ)
+					$(DGLRENDERWRAPPER_COMPONENT_OBJ) \
+					$(DGLGAUGESINSTRUMENTS1_COMPONENT_OBJ)
 
 MAIN_OUTPUT_FOLDERS =  	$(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER) \
 						$(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER) \
 						$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER) \
-						$(DGLRENDERWRAPPER_COMPONENT_OUTPUT_FOLDER)
+						$(DGLRENDERWRAPPER_COMPONENT_OUTPUT_FOLDER) \
+						$(DGLGAUGESINSTRUMENTS1_COMPONENT_OUTPUT_FOLDER)
 
 #--------------------------------------------------------------------------------
 # no need to change anything below this line

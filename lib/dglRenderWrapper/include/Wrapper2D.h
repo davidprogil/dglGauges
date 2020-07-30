@@ -43,6 +43,8 @@ void D2DW_Timer(void *function,uint16_t msecs);
 void D2DW_StartView();
 void D2DW_StartLineStrip();
 void D2DW_EndLineStrip();
+void D2DW_StartPolygon();
+void D2DW_EndPolygon();
 void D2DW_RenderPoint(float32_t x,float32_t y);
 void D2DW_Flush();
 void D2DW_Flush();

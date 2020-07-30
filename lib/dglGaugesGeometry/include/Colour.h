@@ -33,10 +33,12 @@ extern  GCOL_Colour_t GCOL_White;
 extern  GCOL_Colour_t GCOL_Red;
 extern  GCOL_Colour_t GCOL_Green;
 extern  GCOL_Colour_t GCOL_Blue;
-extern  GCOL_Colour_t GCOL_Red_half;
-extern  GCOL_Colour_t GCOL_Green_half;
-extern  GCOL_Colour_t GCOL_Blue_half;
-
+extern  GCOL_Colour_t GCOL_Red_Half;
+extern  GCOL_Colour_t GCOL_Green_Half;
+extern  GCOL_Colour_t GCOL_Blue_Half;
+extern  GCOL_Colour_t GCOL_Red_Quarter;
+extern  GCOL_Colour_t GCOL_Green_Quarter;
+extern  GCOL_Colour_t GCOL_Blue_Quarter;
 
 /* public functions--------------------------------------------------------------*/
 void GCOL_Init(GCOL_Colour_t *this);

@@ -34,38 +34,43 @@ void GCNV_Init(GCNV_Canvas_t *this)
 {
 	printf("GCNV_Init\n");
 	/* is shown */
-	this->isShowing=M_FALSE;
+	this->isShowing=M_TRUE;
 	/* is paused (no update)*/
 	this->isExecutioning=M_FALSE;
 	/* is show border */
 	this->isShowBorder=M_TRUE;//TODO debug
+	/* is show border */
+	this->isFill=M_TRUE;//TODO debug
 
 	/* window (start and dimensions) */
 	GWIN_Init(&this->window,0.0f,0.0f,1.0f,1.0f);
 	/* window (start and dimensions) */
 	GWIN_Init(&this->realWindow,0.0f,0.0f,1.0f,1.0f);
 
+	/* fill colour */
+	GCOL_CopyFrom(&this->fillColour,&GCOL_Green_Quarter);
+
 	/* background colour */
-	GCOL_CopyFrom(&this->backColour,&GCOL_Green_half);
+	GCOL_CopyFrom(&this->backColour,&GCOL_Green_Half);
 
 	/* foreground colour */
 	GCOL_CopyFrom(&this->foreColour,&GCOL_White);
 
-	//		/* function to render */
-	//		//todo
-	//
-	//		/* function to update contents */
-	//		//todo
-	//
-	//		/* instrument object */
-	//		//TODO
-	//
-	//		/* type */
-	//		//TODO
-	//
-	//		/* main label */
-	//		GLAB_Label_t label;
-	//
+	/* function to render */
+	this->renderFunction=NULL;
+
+	/* function to update contents */
+	this->updateInstrument=NULL;
+
+	/* instrument object */
+	this->instrument=NULL;
+
+	/* type */
+	//TODO
+
+	/* main label */
+	//TODO		GLAB_Label_t label;
+
 	/* children */
 	this->children=NULL;
 	this->noChildren=0;
@@ -74,17 +79,36 @@ void GCNV_Init(GCNV_Canvas_t *this)
 void GCNV_Execute(GCNV_Canvas_t *this)
 {
 	//DEBUG printf("GCNV_Execute\n");
+	if (this->isExecutioning)
+	{
+		if (NULL != this->updateInstrument)
+		{
+			this->updateInstrument(this->instrument);
+		}
+	}
 }
 
 void GCNV_Render(GCNV_Canvas_t *this)
 {
 	//DEBUG printf("GCNV_Render\n");
-	if (this->isShowBorder)
+	if (this->isShowing)
 	{
-		GCOL_SetRenderColour(&this->backColour);
-
-		GWIN_Render(&this->realWindow);
+		if (this->isFill)
+		{
+			GCOL_SetRenderColour(&this->fillColour);
+			GWIN_RenderFill(&this->realWindow);
+		}
+		if (this->isShowBorder)
+		{
+			GCOL_SetRenderColour(&this->backColour);
+			GWIN_Render(&this->realWindow);
+		}
+		if (NULL != this->renderFunction)
+		{
+			this->renderFunction(this->instrument);
+		}
 	}
+
 }
 
 void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
@@ -94,8 +118,16 @@ void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx
 	//printf("GCNV_SetPosition2 %f %f\n",this->realWindow.origin.x,this->realWindow.origin.y);
 }
 
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),void *instrument)
+{
+	this->instrument=instrument;
+	this->renderFunction=renderFunction;
+	this->updateInstrument=updateInstrument;
+}
+
 void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 {
+	//GWIN_ApplyParentWindow(&this->realWindow,parentWindow);
 	//DEBUG printf("GCNV_ApplyParentWindow\n");
 	float32_t scaleX=parentWindow->length.x;
 	float32_t scaleY=parentWindow->length.y;

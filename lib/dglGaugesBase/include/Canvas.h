@@ -31,6 +31,8 @@ typedef struct _GCNV_Canvas_t_
 	bool_t isExecutioning;
 	/* is show border */
 	bool_t isShowBorder;
+	/* is fill */
+	bool_t isFill;
 
 	/* window (start and dimensions) */
 	GWIN_Window_t window;
@@ -40,17 +42,20 @@ typedef struct _GCNV_Canvas_t_
 	/* background colour */
 	GCOL_Colour_t backColour;
 
+	/* fill colour */
+	GCOL_Colour_t fillColour;
+
 	/* foreground colour */
 	GCOL_Colour_t foreColour;
 
 	/* function to render */
-	//todo
+	void (*renderFunction)(void*);
 
 	/* function to update contents */
-	//todo
+	void (*updateInstrument)(void*);
 
 	/* instrument object */
-	//TODO
+	void *instrument;
 
 	/* type */
 	//TODO
@@ -69,9 +74,10 @@ typedef struct _GCNV_Canvas_t_
 
 /* public functions--------------------------------------------------------------*/
 void GCNV_Init(GCNV_Canvas_t *this);
+void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),void *instrument);
 void GCNV_Execute(GCNV_Canvas_t *this);
 void GCNV_Render(GCNV_Canvas_t *this);
-void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
 void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
 
 

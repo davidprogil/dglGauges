@@ -25,6 +25,9 @@ typedef struct _SCAR_CarSimulation_t_
 	bool_t isRunning;
 	bool_t isShowing;
 
+	/* for simulation */
+	float32_t direction;
+
 	SMFD_CarMfd_t carMfd;
 }SCAR_CarSimulation_t;
 

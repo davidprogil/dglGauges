@@ -16,12 +16,14 @@ CARMFD_OBJ_SRC_PATH=$(CARMFD_OBJ_PATH)/src
 # used includes
 CARMFD_INCLUDES_PATHS=$(sort	-I$(CARMFD_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(MFD_INCLUDES_PATHS))
+									$(MFD_INCLUDES_PATHS)\
+									$(DGLGAUGESINSTRUMENTS1_COMPONENT_INCLUDES_PATHS))
 
 CARMFD_INCLUDES=$(sort	$(CARMFD_OBJ_INCLUDE_PATH)/$(CARMFD_OBJ_NAME).h \
 									$(CARMFD_OBJ_PATH)/$(CARMFD_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(MFD_INCLUDES))
+									$(MFD_INCLUDES)\
+									$(DGLGAUGESINSTRUMENTS1_COMPONENT_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

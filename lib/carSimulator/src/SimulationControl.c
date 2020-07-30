@@ -47,14 +47,18 @@ void SCRT_Init(SCRT_SimulationControl_t *this)
 
 }
 
-void SCRT_Execute(SCRT_SimulationControl_t *this)
+void *SCRT_Execute(void *thisVoid)
 {
 	printf("SCRT_Execute\n");
+	SCRT_SimulationControl_t *this=(SCRT_SimulationControl_t *)thisVoid;
 
-	if (this->isRunning)
+	while (this->isRunning)
 	{
+		SCAR_Execute(&this->car);
 
+		sleep(1);
 	}
+	return NULL;
 }
 
 void SCRT_Render(SCRT_SimulationControl_t *this)
@@ -73,6 +77,7 @@ void SCRT_Start(SCRT_SimulationControl_t *this,bool_t isShowing)
 	this->isRunning=M_TRUE;
 	this->isShowing=isShowing;
 	SVIW_Enable(isShowing);
+	pthread_create(&this->thread_id, NULL, SCRT_Execute, this);
 	SVIW_Start();
 
 }

@@ -32,7 +32,7 @@ void GWIN_calculateLineStrip(GWIN_Window_t *this);
 /* public functions -----------------------------------------------------------*/
 void GWIN_Init(GWIN_Window_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
-	printf("GWIN_Init\n");
+	//printf("GWIN_Init\n");//DEBUG
 	GPNT_Init(&this->origin,ox,oy);
 	GPNT_Init(&this->length,dx,dy);
 	GLNS_Init(&this->lineStrip,this->points);
@@ -50,11 +50,38 @@ void GWIN_Render(GWIN_Window_t *this)
 	GLNS_Render(&this->lineStrip);
 }
 
+void GWIN_RenderFill(GWIN_Window_t *this)
+{
+	//DEBUG printf("GWIN_RenderFill\n");
+	GLNS_RenderFill(&this->lineStrip);
+}
+
 void GWIN_SetPosition(GWIN_Window_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
 	GPNT_SetPosition(&this->origin,ox,oy);
 	GPNT_SetPosition(&this->length,dx,dy);
 	GWIN_calculateLineStrip(this);
+}
+
+void GWIN_ApplyParentWindow(GWIN_Window_t *this,GWIN_Window_t *parentWindow)
+{
+	float32_t scaleX=parentWindow->length.x;
+	float32_t scaleY=parentWindow->length.y;
+	GWIN_SetPosition(this,
+				parentWindow->origin.x+this->origin.x*scaleX,
+				parentWindow->origin.y+this->origin.y*scaleY,
+				this->length.x*scaleX,
+				this->length.y*scaleY);
+	GWIN_calculateLineStrip(this);
+	//printf("GWIN_ApplyParentWindow %f\n",this->lineStrip.points[0].x);//TODO remove
+
+}
+void GWIN_ApplyThisWindowToPoint(GWIN_Window_t *this,GPNT_Point_t *point)
+{
+	float32_t scaleX=this->length.x;
+	float32_t scaleY=this->length.y;
+	point->x=point->x*scaleX+this->origin.x;
+	point->y=point->y*scaleY+this->origin.y;
 }
 
 /* local functions ------------------------------------------------------------*/

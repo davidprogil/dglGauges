@@ -36,7 +36,9 @@ void GWIN_Init(GWIN_Window_t *this,float32_t ox,float32_t oy,float32_t dx,float3
 void GWIN_SetPosition(GWIN_Window_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 void GWIN_Execute(GWIN_Window_t *this);
 void GWIN_Render(GWIN_Window_t *this);
-
+void GWIN_RenderFill(GWIN_Window_t *this);
+void GWIN_ApplyParentWindow(GWIN_Window_t *this,GWIN_Window_t *parentWindow);
+void GWIN_ApplyThisWindowToPoint(GWIN_Window_t *this,GPNT_Point_t *point);
 
 /* end */
 #endif /* GWIN_Window_H */

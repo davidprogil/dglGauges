@@ -185,6 +185,17 @@ void D2DW_EndLineStrip()//TODO inline
 	//DEBUG printf("D2DW_EndLineStrip\n");
 	glEnd();
 }
+
+void D2DW_StartPolygon()//TODO inline
+{
+	//DEBUG printf("D2DW_StartLineStrip\n");
+	glBegin(GL_POLYGON);
+}
+void D2DW_EndPolygon()//TODO inline
+{
+	//DEBUG printf("D2DW_EndLineStrip\n");
+	glEnd();
+}
 void D2DW_RenderPoint(float32_t x,float32_t y)//TODO inline
 {
 	//DEBUG printf("D2DW_RenderPoint %f %f\n",x,y);

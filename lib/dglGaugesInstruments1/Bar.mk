@@ -6,31 +6,31 @@
 
 #------------------------------------------------------------------------------#
 # object name
-LABEL_OBJ_NAME=Label
+BAR_OBJ_NAME=Bar
 # component name
-LABEL_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESBASE_COMPONENT_NAME)
+BAR_OBJ_PATH=$(PROJECT_PATH)/lib/$(DGLGAUGESINSTRUMENTS1_COMPONENT_NAME)
 # include and source paths - no need to change
-LABEL_OBJ_INCLUDE_PATH=$(LABEL_OBJ_PATH)/include
-LABEL_OBJ_SRC_PATH=$(LABEL_OBJ_PATH)/src
+BAR_OBJ_INCLUDE_PATH=$(BAR_OBJ_PATH)/include
+BAR_OBJ_SRC_PATH=$(BAR_OBJ_PATH)/src
 
 # used includes
-LABEL_INCLUDES_PATHS=$(sort	-I$(LABEL_OBJ_INCLUDE_PATH) \
+BAR_INCLUDES_PATHS=$(sort	-I$(BAR_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(WINDOW_INCLUDES_PATHS))
+									$(CANVAS_INCLUDES_PATHS))
 
-LABEL_INCLUDES=$(sort	$(LABEL_OBJ_INCLUDE_PATH)/$(LABEL_OBJ_NAME).h \
-									$(LABEL_OBJ_PATH)/$(LABEL_OBJ_NAME).mk \
+BAR_INCLUDES=$(sort	$(BAR_OBJ_INCLUDE_PATH)/$(BAR_OBJ_NAME).h \
+									$(BAR_OBJ_PATH)/$(BAR_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(WINDOW_INCLUDES))
+									$(CANVAS_INCLUDES))
 
 
 #------------------------------------------------------------------------------#
 # no need to change anything below this line
-LABEL_SRC=$(LABEL_OBJ_SRC_PATH)/$(LABEL_OBJ_NAME).c
-LABEL_OUTPUT_FOLDER=$(LABEL_OBJ_PATH)/bin
-LABEL_OBJ=$(LABEL_OUTPUT_FOLDER)/$(LABEL_OBJ_NAME).o
+BAR_SRC=$(BAR_OBJ_SRC_PATH)/$(BAR_OBJ_NAME).c
+BAR_OUTPUT_FOLDER=$(BAR_OBJ_PATH)/bin
+BAR_OBJ=$(BAR_OUTPUT_FOLDER)/$(BAR_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(LABEL_OBJ): $(LABEL_INCLUDES) $(LABEL_SRC)  $(LABEL_OUTPUT_FOLDER) 
-	$(CC) $(CFLAGS) -o $(LABEL_OBJ) $(LABEL_INCLUDES_PATHS) $(LABEL_SRC)
+$(BAR_OBJ): $(BAR_INCLUDES) $(BAR_SRC) 
+	$(CC) $(CFLAGS) -o $(BAR_OBJ) $(BAR_INCLUDES_PATHS) $(BAR_SRC)

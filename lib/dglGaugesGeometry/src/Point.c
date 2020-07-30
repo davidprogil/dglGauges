@@ -7,6 +7,7 @@
 /* system includes-------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /* application includes--------------------------------------------------------*/
 #include <Point.h>
@@ -52,6 +53,11 @@ void GPNT_SetPosition(GPNT_Point_t *this, float32_t x, float32_t y)
 {
 	this->x=x;
 	this->y=y;
+}
+
+void GPNT_CopyFrom(GPNT_Point_t *this,GPNT_Point_t *source)
+{
+	memcpy(this,source,sizeof(GPNT_Point_t));
 }
 
 /* local functions ------------------------------------------------------------*/
