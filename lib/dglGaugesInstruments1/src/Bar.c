@@ -185,36 +185,32 @@ void GIBR_Render(void *thisVoid)
 /* local functions ------------------------------------------------------------*/
 void GIBR_RecalculateGeometry(GIBR_Bar_t *this)
 {
-	float32_t refLength=0.2f;
-
 	/* assumes canvas initalised */
 	if (this->canvas.window.length.y>=this->canvas.window.length.x)
 	{ 	/* VERTICAL */
 		this->isVertical = M_TRUE;
-		GWIN_Init(&this->barContour,	0.1f,	0.02f,	refLength,	0.8f);
-		GWIN_Init(&this->barValue,		0.1f,	0.02f,	refLength,	0.8f);
+		GWIN_Init(&this->barContour,	0.4f,	0.12f,	0.2f,	0.58f);
+		GWIN_Init(&this->barValue,		0.4f,	0.12f,	0.2f,	0.58f);
 
 		/* initalise sub elements*/
-		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f,  0.9f,	1.0f,  0.1f,	"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.35f, 0.02f,	0.65f, 0.8f,	"-",GLAB_JUSTIFICATION_LEFT);
-		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.35f, 0.02f,	0.65f, 0.8f,	"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.35f, 0.02f,	0.65f, 0.8f,	"-",GLAB_JUSTIFICATION_RIGHT);
+		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f,  0.9f,	1.0f,  0.1f,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f,  0.8f,	1.0f,  0.1f,"-",GLAB_JUSTIFICATION_CENTER);
 
-		GLAB_SetVerticalAlignment(&this->minLabel,GLAB_ALIGN_BOTTOM);
-		GLAB_SetVerticalAlignment(&this->valueLabel,GLAB_ALIGN_CENTER);
-		GLAB_SetVerticalAlignment(&this->maxLabel,GLAB_ALIGN_TOP);
+		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.0f, 0.7f,		1.0f, 0.1f,	"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 0.02f,	1.0f, 0.1f,	"-",GLAB_JUSTIFICATION_CENTER);
+
 	}
 	else
 	{	/* HORIZONTAL */
 		this->isVertical = M_FALSE;
-		GWIN_Init(&this->barContour,	0.1f,	0.4f,	0.8f,	refLength);
-		GWIN_Init(&this->barValue,		0.1f,	0.4f,	0.8f,	refLength);
+		GWIN_Init(&this->barContour,	0.1f,	0.3f,	0.8f,	0.2f);
+		GWIN_Init(&this->barValue,		0.1f,	0.3f,	0.8f,	0.2f);
 
 		/* initalise sub elements*/
-		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f, 	0.8f,	1.0f,  refLength,"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 	0.1f,	0.33f, refLength,"-",GLAB_JUSTIFICATION_LEFT);
-		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 	0.0f,	0.33f, refLength,"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.66f, 	0.1f,	0.33f, refLength,"-",GLAB_JUSTIFICATION_RIGHT);
+		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f, 	0.8f,	1.0f,  0.1f,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 	0.6f,	0.33f, 0.1f,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 	0.08f,	0.33f, 0.1f,"-",GLAB_JUSTIFICATION_LEFT);
+		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.66f, 	0.08f,	0.33f, 0.1f,"-",GLAB_JUSTIFICATION_RIGHT);
 	}
 
 	GLAB_SetCharSizeType(&this->mainLabel,GLAB_TEXT_SIZE_FIXED,0.02f);

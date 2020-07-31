@@ -56,14 +56,14 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GCNV_SetRenderFlags(&this->cautionLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
 	GPAN_AddInstrument(&this->actuatorsPanel,&this->cautionLabel.canvas);
 
-	//GCNV_Canvas_t leftIndicatorLed;//TODO change to instrument
+	//GCNV_Canvas_t leftIndicatorLed;
 	GISG_Init(&this->leftIndicatorLed,&this->actuatorsPanel.canvas.realWindow,"LEFT",0.1f,0.15f,0.2f,0.2f);
 	GISG_AddDecoder(&this->leftIndicatorLed,"LOW",0, &GCOL_Black, &GCOL_Green);
 	GISG_AddDecoder(&this->leftIndicatorLed,"MED",1, &GCOL_Black, &GCOL_Yellow);
 	GISG_AddDecoder(&this->leftIndicatorLed,"HIGH",2, &GCOL_Yellow, &GCOL_Red);
 	GPAN_AddInstrument(&this->actuatorsPanel,&this->leftIndicatorLed.canvas);
 
-	//GCNV_Canvas_t rightIndicatorLed;//TODO change to instrument
+	//GCNV_Canvas_t rightIndicatorLed;
 	GISG_Init(&this->rightIndicatorLed,&this->actuatorsPanel.canvas.realWindow,"RIGHT",0.7f,0.15f,0.2f,0.2f);
 	GISG_AddDecoder(&this->rightIndicatorLed,"LOW",0, &GCOL_Black, &GCOL_Green);
 	GISG_AddDecoder(&this->rightIndicatorLed,"MED",1, &GCOL_Black, &GCOL_Yellow);
