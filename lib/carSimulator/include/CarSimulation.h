@@ -27,6 +27,7 @@ typedef struct _SCAR_CarSimulation_t_
 
 	/* for simulation */
 	float32_t direction;
+	float32_t pedal;
 
 	SMFD_CarMfd_t carMfd;
 }SCAR_CarSimulation_t;
@@ -37,6 +38,7 @@ typedef struct _SCAR_CarSimulation_t_
 /* public functions--------------------------------------------------------------*/
 void SCAR_Init(SCAR_CarSimulation_t *this);
 void SCAR_Execute(SCAR_CarSimulation_t *this);
+void SCAR_Start(SCAR_CarSimulation_t *this);
 
 
 

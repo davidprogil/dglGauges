@@ -20,9 +20,25 @@
 /* none */
 
 /* types------------------------------------------------------------------------*/
+typedef enum _GIND_DataType_t
+{
+	GIND_TYPE_UINT32=0,
+	GIND_TYPE_FLOAT32
+}GIND_DataType_t;
+
+typedef union _GIND_AnyValue_t
+{
+	uint32_t uint32;
+	float32_t float32;
+}GIND_AnyValue_t;
+
 typedef struct _GIND_Indicator_t_
 {
-
+	bool_t isInitialised;
+	GIND_AnyValue_t value;
+	GIND_DataType_t inputType;
+	GIND_DataType_t outputType;
+	void *inputData;
 }GIND_Indicator_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -31,6 +47,9 @@ typedef struct _GIND_Indicator_t_
 /* public functions--------------------------------------------------------------*/
 void GIND_Init(GIND_Indicator_t *this);
 void GIND_Execute(GIND_Indicator_t *this);
+
+void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GIND_DataType_t outputType);
+bool_t GIND_GetDataFloat32(GIND_Indicator_t *this,float32_t *output);
 
 
 /* end */

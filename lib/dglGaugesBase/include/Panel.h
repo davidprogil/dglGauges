@@ -11,8 +11,7 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include <myTypes.h>
-#include <Canvas.h>
+#include <Label.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -23,8 +22,8 @@
 /* types------------------------------------------------------------------------*/
 typedef struct _GPAN_Panel_t_
 {
-	GCNV_Canvas_t myCanvas;
-
+	GCNV_Canvas_t canvas;
+	GLAB_Label_t titleLabel;
 	//TODO support for subPanels
 
 	void *instruments[GPAN_MAX_INSTRUMENTS_NO];
@@ -35,7 +34,7 @@ typedef struct _GPAN_Panel_t_
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void GPAN_Init(GPAN_Panel_t *this);
+void GPAN_Init(GPAN_Panel_t *this,char *title);
 void GPAN_Execute(GPAN_Panel_t *this);
 void GPAN_Render(GPAN_Panel_t *this);
 void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);

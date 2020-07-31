@@ -29,7 +29,7 @@ typedef struct _GWIN_Window_t_
 }GWIN_Window_t;
 
 /* public variables-------------------------------------------------------------*/
-/* none */
+extern GWIN_Window_t GWIN_Identity;
 
 /* public functions--------------------------------------------------------------*/
 void GWIN_Init(GWIN_Window_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);

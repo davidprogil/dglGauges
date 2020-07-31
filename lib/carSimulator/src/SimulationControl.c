@@ -42,9 +42,6 @@ void SCRT_Init(SCRT_SimulationControl_t *this)
 	SCAR_Init(&this->car);
 	SKBM_Init(&this->interaction);
 	SVIW_Init(&this->view,&this->car,SKBM_Keyboard);
-
-
-
 }
 
 void *SCRT_Execute(void *thisVoid)
@@ -77,6 +74,7 @@ void SCRT_Start(SCRT_SimulationControl_t *this,bool_t isShowing)
 	this->isRunning=M_TRUE;
 	this->isShowing=isShowing;
 	SVIW_Enable(isShowing);
+	SCAR_Start(&this->car);
 	pthread_create(&this->thread_id, NULL, SCRT_Execute, this);
 	SVIW_Start();
 

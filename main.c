@@ -40,15 +40,20 @@ int main(void)
 	printf("DGL Gauges - Example \n");
 
 	/* logic */
-	/* MFD
-	 * - Panel 1
-	 * 	- instr 1 1
-	 * 	- instr 1 2
-	 * - Panel 2
-	 * 	- instr 2 1
-	 * 	- instr 2 2
+	/* simulation control
+	 * 	- car
+	 * 		- mfd
+	 *	 		- Panel 1
+	 *			 	- instr 1 1
+	 *			 	- instr 1 2
+	 *			 - Panel 2
+	 * 				- instr 2 1
+	 * 				- instr 2 2
+	 * 	- interaction
+	 * 	- view
 	 */
 
+	/* init simulation control */
 	SCRT_Init(&myCarSimulator);
 
 	/* pass application control to simulator */

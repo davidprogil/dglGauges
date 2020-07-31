@@ -14,7 +14,6 @@
 #include <myTypes.h>
 #include <Window.h>
 #include <Colour.h>
-#include <Label.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -60,9 +59,6 @@ typedef struct _GCNV_Canvas_t_
 	/* type */
 	//TODO
 
-	/* main label */
-	GLAB_Label_t label;
-
 	/* children */
 	void* children;
 	uint8_t noChildren;
@@ -79,7 +75,7 @@ void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),v
 void GCNV_Execute(GCNV_Canvas_t *this);
 void GCNV_Render(GCNV_Canvas_t *this);
 void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
-
+void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
 
 /* end */
 #endif /* GCNV_Canvas_H */

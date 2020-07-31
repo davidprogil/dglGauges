@@ -60,7 +60,7 @@ void SVIW_Start()
 /* AKA render */
 void SVIW_Execute()
 {
-	printf("SVIW_Execute\n");
+	//printf("SVIW_Execute\n");//DEBUG
 	if ((thisView!=NULL) && (thisView->isEnabled))
 	{
 		//D2DW_RenderSampleView();//TODO remove

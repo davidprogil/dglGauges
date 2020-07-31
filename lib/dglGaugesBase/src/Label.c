@@ -130,60 +130,68 @@ GLAB_CharRenderFunctionElement_t GLAB_charRenderLut[]=
 void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,char *text,GLAB_TextJustification_t justification)
 {
 	//printf("GLAB_Init\n");//DEBUG
-	GWIN_Init(&this->myWindow,ox,oy,dx,dy);
+	GCNV_Init(&this->canvas);
+	GCNV_SetPosition(&this->canvas,ox,oy,dx,dy,parentWindow);
+	GCNV_SetParentFunctions(&this->canvas,GLAB_Render,GLAB_Execute,this);
 	GLAB_SetText(this,text);
 	this->justification=justification;
 	this->textSizeType=GLAB_TEXT_SIZE_AUTO;
 	this->textSizeWhenFixed=0.05f;/* of the total screen size*/
-	this->isBorderShown=M_TRUE;//DEBUG
-	GCOL_CopyFrom(&this->colour,&GCOL_Green);
-	GCOL_CopyFrom(&this->backColour,&GCOL_Green_Half);
+	this->charWidth=GLAB_DEFAULT_FIXED_CHAR_HEIGHT*0.8f;
 }
 
 
 void GLAB_SetColour(GLAB_Label_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown)
 {
-	GCOL_CopyFrom(&this->colour,fore);
-	GCOL_CopyFrom(&this->backColour,back);
-	this->isBorderShown=isBorderShown;
-
+	GCOL_CopyFrom(&this->canvas.foreColour,fore);
+	GCOL_CopyFrom(&this->canvas.backColour,back);
+	this->canvas.isShowBorder=isBorderShown;
 }
 
-void GLAB_Execute(GLAB_Label_t *this)
+void GLAB_Execute(void *thisVoid)
 {
-	printf("GLAB_Execute\n");
+	if (thisVoid==NULL) return;
+	//printf("GLAB_Execute\n");//TODO debug
+	//GLAB_Label_t *this=(GLAB_Label_t*)thisVoid;
 }
 
-void GLAB_Render(GLAB_Label_t *this)
+void GLAB_Render(void *thisVoid)
 {
+	if (thisVoid==NULL) return;
+	GLAB_Label_t *this=(GLAB_Label_t*)thisVoid;
 	//printf("GLAB_Render\n");
 	/* render border */
-	GCOL_SetRenderColour(&this->backColour);
-	if (this->isBorderShown)
-	{
-		GWIN_Render(&this->myWindow);
-	}
+	GCOL_SetRenderColour(&this->canvas.backColour);
+
 	/* render character */
 	uint16_t nChars=strlen(this->text);
 
 	/* calculate charWindow*/
 	GWIN_Window_t charWindow;
 	float32_t charWidth;
-	GWIN_Init(&charWindow,	this->myWindow.origin.x,this->myWindow.origin.y,
-			this->myWindow.length.x,this->myWindow.length.y);
+	GWIN_Init(&charWindow,
+			this->canvas.realWindow.origin.x,
+			this->canvas.realWindow.origin.y,
+			this->canvas.realWindow.length.x,
+			this->canvas.realWindow.length.y);
 
 
-	//TOOD if (this->textSizeType==GLAB_TEXT_SIZE_AUTO)
+	if (this->textSizeType==GLAB_TEXT_SIZE_AUTO)
 	{
-		charWidth=this->myWindow.length.y*0.8;
-		charWindow.length.y=this->myWindow.length.y;
+		charWidth=this->canvas.realWindow.length.y*0.8;
+		charWindow.length.y=this->canvas.realWindow.length.y;
 		charWindow.length.x=charWidth;
 	}
-	//else TODO
+	else
+	{
+		charWidth=this->charWidth*0.8f;
+		charWindow.length.y=this->charWidth;
+		charWindow.length.x=charWidth;
+	}
 
 	/* justification */
 	float32_t projectedLenght=charWidth*nChars;
-	if (projectedLenght>=this->myWindow.length.x)
+	if (projectedLenght>=this->canvas.realWindow.length.x)
 	{
 		//text longer than label, no justification needed
 	}
@@ -195,11 +203,11 @@ void GLAB_Render(GLAB_Label_t *this)
 		}
 		else if (this->justification==GLAB_JUSTIFICATION_RIGHT)
 		{
-			charWindow.origin.x=this->myWindow.origin.x+this->myWindow.length.x-projectedLenght;
+			charWindow.origin.x=this->canvas.realWindow.origin.x+this->canvas.realWindow.length.x-projectedLenght;
 		}
 		else //centered
 		{
-			charWindow.origin.x=this->myWindow.origin.x+0.5f*(this->myWindow.length.x-projectedLenght);
+			charWindow.origin.x=this->canvas.realWindow.origin.x+0.5f*(this->canvas.realWindow.length.x-projectedLenght);
 		}
 
 	}
@@ -208,7 +216,7 @@ void GLAB_Render(GLAB_Label_t *this)
 	//GWIN_Render(&charWindow);
 
 	/* render */
-	GCOL_SetRenderColour(&this->colour);
+	GCOL_SetRenderColour(&this->canvas.foreColour);
 	float32_t charWidthAccum=0.0f;
 	for (uint16_t charIx=0;charIx<nChars;charIx++)
 	{
@@ -224,7 +232,7 @@ void GLAB_Render(GLAB_Label_t *this)
 			}
 		}
 		charWidthAccum+=charWidth;
-		if (charWidthAccum+charWidth>this->myWindow.length.x)
+		if (charWidthAccum+charWidth>this->canvas.realWindow.length.x)
 		{
 			break;
 		}
@@ -248,7 +256,16 @@ void GLAB_SetText(GLAB_Label_t *this,char *text)
 
 void GLAB_ApplyParentWindow(GLAB_Label_t *this,GWIN_Window_t *parentWindow)
 {
-	GWIN_ApplyParentWindow(&this->myWindow,parentWindow);
+	GCNV_ApplyParentWindow(&this->canvas,parentWindow);
+}
+
+void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t charHeight)
+{
+	this->textSizeType=type;
+	if (GLAB_TEXT_SIZE_AUTO!=type)
+	{
+		this->charWidth=charHeight;
+	}
 }
 /* local functions ------------------------------------------------------------*/
 /* to use in points*/

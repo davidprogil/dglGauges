@@ -26,11 +26,13 @@
 typedef struct _SMFD_CarMfd_t_
 {
 	GMFD_Mfd_t mfd;
+
 	GPAN_Panel_t actuatorsPanel;
 	GIBR_Bar_t directionBar;
-	GCNV_Canvas_t pedalBar;//TODO change to instrument
+	GIBR_Bar_t pedalBar;
 	GCNV_Canvas_t leftIndicatorLed;//TODO change to instrument
 	GCNV_Canvas_t rightIndicatorLed;//TODO change to instrument
+	GLAB_Label_t cautionLabel;
 	GPAN_Panel_t fuelPanel;
 	GPAN_Panel_t sensorsPanel;
 	GPAN_Panel_t dashboardPanel;

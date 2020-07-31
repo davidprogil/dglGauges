@@ -21,7 +21,12 @@
 /* none */
 
 /* public variables -----------------------------------------------------------*/
-/* none */
+GWIN_Window_t GWIN_Identity =
+{
+		.origin.x=0.0f,	.origin.y=0.0f,
+		.length.x=1.0f,	.length.y=1.0f,
+		.lineStrip.pointsNo =0
+};
 
 /* local variables ------------------------------------------------------------*/
 /* none */
@@ -47,6 +52,11 @@ void GWIN_Execute(GWIN_Window_t *this)
 void GWIN_Render(GWIN_Window_t *this)
 {
 	//DEBUG printf("GWIN_Render\n");
+	if (this->lineStrip.pointsNo==0)
+	{
+		GWIN_Init(this,this->origin.x,this->origin.y,this->length.x,this->length.y);
+		GWIN_calculateLineStrip(this);
+	}
 	GLNS_Render(&this->lineStrip);
 }
 

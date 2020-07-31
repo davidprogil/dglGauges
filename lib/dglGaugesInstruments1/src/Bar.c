@@ -30,51 +30,55 @@
 void GIBR_RecalculateGeometry(GIBR_Bar_t *this);
 
 /* public functions -----------------------------------------------------------*/
-void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy,bool_t isFromCenter)
+void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
 	printf("GIBR_Init\n");
 
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
-	GCNV_SetPosition(&this->canvas,	0.25f,0.65f,0.5f,0.2f,	parentWindow);
+	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
 	GCNV_SetParentFunctions(&this->canvas,GIBR_Render,GIBR_Execute,this);
 
-	this->isFromCenter=isFromCenter;
+	/* indicator*/
+	GIND_Init(&this->indicator);
 
 	/* values */
 	this->min=0.0f;
 	this->max=1.0f;
+	this->reference=0.0f;
 	this->nDivs=0;
 	this->value=0.5f;
 
-	/* initalise sub elements*/
-	GLAB_Init(&this->mainLabel,&this->canvas.realWindow,	0.0f, 0.8f,	1.0f, 0.2f,title,GLAB_JUSTIFICATION_CENTER);
-	GLAB_Init(&this->minLabel,&this->canvas.realWindow,		0.0f, 0.1f,	0.33f, 0.2f,"-",GLAB_JUSTIFICATION_LEFT);
-	GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 0.0f,	0.33f, 0.2f,"-",GLAB_JUSTIFICATION_CENTER);
-	GLAB_Init(&this->maxLabel,&this->canvas.realWindow,		0.66f, 0.1f,	0.33f, 0.2f,"-",GLAB_JUSTIFICATION_RIGHT);
+	GIBR_RecalculateGeometry(this);
 
 	GIBR_SetColour(this,&GCOL_Green,&GCOL_Green_Half);
 
+	/* title */
+	GLAB_SetText(&this->mainLabel,title);
 
-	GIBR_RecalculateGeometry(this);
+
+
 }
 
 void GIBR_SetColour(GIBR_Bar_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 {
 	GCOL_CopyFrom(&this->fore,fore);
 	GCOL_CopyFrom(&this->back,back);
-	GLAB_SetColour(&this->mainLabel,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->minLabel,&GCOL_Green_Half,&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->maxLabel,&GCOL_Green_Half,&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->valueLabel,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->mainLabel,fore,back,M_FALSE);
+	GLAB_SetColour(&this->minLabel,back,back,M_FALSE);
+	GLAB_SetColour(&this->maxLabel,back,back,M_FALSE);
+	GLAB_SetColour(&this->valueLabel,fore,back,M_FALSE);
+	GCNV_SetColour(&this->canvas,fore,back,M_TRUE);
 }
 
-void GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,uint16_t nDivs)
+void GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,float32_t reference,uint16_t nDivs)
 {
 	char tempText[80];
 	this->min=min;
 	this->max=max;
+	this->reference=reference;
 	this->nDivs=nDivs;
+	this->value=reference;
 
 	snprintf(&tempText[0],80,"%f",min);
 	GLAB_SetText(&this->minLabel,&tempText[0]);
@@ -85,7 +89,10 @@ void GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,uint16_t nD
 void GIBR_Execute(void *thisVoid)
 {
 	if (thisVoid==NULL) return;
-	printf("GIBR_Execute\n");
+	//printf("GIBR_Execute\n");
+	GIBR_Bar_t *this=(GIBR_Bar_t*)thisVoid;
+
+	GIND_Execute(&this->indicator);
 }
 
 void GIBR_Render(void *thisVoid)
@@ -95,8 +102,15 @@ void GIBR_Render(void *thisVoid)
 	GIBR_Bar_t *this=(GIBR_Bar_t*)thisVoid;
 
 	/* contour */
-	GCOL_SetRenderColour(&this->canvas.backColour);
+	GCOL_SetRenderColour(&this->back);
 	GWIN_Render(&this->barContour);
+
+	if (GIND_GetDataFloat32(&this->indicator,&this->value))
+	{
+		char tempText[80];
+		snprintf(&tempText[0],80,"%f",this->value);
+		GLAB_SetText(&this->valueLabel,&tempText[0]);
+	}
 
 	/* labels */
 	GLAB_Render(&this->mainLabel);
@@ -104,51 +118,106 @@ void GIBR_Render(void *thisVoid)
 	GLAB_Render(&this->maxLabel);
 	GLAB_Render(&this->valueLabel);
 
+
 	/* for divisions */
-	GCOL_SetRenderColour(&this->canvas.backColour);
-	GLNS_LineStrip_t ls1;
-	GPNT_Point_t ps1[2];
-	GLNS_Init(&ls1,&ps1[0]);
-	float32_t divStep=this->barContour.length.x/this->nDivs;
-	GLNS_AddPoint(&ls1,0.0f,1.0f);
-	GLNS_AddPoint(&ls1,1.0f,1.0f);
-
-
-	if (M_TRUE == this->isVertical)
+	if (this->nDivs>0)
 	{
-		divStep=0.8/this->nDivs;
-		//TODO
-	}
-	else
-	{
-		divStep=0.8f/this->nDivs;
-		for (uint16_t divIx=0;divIx<=this->nDivs;divIx++)
+		GCOL_SetRenderColour(&this->back);
+		GLNS_LineStrip_t ls1;
+		GPNT_Point_t ps1[2];
+		GLNS_Init(&ls1,&ps1[0]);
+		float32_t divStep=this->barContour.length.x/this->nDivs;
+		GLNS_AddPoint(&ls1,0.0f,1.0f);
+		GLNS_AddPoint(&ls1,1.0f,1.0f);
+
+		if (M_TRUE == this->isVertical)
 		{
-			ps1[0].x=0.1f+divStep*divIx;			ps1[1].x=ps1[0].x;
-			ps1[0].y=0.4f-0.1f;
-			ps1[1].y=0.6f+0.1f;
-			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&ps1[0]);
-			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&ps1[1]);
-			GLNS_Render(&ls1);
+			divStep=this->barContour.length.y/this->nDivs;
+			ps1[0].x=this->barContour.origin.x-this->barContour.length.x*0.2f;
+			ps1[1].x=ps1[0].x+this->barContour.length.x*1.4f;
+			for (uint16_t divIx=0;divIx<=this->nDivs;divIx++)
+			{
+				if ((divIx!=0)&&(divIx!=this->nDivs))
+				{
+					ps1[0].y=this->barContour.origin.y+divStep*divIx;
+					ps1[1].y=ps1[0].y;
+					GLNS_Render(&ls1);
+				}
+			}
 		}
+		else
+		{
+			divStep=this->barContour.length.x/this->nDivs;
+			ps1[0].y=this->barContour.origin.y-this->barContour.length.y*0.2f;
+			ps1[1].y=ps1[0].y+this->barContour.length.y*1.4f;
+			for (uint16_t divIx=0;divIx<=this->nDivs;divIx++)
+			{
+				if ((divIx!=0)&&(divIx!=this->nDivs))
+				{
+					ps1[0].x=this->barContour.origin.x+divStep*divIx;
+					ps1[1].x=ps1[0].x;
+					GLNS_Render(&ls1);
+				}
+			}
 
+		}
+	}/* end of divisions */
+
+	/* value bar */
+	if (this->value!=this->reference)
+	{
+		float32_t length=(this->value-this->reference)/(this->max-this->min);
+		float32_t refPos=(this->reference-this->min)/(this->max-this->min);
+		if (M_TRUE == this->isVertical)
+		{
+			GWIN_SetPosition(&this->barValue,	0.0f,refPos,1.0,length);
+			GWIN_ApplyParentWindow(&this->barValue,&this->barContour);
+		}
+		else
+		{
+			GWIN_SetPosition(&this->barValue,refPos,0.0f,length,1.0f);
+			GWIN_ApplyParentWindow(&this->barValue,&this->barContour);
+		}
+		GCOL_SetRenderColour(&this->fore);
+		GWIN_RenderFill(&this->barValue);
 	}
 }
 
 /* local functions ------------------------------------------------------------*/
 void GIBR_RecalculateGeometry(GIBR_Bar_t *this)
 {
+	float32_t refLength=0.2f;
+
 	/* assumes canvas initalised */
 	if (this->canvas.window.length.y>=this->canvas.window.length.x)
-	{
+	{ 	/* VERTICAL */
 		this->isVertical = M_TRUE;
-		//TODO
+		GWIN_Init(&this->barContour,	0.1f,	0.02f,	refLength,	0.8f);
+		GWIN_Init(&this->barValue,		0.1f,	0.02f,	refLength,	0.8f);
+
+		/* initalise sub elements*/
+		GLAB_Init(&this->mainLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f, refLength,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,&this->canvas.realWindow,		0.35f, 0.0f,	0.65f, refLength,"-",GLAB_JUSTIFICATION_LEFT);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.35f, 0.4f,	0.65f, refLength,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->maxLabel,&this->canvas.realWindow,		0.35f, 0.75f,	0.65f, refLength,"-",GLAB_JUSTIFICATION_RIGHT);
 	}
 	else
-	{
+	{	/* HORIZONTAL */
 		this->isVertical = M_FALSE;
-		GWIN_Init(&this->barContour,0.1f,0.4f,0.8f,0.2f);
+		GWIN_Init(&this->barContour,	0.1f,	0.4f,	0.8f	,0.2f);
+		GWIN_Init(&this->barValue,		0.1f,	0.4f,	0.8f,	0.2f);
+
+		/* initalise sub elements*/
+		GLAB_Init(&this->mainLabel,&this->canvas.realWindow,	0.0f, 0.8f,		1.0f,  refLength,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,&this->canvas.realWindow,		0.0f, 0.1f,		0.33f, refLength,"-",GLAB_JUSTIFICATION_LEFT);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 0.0f,	0.33f, refLength,"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->maxLabel,&this->canvas.realWindow,		0.66f, 0.1f,	0.33f, refLength,"-",GLAB_JUSTIFICATION_RIGHT);
 	}
+
+	GLAB_SetCharSizeType(&this->mainLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->minLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->valueLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->maxLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
 
 	/* apply canvas to subelements */
 	GWIN_ApplyParentWindow(&this->barContour,&this->canvas.realWindow);

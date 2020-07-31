@@ -54,7 +54,7 @@ void GCNV_Init(GCNV_Canvas_t *this)
 	GCOL_CopyFrom(&this->backColour,&GCOL_Green_Half);
 
 	/* foreground colour */
-	GCOL_CopyFrom(&this->foreColour,&GCOL_White);
+	GCOL_CopyFrom(&this->foreColour,&GCOL_Green);
 
 	/* function to render */
 	this->renderFunction=NULL;
@@ -136,6 +136,17 @@ void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 			parentWindow->origin.y+this->window.origin.y*scaleY,
 			this->window.length.x*scaleX,
 			this->window.length.y*scaleY);
+}
+
+void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown)
+{
+	this->isShowBorder=isBorderShown;
+	GCOL_Colour_t newFilColour;
+	GCOL_CopyFrom(&this->foreColour,fore);
+	GCOL_CopyFrom(&this->backColour,back);
+	GCOL_CopyFrom(&newFilColour,back);
+	newFilColour.r/=2.0f;	newFilColour.g/=2.0f;	newFilColour.b/=2.0f;
+	GCOL_CopyFrom(&this->fillColour,&newFilColour);
 }
 
 /* local functions ------------------------------------------------------------*/

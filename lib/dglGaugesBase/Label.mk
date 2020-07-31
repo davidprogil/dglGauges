@@ -16,12 +16,12 @@ LABEL_OBJ_SRC_PATH=$(LABEL_OBJ_PATH)/src
 # used includes
 LABEL_INCLUDES_PATHS=$(sort	-I$(LABEL_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(WINDOW_INCLUDES_PATHS))
+									$(CANVAS_INCLUDES_PATHS))
 
 LABEL_INCLUDES=$(sort	$(LABEL_OBJ_INCLUDE_PATH)/$(LABEL_OBJ_NAME).h \
 									$(LABEL_OBJ_PATH)/$(LABEL_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(WINDOW_INCLUDES))
+									$(CANVAS_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

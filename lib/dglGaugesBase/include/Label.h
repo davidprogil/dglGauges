@@ -11,15 +11,14 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include <Window.h>
-#include <Colour.h>
+/* none */
 
 /* component includes----------------------------------------------------------*/
-/* none */
+#include <Canvas.h>
 
 /* macros-----------------------------------------------------------------------*/
 #define GLAB_MAX_TEXT_LENGTH (80)
-
+#define GLAB_DEFAULT_FIXED_CHAR_HEIGHT (0.02f)
 /* types------------------------------------------------------------------------*/
 typedef enum _GLAB_TextJustification_t
 {
@@ -36,15 +35,12 @@ typedef enum _GLAB_TextSizeType_t
 
 typedef struct _GLAB_Label_t_
 {
-	GWIN_Window_t myWindow;
+	GCNV_Canvas_t canvas;
 	char text[GLAB_MAX_TEXT_LENGTH];
 	GLAB_TextJustification_t justification;
 	GLAB_TextSizeType_t textSizeType;
 	float32_t textSizeWhenFixed;
-	bool_t isBorderShown;
-	GCOL_Colour_t colour;
-	GCOL_Colour_t backColour;
-
+	float32_t charWidth;
 }GLAB_Label_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -52,12 +48,13 @@ typedef struct _GLAB_Label_t_
 
 /* public functions--------------------------------------------------------------*/
 void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,char *text,GLAB_TextJustification_t justification);
-void GLAB_Execute(GLAB_Label_t *this);
-void GLAB_Render(GLAB_Label_t *this);
+void GLAB_Execute(void *thisVoid);
+void GLAB_Render(void *thisVoid);
 void GLAB_SetText(GLAB_Label_t *this,char *text);
 
 void GLAB_ApplyParentWindow(GLAB_Label_t *this,GWIN_Window_t *parentWindow);
 void GLAB_SetColour(GLAB_Label_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
+void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t charHeight);
 
 /* end */
 #endif /* GLAB_Label_H */
