@@ -28,6 +28,8 @@ typedef struct _SCAR_CarSimulation_t_
 	/* for simulation */
 	float32_t direction;
 	float32_t pedal;
+	uint32_t  left;
+	uint32_t  right;
 
 	SMFD_CarMfd_t carMfd;
 }SCAR_CarSimulation_t;

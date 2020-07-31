@@ -42,7 +42,9 @@ extern  GCOL_Colour_t GCOL_Red_Quarter;
 extern  GCOL_Colour_t GCOL_Green_Quarter;
 extern  GCOL_Colour_t GCOL_Blue_Quarter;
 extern  GCOL_Colour_t GCOL_Yellow_Quarter;
-
+extern  GCOL_Colour_t GCOL_Black;
+extern  GCOL_Colour_t GCOL_Grey_Half;
+extern  GCOL_Colour_t GCOL_Grey_Quarter;
 /* public functions--------------------------------------------------------------*/
 void GCOL_Init(GCOL_Colour_t *this);
 void GCOL_Execute(GCOL_Colour_t *this);

@@ -50,7 +50,7 @@ void GIND_Execute(GIND_Indicator_t *this);
 
 void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GIND_DataType_t outputType);
 bool_t GIND_GetDataFloat32(GIND_Indicator_t *this,float32_t *output);
-
+bool_t GIND_GetDataUint32(GIND_Indicator_t *this,uint32_t *output);
 
 /* end */
 #endif /* GIND_Indicator_H */

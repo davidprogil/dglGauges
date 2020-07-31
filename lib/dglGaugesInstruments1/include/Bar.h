@@ -20,7 +20,7 @@
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-#define GIBR_BAR_INDICATOR_TYPE (GIND_TYPE_FLOAT32)
+#define GIBR_INDICATOR_TYPE (GIND_TYPE_FLOAT32)
 
 /* types------------------------------------------------------------------------*/
 typedef struct _GIBR_Bar_t_
@@ -28,7 +28,6 @@ typedef struct _GIBR_Bar_t_
 	bool_t isVertical;
 	GCNV_Canvas_t canvas;
 	GIND_Indicator_t indicator;
-	GCNV_Canvas_t parentCanvas;
 	GWIN_Window_t barContour;
 	GWIN_Window_t barValue;
 	GLAB_Label_t  mainLabel;

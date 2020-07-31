@@ -36,6 +36,9 @@ GCOL_Colour_t GCOL_Red_Quarter ={	.r = 0.25f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f
 GCOL_Colour_t GCOL_Green_Quarter ={	.r = 0.0f,		.g = 0.25f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Blue_Quarter ={	.r = 0.0f,		.g = 0.0f,		.b = 0.25f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Yellow_Quarter ={.r = 0.25f,		.g = 0.25f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Black ={			.r = 0.0f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Grey_Half ={		.r = 0.5f,		.g = 0.5f,		.b = 0.5f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Grey_Quarter ={	.r = 0.25f,		.g = 0.25f,		.b = 0.25f,		.a = 1.0f};
 /* local variables ------------------------------------------------------------*/
 /* none */
 

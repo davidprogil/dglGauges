@@ -38,7 +38,7 @@ void GIND_Init(GIND_Indicator_t *this)
 
 void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GIND_DataType_t outputType)
 {
-	printf("GIND_SetData\n");
+	printf("GIND_SetData %d\n",inputType);
 	this->inputData=data;
 	this->inputType=inputType;
 	this->outputType=outputType;
@@ -47,18 +47,22 @@ void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GI
 
 void GIND_Execute(GIND_Indicator_t *this)
 {
-	//printf("GIND_Execute %d\n",this->isInitialised);
+	//printf("GIND_Execute 1 %d\n",this->isInitialised);//DEBUG
 	if (this->isInitialised)
 	{
+		//printf("GIND_Execute 2 %d\n",this->isInitialised);//DEBUG
 		this->isInitialised=M_FALSE;
 		if (this->inputData!=NULL)
 		{
+			//printf("GIND_Execute 3 %p %d\n",this,this->inputType);//DEBUG
 			if (this->inputType==GIND_TYPE_UINT32)
 			{
+				//printf("GIND_Execute 4 %d\n",this->isInitialised);//DEBUG
 				if (this->outputType==GIND_TYPE_UINT32)
 				{
 					this->value.uint32=*(uint32_t*)this->inputData;
 					this->isInitialised=M_TRUE;
+					//printf("GIND_Execute uint32 uint32 %d\n",this->isInitialised);
 				}
 				else if (this->outputType==GIND_TYPE_FLOAT32)
 				{
@@ -92,6 +96,21 @@ bool_t GIND_GetDataFloat32(GIND_Indicator_t *this,float32_t *output)
 		if (this->inputData!=NULL)
 		{
 			*output=this->value.float32;
+			outputValue=M_TRUE;
+		}
+	}
+
+	return outputValue;
+}
+bool_t GIND_GetDataUint32(GIND_Indicator_t *this,uint32_t *output)
+{
+	bool_t outputValue=M_FALSE;
+
+	if (this->isInitialised)
+	{
+		if (this->inputData!=NULL)
+		{
+			*output=this->value.uint32;
 			outputValue=M_TRUE;
 		}
 	}

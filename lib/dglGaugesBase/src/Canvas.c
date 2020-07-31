@@ -32,11 +32,11 @@
 /* public functions -----------------------------------------------------------*/
 void GCNV_Init(GCNV_Canvas_t *this)
 {
-	printf("GCNV_Init\n");
+	//printf("GCNV_Init\n");
 	/* is shown */
 	this->isShowing=M_TRUE;
 	/* is paused (no update)*/
-	this->isExecutioning=M_FALSE;
+	this->isExecutioning=M_TRUE;
 	/* is show border */
 	this->isShowBorder=M_TRUE;//TODO debug
 	/* is show border */
@@ -98,14 +98,14 @@ void GCNV_Render(GCNV_Canvas_t *this)
 			GCOL_SetRenderColour(&this->fillColour);
 			GWIN_RenderFill(&this->realWindow);
 		}
+		if (NULL != this->renderFunction)
+		{
+			this->renderFunction(this->instrument);
+		}
 		if (this->isShowBorder)
 		{
 			GCOL_SetRenderColour(&this->backColour);
 			GWIN_Render(&this->realWindow);
-		}
-		if (NULL != this->renderFunction)
-		{
-			this->renderFunction(this->instrument);
 		}
 	}
 
@@ -127,8 +127,6 @@ void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),v
 
 void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 {
-	//GWIN_ApplyParentWindow(&this->realWindow,parentWindow);
-	//DEBUG printf("GCNV_ApplyParentWindow\n");
 	float32_t scaleX=parentWindow->length.x;
 	float32_t scaleY=parentWindow->length.y;
 	GWIN_SetPosition(&this->realWindow,
@@ -149,6 +147,12 @@ void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,
 	GCOL_CopyFrom(&this->fillColour,&newFilColour);
 }
 
+void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill)
+{
+	this->isShowing=isShowing;
+	this->isShowBorder=isShowBorder;
+	this->isFill=isFill;
+}
 /* local functions ------------------------------------------------------------*/
 /* none */
 

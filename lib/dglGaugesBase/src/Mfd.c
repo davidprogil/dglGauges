@@ -36,9 +36,9 @@ void GMFD_Init(GMFD_Mfd_t *this)
 	/* canvas */
 	GCNV_Init(			&this->myCanvas);
 	GCNV_SetPosition(	&this->myCanvas,
-						GMFD_MARGIN_FOR_BUTTONS				,GMFD_MARGIN_FOR_BUTTONS,
-						1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f	,1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f,
-						&this->myCanvas.realWindow);
+			GMFD_MARGIN_FOR_BUTTONS				,GMFD_MARGIN_FOR_BUTTONS,
+			1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f	,1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f,
+			&this->myCanvas.realWindow);
 
 
 	this->panels[0]=NULL;
@@ -55,6 +55,10 @@ void GMFD_AddPanel(GMFD_Mfd_t *this,GPAN_Panel_t *panel)
 void GMFD_Execute(GMFD_Mfd_t *this)
 {
 	printf("GMFD_Execute\n");
+	for (uint16_t panelIx=0;panelIx<this->panelsNo;panelIx++)
+	{
+		GPAN_Execute(this->panels[panelIx]);
+	}
 }
 
 void GMFD_Render(GMFD_Mfd_t *this)

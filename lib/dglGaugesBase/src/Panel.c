@@ -43,6 +43,8 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	/* label */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f,  0.1,title,GLAB_JUSTIFICATION_CENTER);
 
+	GCNV_SetRenderFlags(&this->titleLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
+
 	GPAN_RecalculateGeometry(this);
 }
 
@@ -62,6 +64,11 @@ void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
 void GPAN_Execute(GPAN_Panel_t *this)
 {
 	printf("GPAN_Execute\n");
+	/* execute instruments */
+	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
+	{
+		GCNV_Execute(this->instruments[ix]);
+	}
 }
 void GPAN_Render(GPAN_Panel_t *this)
 {

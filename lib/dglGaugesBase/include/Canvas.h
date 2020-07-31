@@ -76,7 +76,7 @@ void GCNV_Execute(GCNV_Canvas_t *this);
 void GCNV_Render(GCNV_Canvas_t *this);
 void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
 void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
-
+void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill);
 /* end */
 #endif /* GCNV_Canvas_H */
 

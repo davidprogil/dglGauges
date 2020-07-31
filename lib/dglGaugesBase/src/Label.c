@@ -138,14 +138,16 @@ void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float
 	this->textSizeType=GLAB_TEXT_SIZE_AUTO;
 	this->textSizeWhenFixed=0.05f;/* of the total screen size*/
 	this->charWidth=GLAB_DEFAULT_FIXED_CHAR_HEIGHT*0.8f;
+	this->alignment=GLAB_JUSTIFICATION_CENTER;
+
+	GCNV_SetRenderFlags(&this->canvas,M_TRUE,M_FALSE,M_FALSE);
 }
 
 
 void GLAB_SetColour(GLAB_Label_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown)
 {
-	GCOL_CopyFrom(&this->canvas.foreColour,fore);
-	GCOL_CopyFrom(&this->canvas.backColour,back);
-	this->canvas.isShowBorder=isBorderShown;
+	GCNV_SetColour(&this->canvas,fore,back,isBorderShown);
+
 }
 
 void GLAB_Execute(void *thisVoid)
@@ -175,7 +177,6 @@ void GLAB_Render(void *thisVoid)
 			this->canvas.realWindow.length.x,
 			this->canvas.realWindow.length.y);
 
-
 	if (this->textSizeType==GLAB_TEXT_SIZE_AUTO)
 	{
 		charWidth=this->canvas.realWindow.length.y*0.8;
@@ -187,6 +188,15 @@ void GLAB_Render(void *thisVoid)
 		charWidth=this->charWidth*0.8f;
 		charWindow.length.y=this->charWidth;
 		charWindow.length.x=charWidth;
+	}
+
+	if (this->alignment==GLAB_ALIGN_TOP)
+	{
+		charWindow.origin.y=this->canvas.realWindow.origin.y+this->canvas.realWindow.length.y-charWindow.length.y;
+	}
+	else if (this->alignment==GLAB_ALIGN_CENTER)
+	{
+		charWindow.origin.y=this->canvas.realWindow.origin.y+this->canvas.realWindow.length.y/2.0f-charWindow.length.y/2.0f;
 	}
 
 	/* justification */
@@ -266,6 +276,11 @@ void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t 
 	{
 		this->charWidth=charHeight;
 	}
+}
+
+void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_TextJustification_t alignment)
+{
+	this->alignment=alignment;
 }
 /* local functions ------------------------------------------------------------*/
 /* to use in points*/

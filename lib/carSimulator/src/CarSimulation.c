@@ -38,13 +38,18 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->isShowing=M_FALSE;
 
 	this->direction=0.0f;
+	this->pedal=0.0f;
+	this->left=0;
+	this->right=0;
 
 	/* initialise MFD */
 	SMFD_Init(&this->carMfd);
 
 	/* initialise vars of indicators */
-	GIND_SetData(&this->carMfd.directionBar.indicator,	GIND_TYPE_FLOAT32,&this->direction,	GIBR_BAR_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.pedalBar.indicator,		GIND_TYPE_FLOAT32,&this->pedal,		GIBR_BAR_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.directionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.leftIndicatorLed.indicator,	GIND_TYPE_UINT32,	&this->left,		GISG_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.rightIndicatorLed.indicator,	GIND_TYPE_UINT32,	&this->right,		GISG_INDICATOR_TYPE);
 }
 
 void SCAR_Start(SCAR_CarSimulation_t *this)
@@ -59,6 +64,8 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 	{
 		this->direction=rand()*1.0/RAND_MAX*90.0f-45.0f;
 		this->pedal=rand()*1.0/RAND_MAX*1.0f-0.0f;
+		this->left=rand()*1.0/RAND_MAX*3.0f-0.0f;
+		this->right=rand()*1.0/RAND_MAX*3.0f-0.0f;
 	}
 
 	SMFD_Execute(&this->carMfd);
