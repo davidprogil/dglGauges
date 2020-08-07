@@ -22,8 +22,9 @@
 /* types------------------------------------------------------------------------*/
 typedef enum _GIND_DataType_t
 {
-	GIND_TYPE_UINT32=0,
-	GIND_TYPE_FLOAT32
+	GIND_TYPE_UINT8=0,
+	GIND_TYPE_UINT32,
+	GIND_TYPE_FLOAT32,
 }GIND_DataType_t;
 
 typedef union _GIND_AnyValue_t

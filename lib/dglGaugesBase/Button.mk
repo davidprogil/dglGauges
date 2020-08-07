@@ -16,12 +16,12 @@ BUTTON_OBJ_SRC_PATH=$(BUTTON_OBJ_PATH)/src
 # used includes
 BUTTON_INCLUDES_PATHS=$(sort	-I$(BUTTON_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(SOMETHING_INCLUDES_PATHS))
+									$(CANVAS_INCLUDES_PATHS))
 
 BUTTON_INCLUDES=$(sort	$(BUTTON_OBJ_INCLUDE_PATH)/$(BUTTON_OBJ_NAME).h \
 									$(BUTTON_OBJ_PATH)/$(BUTTON_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(SOMETHING_INCLUDES))
+									$(CANVAS_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

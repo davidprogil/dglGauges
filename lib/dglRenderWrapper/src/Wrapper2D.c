@@ -42,6 +42,7 @@ void D2DW_UpdateAspect();
 void D2DW_Init(	D2DW_Wrapper2D_t *this,
 		void *renderFuntion,
 		void *keyboardFuntion,
+		void *mouseClickFuntion,
 		uint16_t sizeX,uint16_t sizeY)
 {
 	printf("D2DW_Init\n");
@@ -68,12 +69,15 @@ void D2DW_Init(	D2DW_Wrapper2D_t *this,
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB );
 	// Enable Z-buffer depth test
 	//glEnable(GL_DEPTH_TEST);
-
+	thisWrapper2D->viewOx=0.0f;thisWrapper2D->viewOy=0.0f;
+	thisWrapper2D->viewDx=1.0f;thisWrapper2D->viewDy=1.0f;
+	//printf("ORTHO %f %f\n",thisWrapper2D->viewOy,thisWrapper2D->viewDy);//DEBUG
 	gluOrtho2D(0.0, 1.0, 0.0, 1.0); // Set clipping area's left, right, bottom, top
 
 	// Callback functions
 	glutDisplayFunc(renderFuntion);//TODO remove from parameters if not necessary
 	glutSpecialFunc(keyboardFuntion);
+	glutMouseFunc(mouseClickFuntion);
 	glutReshapeFunc(D2DW_reshape);       // Register callback handler for window re-size event
 
 
@@ -136,6 +140,26 @@ void D2DW_Timer(void *function,uint16_t msecs)
 {
 	glutTimerFunc(msecs, function, 1 );
 }
+void D2DW_Pixel2View(int x, int y, float32_t* xFloat, float32_t* yFloat)
+{
+	int xOrigin=0;
+	int yOrigin=0;
+	float32_t scaleX=1.0f;
+	float32_t scaleY=1.0f;
+	if (thisWrapper2D->aspect>1.0f)
+	{
+		xOrigin=(thisWrapper2D->sizeX-thisWrapper2D->sizeY)/2;
+		scaleX=1.0f/thisWrapper2D->aspect;
+	}
+	else
+	{
+		yOrigin=(thisWrapper2D->sizeY-thisWrapper2D->sizeX)/2;
+		scaleY=1.0f*thisWrapper2D->aspect;
+	}
+	*xFloat=(x-xOrigin)*1.0f/(thisWrapper2D->sizeX*scaleX)*(thisWrapper2D->viewDx)+thisWrapper2D->viewOx;
+	*yFloat=(thisWrapper2D->sizeY-y-yOrigin)*1.0f/(thisWrapper2D->sizeY*scaleY)*(thisWrapper2D->viewDy)+thisWrapper2D->viewOy;
+}
+
 /* local functions ------------------------------------------------------------*/
 void D2DW_reshape(GLsizei width, GLsizei height)
 {  // GLsizei for non-negative integer

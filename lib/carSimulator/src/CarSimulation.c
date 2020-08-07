@@ -48,8 +48,13 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	/* initialise vars of indicators */
 	GIND_SetData(&this->carMfd.directionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
 	GIND_SetData(&this->carMfd.pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.leftIndicatorLed.indicator,	GIND_TYPE_UINT32,	&this->left,		GISG_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.rightIndicatorLed.indicator,	GIND_TYPE_UINT32,	&this->right,		GISG_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.leftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.rightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
+
+	/* initialise buttons */
+	GPAN_SetButtonNameAndFunction(&this->carMfd.actuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
+	GPAN_SetButtonNameAndFunction(&this->carMfd.actuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
+
 }
 
 void SCAR_Start(SCAR_CarSimulation_t *this)
@@ -64,13 +69,32 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 	{
 		this->direction=rand()*1.0/RAND_MAX*90.0f-45.0f;
 		this->pedal=rand()*1.0/RAND_MAX*1.0f-0.0f;
-		this->left=rand()*1.0/RAND_MAX*3.0f-0.0f;
-		this->right=rand()*1.0/RAND_MAX*3.0f-0.0f;
+		//this->left=rand()*1.0/RAND_MAX*3.0f-0.0f;
+		//this->right=rand()*1.0/RAND_MAX*3.0f-0.0f;
 	}
 
 	SMFD_Execute(&this->carMfd);
 }
 
+void SCAR_SetLeftIndicator(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	SCAR_CarSimulation_t *this=(SCAR_CarSimulation_t*)thisVoid;
+	this->left++;
+	if (this->left>2) this->left=0;
+
+	printf("SCAR_SetLeftIndicator %d\n",this->left);
+
+}
+void SCAR_SetRightIndicator(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	SCAR_CarSimulation_t *this=(SCAR_CarSimulation_t*)thisVoid;
+	this->right++;
+	if (this->right>2) this->right=0;
+
+	printf("SCAR_SetRightIndicator %d\n",this->right);
+}
 
 
 

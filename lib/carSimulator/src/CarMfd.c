@@ -39,6 +39,7 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GPAN_Init(&this->actuatorsPanel,"Actuators");
 	GMFD_AddPanel(&this->mfd,&this->actuatorsPanel);
 
+
 	//GCNV_Canvas_t directionBar;
 	GIBR_Init(&this->directionBar,&this->actuatorsPanel.canvas.realWindow,"DIRECTION (DEG)",0.25f,0.65f,0.5f,0.2f);
 	GIBR_SetMinMaxNDiv(&this->directionBar,-45.0f,45.0f,0.0f,4);

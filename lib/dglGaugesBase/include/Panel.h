@@ -18,12 +18,18 @@
 
 /* macros-----------------------------------------------------------------------*/
 #define GPAN_MAX_INSTRUMENTS_NO (64)
-
+#define GPAN_MAX_SIDE_BUTTONS (8)
 /* types------------------------------------------------------------------------*/
+typedef  void (*GPAN_SideFunctions_t)(void*);
 typedef struct _GPAN_Panel_t_
 {
 	GCNV_Canvas_t canvas;
 	GLAB_Label_t titleLabel;
+
+	shortText_t sideButtonsLabels[GPAN_MAX_SIDE_BUTTONS];
+	GPAN_SideFunctions_t sideButtonsFunctions[GPAN_MAX_SIDE_BUTTONS];
+	void*		sideButtonData[GPAN_MAX_SIDE_BUTTONS];
+
 	//TODO support for subPanels
 
 	void *instruments[GPAN_MAX_INSTRUMENTS_NO];
@@ -40,6 +46,8 @@ void GPAN_Render(GPAN_Panel_t *this);
 void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
 void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow);
 void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument);
+void GPAN_SetButtonNameAndFunction(GPAN_Panel_t *this,uint16_t buttonIx,char *text,GPAN_SideFunctions_t callback,void *data);
+void GPAN_ButtonCallback(GPAN_Panel_t *this,uint16_t buttonIx);
 /* end */
 #endif /* GPAN_Panel_H */
 

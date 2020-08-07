@@ -55,12 +55,29 @@ void GIND_Execute(GIND_Indicator_t *this)
 		if (this->inputData!=NULL)
 		{
 			//printf("GIND_Execute 3 %p %d\n",this,this->inputType);//DEBUG
-			if (this->inputType==GIND_TYPE_UINT32)
+			if (this->inputType==GIND_TYPE_UINT8)
 			{
 				//printf("GIND_Execute 4 %d\n",this->isInitialised);//DEBUG
 				if (this->outputType==GIND_TYPE_UINT32)
 				{
-					this->value.uint32=*(uint32_t*)this->inputData;
+					printf("Indicator %d %d\n");
+					this->value.uint32=(uint32_t)*(uint8_t*)this->inputData;
+					this->isInitialised=M_TRUE;
+					printf("Indicator %d %d\n",this->value.uint32,(uint32_t)*(uint8_t*)this->inputData);
+					//printf("GIND_Execute uint32 uint32 %d\n",this->isInitialised);
+				}
+				else if (this->outputType==GIND_TYPE_FLOAT32)
+				{
+					this->value.float32=(float32_t)*(uint8_t*)this->inputData;
+					this->isInitialised=M_TRUE;
+				}
+			}
+			else if (this->inputType==GIND_TYPE_UINT32)
+			{
+				//printf("GIND_Execute 4 %d\n",this->isInitialised);//DEBUG
+				if (this->outputType==GIND_TYPE_UINT32)
+				{
+					this->value.uint32=(uint32_t)*(uint32_t*)this->inputData;
 					this->isInitialised=M_TRUE;
 					//printf("GIND_Execute uint32 uint32 %d\n",this->isInitialised);
 				}

@@ -40,8 +40,8 @@ void SCRT_Init(SCRT_SimulationControl_t *this)
 	this->isShowing=M_FALSE;
 
 	SCAR_Init(&this->car);
-	SKBM_Init(&this->interaction);
-	SVIW_Init(&this->view,&this->car,SKBM_Keyboard);
+	SKBM_Init(&this->interaction,&this->car);
+	SVIW_Init(&this->view,&this->car,SKBM_Keyboard,SKBM_MouseClick);
 }
 
 void *SCRT_Execute(void *thisVoid)

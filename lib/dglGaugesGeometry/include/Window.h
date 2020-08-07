@@ -39,7 +39,8 @@ void GWIN_Render(GWIN_Window_t *this);
 void GWIN_RenderFill(GWIN_Window_t *this);
 void GWIN_ApplyParentWindow(GWIN_Window_t *this,GWIN_Window_t *parentWindow);
 void GWIN_ApplyThisWindowToPoint(GWIN_Window_t *this,GPNT_Point_t *point);
-
+void GWIN_Print(GWIN_Window_t *this);
+bool_t GWIN_IsPointInside(GWIN_Window_t *this,GPNT_Point_t *point);
 /* end */
 #endif /* GWIN_Window_H */
 

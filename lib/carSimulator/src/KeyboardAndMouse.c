@@ -10,6 +10,7 @@
 
 /* application includes--------------------------------------------------------*/
 #include <KeyboardAndMouse.h>
+#include <Wrapper2D.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -30,10 +31,11 @@ SKBM_KeyboardAndMouse_t *thisKeyboardAndMouse=NULL; /* singleton */
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void SKBM_Init(SKBM_KeyboardAndMouse_t *this)
+void SKBM_Init(SKBM_KeyboardAndMouse_t *this,SCAR_CarSimulation_t *carSimulation)
 {
 	printf("SKBM_Init\n");
 	thisKeyboardAndMouse=this;
+	thisKeyboardAndMouse->carSimulation=carSimulation;
 }
 
 void SKBM_Execute(SKBM_KeyboardAndMouse_t *this)
@@ -51,6 +53,17 @@ void SKBM_Keyboard(int key, int x, int y)
 	if (NULL != thisKeyboardAndMouse)
 	{
 
+	}
+}
+
+void SKBM_MouseClick(int button, int state, int x, int y)
+{
+	//printf("SKBM_MouseClick %d %d %d %d\n",button,state,x,y);
+	if ((NULL != thisKeyboardAndMouse)&&(state==0))
+	{
+		float32_t xFloat; float32_t yFloat;
+		D2DW_Pixel2View(x,y,&xFloat,&yFloat);
+		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd.mfd,xFloat,yFloat);
 	}
 }
 

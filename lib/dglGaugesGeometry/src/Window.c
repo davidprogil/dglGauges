@@ -78,10 +78,10 @@ void GWIN_ApplyParentWindow(GWIN_Window_t *this,GWIN_Window_t *parentWindow)
 	float32_t scaleX=parentWindow->length.x;
 	float32_t scaleY=parentWindow->length.y;
 	GWIN_SetPosition(this,
-				parentWindow->origin.x+this->origin.x*scaleX,
-				parentWindow->origin.y+this->origin.y*scaleY,
-				this->length.x*scaleX,
-				this->length.y*scaleY);
+			parentWindow->origin.x+this->origin.x*scaleX,
+			parentWindow->origin.y+this->origin.y*scaleY,
+			this->length.x*scaleX,
+			this->length.y*scaleY);
 	GWIN_calculateLineStrip(this);
 	//printf("GWIN_ApplyParentWindow %f\n",this->lineStrip.points[0].x);//TODO remove
 
@@ -92,6 +92,24 @@ void GWIN_ApplyThisWindowToPoint(GWIN_Window_t *this,GPNT_Point_t *point)
 	float32_t scaleY=this->length.y;
 	point->x=point->x*scaleX+this->origin.x;
 	point->y=point->y*scaleY+this->origin.y;
+}
+
+void GWIN_Print(GWIN_Window_t *this)
+{
+	printf("GWIN_Print: %f %f %f %f\n",this->origin.x,this->origin.y,this->length.x,this->length.y);
+}
+
+bool_t GWIN_IsPointInside(GWIN_Window_t *this,GPNT_Point_t *point)
+{
+	bool_t returnValue = M_FALSE;
+
+	if ((point->x>=this->origin.x)&&(point->x<=this->origin.x+this->length.x)&&
+		(point->y>=this->origin.y)&&(point->y<=this->origin.y+this->length.y))
+	{
+		returnValue = M_TRUE;
+	}
+
+	return returnValue;
 }
 
 /* local functions ------------------------------------------------------------*/

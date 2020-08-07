@@ -11,7 +11,7 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include <myTypes.h>
+#include <CarSimulation.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -22,16 +22,17 @@
 /* types------------------------------------------------------------------------*/
 typedef struct _SKBM_KeyboardAndMouse_t_
 {
-
+	SCAR_CarSimulation_t *carSimulation;
 }SKBM_KeyboardAndMouse_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SKBM_Init(SKBM_KeyboardAndMouse_t *this);
+void SKBM_Init(SKBM_KeyboardAndMouse_t *this,SCAR_CarSimulation_t *carSimulation);
 void SKBM_Execute();
 void SKBM_Keyboard(int key, int x, int y);
+void SKBM_MouseClick(int button, int state, int x, int y);
 
 
 /* end */

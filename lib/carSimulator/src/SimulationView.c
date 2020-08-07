@@ -32,13 +32,13 @@ static SVIW_SimulationView_t *thisView=NULL; /* singleton */
 void SVIW_Execute();
 
 /* public functions -----------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction)
+void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction)
 {
 	printf("SVIW_Init\n");
 	thisView=this;
 	thisView->isEnabled = M_FALSE;
 	thisView->carSimulation=carSimulation;
-	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,640,480);
+	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,MouseFunction,640,480);
 
 
 }

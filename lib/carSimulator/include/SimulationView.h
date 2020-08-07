@@ -33,7 +33,7 @@ typedef struct _SVIW_SimulationView_t_
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction);
+void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction);
 void SVIW_Execute();
 void SVIW_Enable(bool_t isEnabled);
 void SVIW_Start();

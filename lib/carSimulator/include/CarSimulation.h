@@ -28,8 +28,8 @@ typedef struct _SCAR_CarSimulation_t_
 	/* for simulation */
 	float32_t direction;
 	float32_t pedal;
-	uint32_t  left;
-	uint32_t  right;
+	uint8_t  left;
+	uint8_t  right;
 
 	SMFD_CarMfd_t carMfd;
 }SCAR_CarSimulation_t;
@@ -41,7 +41,8 @@ typedef struct _SCAR_CarSimulation_t_
 void SCAR_Init(SCAR_CarSimulation_t *this);
 void SCAR_Execute(SCAR_CarSimulation_t *this);
 void SCAR_Start(SCAR_CarSimulation_t *this);
-
+void SCAR_SetLeftIndicator(void *thisVoid);
+void SCAR_SetRightIndicator(void *thisVoid);
 
 
 /* end */

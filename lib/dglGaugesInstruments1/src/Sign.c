@@ -50,7 +50,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 
 	/* labels */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.5f,		1.0f,  0.5,title,	GLAB_JUSTIFICATION_CENTER);
-	GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f, 0.0f,		1.0f,  0.5,"-",		GLAB_JUSTIFICATION_CENTER);
+	GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f, 0.0f,		1.0f,  0.5,(char*)"-",		GLAB_JUSTIFICATION_CENTER);
 	GLAB_SetCharSizeType(&this->titleLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
 	GLAB_SetCharSizeType(&this->valueLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
 	GLAB_SetVerticalAlignment(&this->titleLabel, GLAB_ALIGN_CENTER);
@@ -61,7 +61,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 
 	/* title */
 	GLAB_SetText(&this->titleLabel,title);
-	GLAB_SetText(&this->valueLabel,"-");
+	GLAB_SetText(&this->valueLabel,(char*)"-");
 
 
 	GISG_RecalculateGeometry(this);
@@ -93,7 +93,7 @@ void GISG_Render(void *thisVoid)
 			{
 				GISG_SetColour(this,&decoder->fore,&decoder->back);
 				GLAB_SetText(&this->valueLabel,&decoder->name[0]);
-				//printf("GISG_Render XXXX %d %d\n",this->value,decoder->threshold);//DEBUG
+				printf("GISG_Render XXXX %d %d\n",this->value,decoder->threshold);//DEBUG
 				break;
 			}
 

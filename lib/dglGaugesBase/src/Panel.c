@@ -7,6 +7,7 @@
 /* system includes-------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /* application includes--------------------------------------------------------*/
 #include <Panel.h>
@@ -40,6 +41,15 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	this->instrumentsNo=0;
 	this->instruments[0]=NULL;
 
+	/* side buttons */
+	for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
+	{
+		strcpy((char*)&this->sideButtonsLabels[sideIx][0]," ");
+		this->sideButtonsFunctions[sideIx]=NULL;
+		this->sideButtonData[sideIx]=NULL;
+	}
+
+
 	/* label */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f,  0.1,title,GLAB_JUSTIFICATION_CENTER);
 
@@ -63,7 +73,7 @@ void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
 
 void GPAN_Execute(GPAN_Panel_t *this)
 {
-	printf("GPAN_Execute\n");
+	//printf("GPAN_Execute\n");
 	/* execute instruments */
 	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
 	{
@@ -91,6 +101,20 @@ void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,
 	GPAN_RecalculateGeometry(this);
 }
 
+void GPAN_SetButtonNameAndFunction(GPAN_Panel_t *this,uint16_t buttonIx,char *text,GPAN_SideFunctions_t callback,void *data)
+{
+	strcpy(&this->sideButtonsLabels[buttonIx][0],text);
+	this->sideButtonData[buttonIx]=data;
+	this->sideButtonsFunctions[buttonIx]=callback;
+	//TODO missing function and data
+}
+void GPAN_ButtonCallback(GPAN_Panel_t *this,uint16_t buttonIx)
+{
+	if (this->sideButtonsFunctions[buttonIx]!=NULL)
+	{
+		this->sideButtonsFunctions[buttonIx](this->sideButtonData[buttonIx]);
+	}
+}
 /* local functions ------------------------------------------------------------*/
 void GPAN_RecalculateGeometry(GPAN_Panel_t *this)
 {
