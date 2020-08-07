@@ -111,8 +111,9 @@ void GMFD_Init(GMFD_Mfd_t *this)
 
 void GMFD_AddPanel(GMFD_Mfd_t *this,GPAN_Panel_t *panel)
 {
+	printf("GMFD_AddPanel %d\n",this->panelsNo);
 	this->panels[this->panelsNo]=panel;
-	GPAN_ApplyParentWindow(panel,&this->canvas.realWindow);
+	GPAN_ApplyParentWindow(this->panels[this->panelsNo],&this->canvas.realWindow);
 	this->panelsNo++;
 }
 
@@ -137,9 +138,9 @@ void GMFD_Render(GMFD_Mfd_t *this)
 		for (uint16_t buttonIx=0;buttonIx<GMFD_MAX_PANELS_NO;buttonIx++)
 		{
 			/* render button labels */
-			if (currentPanel<this->panelsNo)
+			if (buttonIx<this->panelsNo)
 			{
-				GLAB_SetText(&this->buttonLabels[buttonIx],&this->panels[currentPanel]->titleLabel.text[0]);
+				GLAB_SetText(&this->buttonLabels[buttonIx],&this->panels[buttonIx]->titleLabel.text[0]);
 				GCNV_Render(&this->buttonLabels[buttonIx].canvas);
 
 				if (currentPanel<GMFD_MAX_PANELS_NO/2)
@@ -155,25 +156,25 @@ void GMFD_Render(GMFD_Mfd_t *this)
 			{
 				GLAB_SetText(&this->buttons[buttonIx].title,(char*)" ");
 			}
-			currentPanel++;
 		}
 	}
 	else /* render a panel */
 	{
-		//TODO needs to be active panel, not all panels
-		for (uint16_t panelIx=0;panelIx<this->panelsNo;panelIx++)
+		uint16_t currentPanelIx = this->currentPanel[this->currentLevel];
+		GPAN_Render(this->panels[currentPanelIx]);
+
+		//printf("render panel no %d\n",currentPanelIx);//DEBUG
+		/* side buttons */
+		for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
 		{
-			GPAN_Render(this->panels[panelIx]);
-			/* side buttons */
-			for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
-			{
-				GLAB_SetText(&this->buttons[sideIx].title,this->panels[panelIx]->sideButtonsLabels[sideIx]);
-			}
+			GLAB_SetText(&this->buttons[sideIx].title,this->panels[currentPanelIx]->sideButtonsLabels[sideIx]);
 		}
 	}
+
+	/* render side buttons */
 	for (uint16_t buttonIx=0;buttonIx<GMFD_MAX_PANELS_NO;buttonIx++)
 	{
-		/* render side buttons */
+
 		GCNV_Render(&this->buttons[buttonIx].canvas);
 	}
 
@@ -189,8 +190,8 @@ void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 {
 	shortText_t labelText;
 	//printf("GMFD_MouseClick %f %f\n",x,y);//DEBUG
-	snprintf(&labelText[0],sizeof(labelText),"click %4.3f %4.3f",x,y);
-	GLAB_SetText(&this->infoLabel,&labelText[0]);
+	//snprintf(&labelText[0],sizeof(labelText),"click %4.3f %4.3f",x,y);
+	//GLAB_SetText(&this->infoLabel,&labelText[0]);
 	GPNT_Point_t checkPoint;
 
 	//GWIN_Print(&this->buttons[0].canvas.realWindow);//DEBUG
@@ -203,8 +204,8 @@ void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 		this->currentLevel=0;
 		this->currentPanel[this->currentLevel]=GMFD_MAX_PANELS_NO;
 
-		snprintf(&labelText[0],sizeof(labelText),"Congrats you hit button X");//DEBUG
-		GLAB_SetText(&this->infoLabel,&labelText[0]);//DEBUG
+		//snprintf(&labelText[0],sizeof(labelText),"Congrats you hit button X");//DEBUG
+		//GLAB_SetText(&this->infoLabel,&labelText[0]);//DEBUG
 	}
 	else {
 		/* check if inside any side button */
@@ -212,15 +213,19 @@ void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 		{
 			if (GBUT_IsPointInside(&this->buttons[buttonIx],&checkPoint))
 			{
-				snprintf(&labelText[0],sizeof(labelText),"Congrats you hit button %d",buttonIx);//DEBUG
-				GLAB_SetText(&this->infoLabel,&labelText[0]);//DEBUG
+				//snprintf(&labelText[0],sizeof(labelText),"Congrats you hit button %d",buttonIx);//DEBUG
+				//GLAB_SetText(&this->infoLabel,&labelText[0]);//DEBUG
 				//printf("GMFD_MouseClick HIT %f %f\n",x,y);//DEBUG
 				if (GMFD_IShowingMenu(this))
 				{
 					if (buttonIx<this->panelsNo)
 					{
 						this->currentPanel[this->currentLevel]=buttonIx;
-						this->currentLevel++;
+						//TODO this->currentLevel++;
+
+						snprintf(&labelText[0],sizeof(labelText),"Panel %d",buttonIx);//DEBUG
+						GLAB_SetText(&this->infoLabel,&labelText[0]);//DEBUG
+
 					}
 
 				}

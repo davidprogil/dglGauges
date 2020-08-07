@@ -60,10 +60,9 @@ void GIND_Execute(GIND_Indicator_t *this)
 				//printf("GIND_Execute 4 %d\n",this->isInitialised);//DEBUG
 				if (this->outputType==GIND_TYPE_UINT32)
 				{
-					printf("Indicator %d %d\n");
 					this->value.uint32=(uint32_t)*(uint8_t*)this->inputData;
 					this->isInitialised=M_TRUE;
-					printf("Indicator %d %d\n",this->value.uint32,(uint32_t)*(uint8_t*)this->inputData);
+					//printf("Indicator %d %d\n",this->value.uint32,(uint32_t)*(uint8_t*)this->inputData);
 					//printf("GIND_Execute uint32 uint32 %d\n",this->isInitialised);
 				}
 				else if (this->outputType==GIND_TYPE_FLOAT32)

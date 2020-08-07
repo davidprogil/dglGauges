@@ -41,6 +41,9 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->pedal=0.0f;
 	this->left=0;
 	this->right=0;
+	this->tank1=0.0f;
+	this->tank2=0.0f;
+	this->totalFuel=0.0f;
 
 	/* initialise MFD */
 	SMFD_Init(&this->carMfd);
@@ -50,6 +53,10 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	GIND_SetData(&this->carMfd.pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
 	GIND_SetData(&this->carMfd.leftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
 	GIND_SetData(&this->carMfd.rightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
+
+	GIND_SetData(&this->carMfd.tank1.indicator,		GIND_TYPE_FLOAT32,	&this->tank1,		GIGG_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.tank2.indicator,		GIND_TYPE_FLOAT32,	&this->tank2,		GIGG_INDICATOR_TYPE);
+	GIND_SetData(&this->carMfd.totalFuel.indicator,	GIND_TYPE_FLOAT32,	&this->totalFuel,	GIGG_INDICATOR_TYPE);
 
 	/* initialise buttons */
 	GPAN_SetButtonNameAndFunction(&this->carMfd.actuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
@@ -71,6 +78,18 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 		this->pedal=rand()*1.0/RAND_MAX*1.0f-0.0f;
 		//this->left=rand()*1.0/RAND_MAX*3.0f-0.0f;
 		//this->right=rand()*1.0/RAND_MAX*3.0f-0.0f;
+		this->tank1=this->tank1+rand()*1.0/RAND_MAX*3.0f-1.0f;
+		this->tank2=this->tank2+rand()*1.0/RAND_MAX*3.0f-1.0f;
+		//if (this->tank1>50.0f) this->tank1=0.0f;
+		//if (this->tank2>50.0f) this->tank2=0.0f;
+		this->totalFuel=(this->tank1+this->tank2);
+
+		if (this->totalFuel>100.0f)
+		{
+			this->tank1=0.0f;
+			this->tank2=0.0f;
+			this->totalFuel=0.0f;
+		}
 	}
 
 	SMFD_Execute(&this->carMfd);

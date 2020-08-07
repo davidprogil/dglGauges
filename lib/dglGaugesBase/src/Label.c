@@ -72,6 +72,8 @@ void GLAB_Render_parLeft(GLAB_Label_t *this,GWIN_Window_t *window);
 void GLAB_Render_parRight(GLAB_Label_t *this,GWIN_Window_t *window);
 void GLAB_Render_partLeft(GLAB_Label_t *this,GWIN_Window_t *window);
 void GLAB_Render_partRight(GLAB_Label_t *this,GWIN_Window_t *window);
+void GLAB_Render_slash(GLAB_Label_t *this,GWIN_Window_t *window);
+void GLAB_Render_otherSlash(GLAB_Label_t *this,GWIN_Window_t *window);
 
 typedef void (*GLAB_CharRenderFunction)(GLAB_Label_t *this,GWIN_Window_t *window);
 typedef struct _GLAB_CharRenderFunctionElement_t
@@ -125,7 +127,9 @@ GLAB_CharRenderFunctionElement_t GLAB_charRenderLut[]=
 		{'(',GLAB_Render_parLeft},
 		{')',GLAB_Render_parRight},
 		{'<',GLAB_Render_partLeft},
-		{'>',GLAB_Render_partRight}
+		{'>',GLAB_Render_partRight},
+		{'\\',GLAB_Render_slash},
+		{'/',GLAB_Render_otherSlash}
 };
 
 #define GLAB_NCHARS_CAN_RENDER sizeof(GLAB_charRenderLut)/sizeof(GLAB_CharRenderFunctionElement_t)
@@ -954,6 +958,28 @@ void GLAB_Render_partRight(GLAB_Label_t *this,GWIN_Window_t *window)
 	GLNS_AddPoint(&ls1,P38,P78);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
 	GLNS_AddPoint(&ls1,P78,P48);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
 	GLNS_AddPoint(&ls1,P38,P18);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
+	GLNS_Render(&ls1);
+}
+
+void GLAB_Render_slash(GLAB_Label_t *this,GWIN_Window_t *window)
+{
+	uint16_t pointIx=0;
+	GLNS_LineStrip_t ls1;
+	GPNT_Point_t ps1[2]; pointIx=0;
+	GLNS_Init(&ls1,&ps1[0]);
+	GLNS_AddPoint(&ls1,P18,P78);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
+	GLNS_AddPoint(&ls1,P78,P18);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
+	GLNS_Render(&ls1);
+}
+
+void GLAB_Render_otherSlash(GLAB_Label_t *this,GWIN_Window_t *window)
+{
+	uint16_t pointIx=0;
+	GLNS_LineStrip_t ls1;
+	GPNT_Point_t ps1[2]; pointIx=0;
+	GLNS_Init(&ls1,&ps1[0]);
+	GLNS_AddPoint(&ls1,P18,P18);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
+	GLNS_AddPoint(&ls1,P78,P78);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
 	GLNS_Render(&ls1);
 }
 

@@ -39,6 +39,8 @@ void GBUT_Init(GBUT_Button_t *this,GWIN_Window_t *parentWindow,float32_t ox,floa
 
 	GLAB_Init(&this->title,&this->canvas.realWindow,0.0f,0.0f,1.0f,1.0f,text,GLAB_ALIGN_CENTER);
 	GLAB_SetCharSizeType(&this->title,GLAB_TEXT_SIZE_FIXED,0.03f);
+
+	this->isClicked=M_FALSE;
 }
 
 void GBUT_Execute(void *thisVoid)
@@ -53,13 +55,35 @@ void GBUT_Render(void *thisVoid)
 	if (thisVoid==NULL) return;
 	GBUT_Button_t *this=(GBUT_Button_t*)thisVoid;
 
+//	if (this->isClicked==M_TRUE)
+//	{
+//		GCNV_SetFillColour(&this->canvas,M_TRUE);
+//		this->isClicked=M_FALSE;
+//	}
+//	else
+	{
+		GCNV_SetFillColour(&this->canvas,M_FALSE);
+	}
+
 	//printf("GBUT_Render\n");//DEBUG
 	GCNV_Render(&this->title.canvas);
 }
 
 bool_t GBUT_IsPointInside(GBUT_Button_t *this,GPNT_Point_t *point)
 {
-	return GWIN_IsPointInside(&this->canvas.realWindow,point);
+	bool_t isClicked;
+	if (GWIN_IsPointInside(&this->canvas.realWindow,point))
+	{
+		GBUT_SetClicked(this);
+		isClicked=M_TRUE;
+	}
+	return isClicked;
+}
+
+void GBUT_SetClicked(GBUT_Button_t *this)
+{
+	this->isClicked=M_TRUE;
+	GCNV_SetFillColour(&this->canvas,M_TRUE);
 }
 
 /* local functions ------------------------------------------------------------*/

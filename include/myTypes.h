@@ -19,6 +19,8 @@
 #define M_FALSE (0)
 #define M_TRUE (1)
 
+#define DGL_DEG2RAD(x) ((x)*3.1415f/180.0f)
+
 /* types------------------------------------------------------------------------*/
 typedef int8_t bool_t;
 typedef unsigned char uint8_t;

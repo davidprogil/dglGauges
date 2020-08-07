@@ -79,9 +79,9 @@ void GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,float32_t r
 	this->nDivs=nDivs;
 	this->value=reference;
 
-	snprintf(&tempText[0],80,"%f",min);
+	snprintf(&tempText[0],80,"%4.3f",min);
 	GLAB_SetText(&this->minLabel,&tempText[0]);
-	snprintf(&tempText[0],80,"%f",max);
+	snprintf(&tempText[0],80,"%4.3f",max);
 	GLAB_SetText(&this->maxLabel,&tempText[0]);
 }
 
@@ -107,7 +107,7 @@ void GIBR_Render(void *thisVoid)
 	if (GIND_GetDataFloat32(&this->indicator,&this->value))
 	{
 		char tempText[80];
-		snprintf(&tempText[0],80,"%f",this->value);
+		snprintf(&tempText[0],80,"%4.3f",this->value);
 		GLAB_SetText(&this->valueLabel,&tempText[0]);
 	}
 

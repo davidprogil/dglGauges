@@ -16,12 +16,12 @@ GAUGE_OBJ_SRC_PATH=$(GAUGE_OBJ_PATH)/src
 # used includes
 GAUGE_INCLUDES_PATHS=$(sort	-I$(GAUGE_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(SOMETHING_INCLUDES_PATHS))
+									$(LABEL_INCLUDES_PATHS))
 
 GAUGE_INCLUDES=$(sort	$(GAUGE_OBJ_INCLUDE_PATH)/$(GAUGE_OBJ_NAME).h \
 									$(GAUGE_OBJ_PATH)/$(GAUGE_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(SOMETHING_INCLUDES))
+									$(LABEL_INCLUDES))
 
 
 #------------------------------------------------------------------------------#

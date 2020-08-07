@@ -15,6 +15,8 @@
 #include <Mfd.h>
 #include <Sign.h>
 #include <Bar.h>
+#include <Gauge.h>
+#include <Chart.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -33,9 +35,12 @@ typedef struct _SMFD_CarMfd_t_
 	GISG_Sign_t leftIndicatorLed;
 	GISG_Sign_t rightIndicatorLed;//TODO change to instrument
 	GLAB_Label_t cautionLabel;
+
 	GPAN_Panel_t fuelPanel;
-	GPAN_Panel_t sensorsPanel;
-	GPAN_Panel_t dashboardPanel;
+	GIGG_Gauge_t tank1;
+	GIGG_Gauge_t tank2;
+	GICH_Chart_t totalFuel;
+
 }SMFD_CarMfd_t;
 
 /* public variables-------------------------------------------------------------*/

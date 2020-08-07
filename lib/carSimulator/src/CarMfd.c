@@ -35,10 +35,12 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	printf("SMFD_Init\n");
 	GMFD_Init(&this->mfd);
 
+	//this->mfd.currentPanel[0]=1;//TODO remove DEBUG
+
+	/* ACTUATORS PANEL ***************************************/
 	//GPAN_Panel_t actuatorsPanel;
 	GPAN_Init(&this->actuatorsPanel,"Actuators");
 	GMFD_AddPanel(&this->mfd,&this->actuatorsPanel);
-
 
 	//GCNV_Canvas_t directionBar;
 	GIBR_Init(&this->directionBar,&this->actuatorsPanel.canvas.realWindow,"DIRECTION (DEG)",0.25f,0.65f,0.5f,0.2f);
@@ -71,13 +73,25 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GISG_AddDecoder(&this->rightIndicatorLed,"HIGH",2, &GCOL_Yellow, &GCOL_Red);
 	GPAN_AddInstrument(&this->actuatorsPanel,&this->rightIndicatorLed.canvas);
 
-	//
+	/* FUEL PANEL ***************************************/
 	//	//GPAN_Panel_t fuelPanel;
-	//	GPAN_Init(&this->fuelPanel);
-	//	//GPAN_Panel_t sensorsPanel;
-	//	GPAN_Init(&this->sensorsPanel);
-	//	//GPAN_Panel_t dashboardPanel;
-	//	GPAN_Init(&this->dashboardPanel);
+	GPAN_Init(&this->fuelPanel,"Fuel");
+	GMFD_AddPanel(&this->mfd,&this->fuelPanel);
+
+	//GIGG_Gauge_t tank1;
+	GIGG_Init(&this->tank1,&this->fuelPanel.canvas.realWindow,"TANK1(L)",0.0f,0.45f,0.49f,0.45f);
+	GIGG_SetScale(&this->tank1,0.0f,50.0f);
+	GPAN_AddInstrument(&this->fuelPanel,&this->tank1.canvas);
+
+	//GIGG_Gauge_t tank2;
+	GIGG_Init(&this->tank2,&this->fuelPanel.canvas.realWindow,"TANK2(L)",0.5f,0.45f,0.49f,0.45f);
+	GIGG_SetScale(&this->tank2,0.0f,50.0f);
+	GPAN_AddInstrument(&this->fuelPanel,&this->tank2.canvas);
+
+	//GICH_Chart_t totalFuel;
+	GICH_Init(&this->totalFuel,&this->fuelPanel.canvas.realWindow,"TOTAL(L)",0.01f,0.01f,0.98f,0.38f);
+	GICH_SetScale(&this->totalFuel,0.0f,100.0f);
+	GPAN_AddInstrument(&this->fuelPanel,&this->totalFuel.canvas);
 
 }
 

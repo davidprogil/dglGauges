@@ -71,6 +71,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 void GISG_Execute(void *thisVoid)
 {
 	//printf("GISG_Execute\n");
+	if (thisVoid==NULL) return;
 	GISG_Sign_t *this=(GISG_Sign_t*)thisVoid;
 	GIND_Execute(&this->indicator);
 }
@@ -93,7 +94,7 @@ void GISG_Render(void *thisVoid)
 			{
 				GISG_SetColour(this,&decoder->fore,&decoder->back);
 				GLAB_SetText(&this->valueLabel,&decoder->name[0]);
-				printf("GISG_Render XXXX %d %d\n",this->value,decoder->threshold);//DEBUG
+				//printf("GISG_Render XXXX %d %d\n",this->value,decoder->threshold);//DEBUG
 				break;
 			}
 

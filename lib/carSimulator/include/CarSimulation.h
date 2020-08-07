@@ -31,6 +31,10 @@ typedef struct _SCAR_CarSimulation_t_
 	uint8_t  left;
 	uint8_t  right;
 
+	float32_t tank1;
+	float32_t tank2;
+	float32_t totalFuel;
+
 	SMFD_CarMfd_t carMfd;
 }SCAR_CarSimulation_t;
 

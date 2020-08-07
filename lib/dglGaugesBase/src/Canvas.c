@@ -139,12 +139,10 @@ void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown)
 {
 	this->isShowBorder=isBorderShown;
-	GCOL_Colour_t newFilColour;
+
 	GCOL_CopyFrom(&this->foreColour,fore);
 	GCOL_CopyFrom(&this->backColour,back);
-	GCOL_CopyFrom(&newFilColour,back);
-	newFilColour.r/=2.0f;	newFilColour.g/=2.0f;	newFilColour.b/=2.0f;
-	GCOL_CopyFrom(&this->fillColour,&newFilColour);
+	GCNV_SetFillColour(this,M_FALSE);
 }
 
 void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill)
@@ -152,6 +150,21 @@ void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorde
 	this->isShowing=isShowing;
 	this->isShowBorder=isShowBorder;
 	this->isFill=isFill;
+}
+
+void GCNV_SetFillColour(GCNV_Canvas_t *this,bool_t highLight)
+{
+	GCOL_Colour_t newFilColour;
+	if (highLight)
+	{
+		GCOL_CopyFrom(&this->fillColour,&this->backColour);
+	}
+	else
+	{
+		GCOL_CopyFrom(&newFilColour,&this->backColour);
+		newFilColour.r/=2.0f;	newFilColour.g/=2.0f;	newFilColour.b/=2.0f;
+		GCOL_CopyFrom(&this->fillColour,&newFilColour);
+	}
 }
 /* local functions ------------------------------------------------------------*/
 /* none */

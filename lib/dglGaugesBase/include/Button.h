@@ -25,6 +25,7 @@ typedef struct _GBUT_Button_t_
 {
 	GCNV_Canvas_t canvas;
 	GLAB_Label_t  title;
+	bool_t isClicked;
 }GBUT_Button_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -36,7 +37,7 @@ void GBUT_Execute(void *thisVoid);
 void GBUT_Render(void *thisVoid);
 
 bool_t GBUT_IsPointInside(GBUT_Button_t *this,GPNT_Point_t *point);
-
+void GBUT_SetClicked(GBUT_Button_t *this);
 /* end */
 #endif /* GBUT_Button_H */
 
