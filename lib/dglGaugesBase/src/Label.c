@@ -136,12 +136,12 @@ GLAB_CharRenderFunctionElement_t GLAB_charRenderLut[]=
 
 /* public functions -----------------------------------------------------------*/
 void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,
-				char *text,GLAB_TextJustification_t justification)
+		char *text,GLAB_TextJustification_t justification)
 {
 	//printf("GLAB_Init\n");//DEBUG
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,ox,oy,dx,dy,parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GLAB_Render,GLAB_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GLAB_Render,GLAB_Execute,NULL,this);
 	GLAB_SetText(this,text);
 	this->justification=justification;
 	this->textSizeType=GLAB_TEXT_SIZE_AUTO;
@@ -275,7 +275,7 @@ void GLAB_SetText(GLAB_Label_t *this,char *text)
 
 void GLAB_ApplyParentWindow(GLAB_Label_t *this,GWIN_Window_t *parentWindow)
 {
-	GCNV_ApplyParentWindow(&this->canvas,parentWindow);
+	GCNV_Reshape(&this->canvas,parentWindow);
 }
 
 void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t charHeight)
@@ -292,6 +292,7 @@ void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_TextJustification_t alig
 	this->alignment=alignment;
 }
 /* local functions ------------------------------------------------------------*/
+
 /* to use in points*/
 #define P08 (0.0f)
 #define P18 (1.0f/8.0f)

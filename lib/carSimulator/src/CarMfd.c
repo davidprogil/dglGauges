@@ -32,7 +32,7 @@
 /* public functions -----------------------------------------------------------*/
 void SMFD_Init(SMFD_CarMfd_t *this)
 {
-	printf("SMFD_Init\n");
+	//printf("SMFD_Init\n");//DEBUG
 	GMFD_Init(&this->mfd);
 
 	//this->mfd.currentPanel[0]=1;//TODO remove DEBUG

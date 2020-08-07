@@ -28,7 +28,9 @@
 /* none */
 
 /* local prototypes -----------------------------------------------------------*/
-void GISG_RecalculateGeometry(GISG_Sign_t *this);
+void GISG_Execute(void *thisVoid);
+void GISG_Render(void *thisVoid);
+void GISG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 
 /* public functions -----------------------------------------------------------*/
 void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
@@ -38,7 +40,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GISG_Render,GISG_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GISG_Render,GISG_Execute,GISG_Reshape,this);
 	GISG_SetColour(this,&GCOL_Green,&GCOL_Green_Half);
 
 	/* indicator*/
@@ -64,8 +66,35 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 	GLAB_SetText(&this->valueLabel,(char*)"-");
 
 
-	GISG_RecalculateGeometry(this);
+	GISG_Reshape(this,&this->canvas.realWindow);
 
+}
+
+
+
+void GISG_SetColour(GISG_Sign_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	GLAB_SetColour(&this->titleLabel,fore,back,M_FALSE);
+	GLAB_SetColour(&this->valueLabel,fore,back,M_FALSE);
+	GCNV_SetColour(&this->canvas,fore,back,M_FALSE);
+}
+void GISG_AddDecoder(GISG_Sign_t *this,char *name,uint32_t threshold, GCOL_Colour_t *fore, GCOL_Colour_t *back)
+{
+	GISG_ValueDecoderElement_t *element=&this->decoder.decoder[this->decoder.levelsNo];
+	element->threshold=threshold;
+	strcpy(&element->name[0],name);
+	GCOL_CopyFrom(&element->fore,fore);
+	GCOL_CopyFrom(&element->back,back);
+	this->decoder.levelsNo++;
+}
+/* local functions ------------------------------------------------------------*/
+void GISG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
+{
+	if (thisVoid==NULL) return;
+	GISG_Sign_t *this=(GISG_Sign_t*)thisVoid;
+
+	GLAB_ApplyParentWindow(&this->titleLabel,&this->canvas.realWindow);
+	GLAB_ApplyParentWindow(&this->valueLabel,&this->canvas.realWindow);
 }
 
 void GISG_Execute(void *thisVoid)
@@ -107,28 +136,6 @@ void GISG_Render(void *thisVoid)
 	GCNV_Render(&this->titleLabel.canvas);
 	GCNV_Render(&this->valueLabel.canvas);
 
-}
-
-void GISG_SetColour(GISG_Sign_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
-{
-	GLAB_SetColour(&this->titleLabel,fore,back,M_FALSE);
-	GLAB_SetColour(&this->valueLabel,fore,back,M_FALSE);
-	GCNV_SetColour(&this->canvas,fore,back,M_FALSE);
-}
-void GISG_AddDecoder(GISG_Sign_t *this,char *name,uint32_t threshold, GCOL_Colour_t *fore, GCOL_Colour_t *back)
-{
-	GISG_ValueDecoderElement_t *element=&this->decoder.decoder[this->decoder.levelsNo];
-	element->threshold=threshold;
-	strcpy(&element->name[0],name);
-	GCOL_CopyFrom(&element->fore,fore);
-	GCOL_CopyFrom(&element->back,back);
-	this->decoder.levelsNo++;
-}
-/* local functions ------------------------------------------------------------*/
-void GISG_RecalculateGeometry(GISG_Sign_t *this)
-{
-	GLAB_ApplyParentWindow(&this->titleLabel,&this->canvas.realWindow);
-	GLAB_ApplyParentWindow(&this->valueLabel,&this->canvas.realWindow);
 }
 
 /* end */

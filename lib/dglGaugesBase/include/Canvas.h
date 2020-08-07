@@ -22,6 +22,8 @@
 #define GCNV_MAX_CHILDREN (100)
 
 /* types------------------------------------------------------------------------*/
+typedef void (*GCNV_ReshapeFunction_t)(void *thisVoid,GWIN_Window_t *parentWindow);
+
 typedef struct _GCNV_Canvas_t_
 {
 	/* is shown */
@@ -53,6 +55,9 @@ typedef struct _GCNV_Canvas_t_
 	/* function to update contents */
 	void (*updateInstrument)(void*);
 
+	/* function to reshape */
+	GCNV_ReshapeFunction_t reshapeFunction;
+
 	/* instrument object */
 	void *instrument;
 
@@ -71,13 +76,13 @@ typedef struct _GCNV_Canvas_t_
 /* public functions--------------------------------------------------------------*/
 void GCNV_Init(GCNV_Canvas_t *this);
 void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
-void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),void *instrument);
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,void *instrument);
 void GCNV_Execute(GCNV_Canvas_t *this);
 void GCNV_Render(GCNV_Canvas_t *this);
-void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
 void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
 void GCNV_SetFillColour(GCNV_Canvas_t *this,bool_t highLight);
 void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill);
+void GCNV_Reshape(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
 /* end */
 #endif /* GCNV_Canvas_H */
 

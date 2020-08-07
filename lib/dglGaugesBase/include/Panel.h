@@ -32,8 +32,10 @@ typedef struct _GPAN_Panel_t_
 
 	//TODO support for subPanels
 
-	void *instruments[GPAN_MAX_INSTRUMENTS_NO];
-	uint8_t instrumentsNo;
+	GCNV_Canvas_t *childCanvas[GPAN_MAX_INSTRUMENTS_NO*GPAN_MAX_INSTRUMENTS_NO];
+	uint16_t	   childCanvasNo;
+
+	bool_t 		showTitle;
 }GPAN_Panel_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -41,13 +43,11 @@ typedef struct _GPAN_Panel_t_
 
 /* public functions--------------------------------------------------------------*/
 void GPAN_Init(GPAN_Panel_t *this,char *title);
-void GPAN_Execute(GPAN_Panel_t *this);
-void GPAN_Render(GPAN_Panel_t *this);
 void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow);
 void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument);
 void GPAN_SetButtonNameAndFunction(GPAN_Panel_t *this,uint16_t buttonIx,char *text,GPAN_SideFunctions_t callback,void *data);
 void GPAN_ButtonCallback(GPAN_Panel_t *this,uint16_t buttonIx);
+void GPAN_SetShowTitle(GPAN_Panel_t *this,bool_t showTitle);
 /* end */
 #endif /* GPAN_Panel_H */
 

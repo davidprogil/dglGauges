@@ -45,22 +45,27 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->tank2=0.0f;
 	this->totalFuel=0.0f;
 
-	/* initialise MFD */
-	SMFD_Init(&this->carMfd);
+	for (uint16_t mfdIx=0;mfdIx<SCAR_MFD_NO;mfdIx++)
+	{
+		/* initialise MFD */
+		SMFD_Init(&this->carMfd[mfdIx]);
 
-	/* initialise vars of indicators */
-	GIND_SetData(&this->carMfd.directionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.leftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.rightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
+		/* initialise vars of indicators */
+		GIND_SetData(&this->carMfd[mfdIx].directionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].leftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].rightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
 
-	GIND_SetData(&this->carMfd.tank1.indicator,		GIND_TYPE_FLOAT32,	&this->tank1,		GIGG_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.tank2.indicator,		GIND_TYPE_FLOAT32,	&this->tank2,		GIGG_INDICATOR_TYPE);
-	GIND_SetData(&this->carMfd.totalFuel.indicator,	GIND_TYPE_FLOAT32,	&this->totalFuel,	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].tank1.indicator,		GIND_TYPE_FLOAT32,	&this->tank1,		GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].tank2.indicator,		GIND_TYPE_FLOAT32,	&this->tank2,		GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].totalFuel.indicator,	GIND_TYPE_FLOAT32,	&this->totalFuel,	GIGG_INDICATOR_TYPE);
 
-	/* initialise buttons */
-	GPAN_SetButtonNameAndFunction(&this->carMfd.actuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
-	GPAN_SetButtonNameAndFunction(&this->carMfd.actuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
+		/* initialise buttons */
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].actuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].actuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
+	}
+	GMFD_SetPosition(&this->carMfd[0].mfd,-0.55f,0.0f,1.0f,1.0f);
+	GMFD_SetPosition(&this->carMfd[1].mfd, 0.55f,0.0f,1.0f,1.0f);
 
 }
 
@@ -92,7 +97,8 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 		}
 	}
 
-	SMFD_Execute(&this->carMfd);
+	SMFD_Execute(&this->carMfd[0]);
+	SMFD_Execute(&this->carMfd[1]);
 }
 
 void SCAR_SetLeftIndicator(void *thisVoid)

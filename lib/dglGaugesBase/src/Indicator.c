@@ -38,7 +38,7 @@ void GIND_Init(GIND_Indicator_t *this)
 
 void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GIND_DataType_t outputType)
 {
-	printf("GIND_SetData %d\n",inputType);
+	//printf("GIND_SetData %d\n",inputType);//DEBUG
 	this->inputData=data;
 	this->inputType=inputType;
 	this->outputType=outputType;

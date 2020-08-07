@@ -30,7 +30,7 @@
 /* local prototypes -----------------------------------------------------------*/
 void GIGG_Execute(void *thisVoid);
 void GIGG_Render(void *thisVoid);
-void GIGG_Reshape(void *thisVoid);
+void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 
 /* public functions -----------------------------------------------------------*/
 void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
@@ -40,7 +40,7 @@ void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GIGG_Render,GIGG_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GIGG_Render,GIGG_Execute,GIGG_Reshape,this);
 	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
 
 	/* indicator*/
@@ -74,7 +74,7 @@ void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	this->value=0.0f;
 	GIGG_SetScale(this,0.0f,10.0f);
 
-	GIGG_Reshape(this);
+	GIGG_Reshape(this,&this->canvas.realWindow);
 
 }
 
@@ -142,11 +142,20 @@ void GIGG_Render(void *thisVoid)
 
 }
 
-void GIGG_Reshape(void *thisVoid)
+
+
+/* local functions ------------------------------------------------------------*/
+void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 {
-	//printf("GIGG_Reshape\n");
+	printf("GIGG_Reshape\n");
 	if (thisVoid==NULL) return;
 	GIGG_Gauge_t *this=(GIGG_Gauge_t*)thisVoid;
+
+
+	GCNV_Reshape(&this->titleLabel.canvas,&this->canvas.realWindow);
+	GCNV_Reshape(&this->valueLabel.canvas,&this->canvas.realWindow);
+	GCNV_Reshape(&this->instrumentLabels[0].canvas,&this->canvas.realWindow);
+	GCNV_Reshape(&this->instrumentLabels[1].canvas,&this->canvas.realWindow);
 
 	//GLNS_LineStrip_t lineAround;
 	GLNS_Init(&this->lineAround,&this->pointsAround[0]);
@@ -171,8 +180,5 @@ void GIGG_Reshape(void *thisVoid)
 		GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsDivs[lineIx*2+1]);
 	}
 }
-
-/* local functions ------------------------------------------------------------*/
-/* none */
 
 /* end */

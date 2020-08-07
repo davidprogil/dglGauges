@@ -45,6 +45,10 @@ typedef struct _GMFD_Mfd_t_
 	/* panel navigation */
 	uint8_t currentPanel[GMFD_MAX_LEVELS];
 	uint8_t currentLevel;
+
+	/* canvas */
+	GCNV_Canvas_t *childCanvas[GPAN_MAX_INSTRUMENTS_NO*2];
+	uint16_t	   childCanvasNo;
 }GMFD_Mfd_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -56,6 +60,7 @@ void GMFD_AddPanel(GMFD_Mfd_t *this,GPAN_Panel_t *panel);
 void GMFD_Execute(GMFD_Mfd_t *this);
 void GMFD_Render(GMFD_Mfd_t *this);
 void GMFD_MouseClick(GMFD_Mfd_t *this,float x,float y);
+void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 /* end */
 #endif /* GMFD_Mfd_H */
 

@@ -57,7 +57,7 @@ void D2DW_Init(	D2DW_Wrapper2D_t *this,
 	// Initialize GLUT and process user parameters
 	glutInit(&argc, argv);
 
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(50, 50);
 	glutInitWindowSize(sizeX,sizeY);
 	glViewport(0, 0, sizeX, sizeY);
 
@@ -75,7 +75,8 @@ void D2DW_Init(	D2DW_Wrapper2D_t *this,
 	gluOrtho2D(0.0, 1.0, 0.0, 1.0); // Set clipping area's left, right, bottom, top
 
 	// Callback functions
-	glutDisplayFunc(renderFuntion);//TODO remove from parameters if not necessary
+	//glutDisplayFunc(renderFuntion);//TODO remove from parameters if not necessary
+	glutTimerFunc(500,renderFuntion,1000);//TODO remove from parameters if not necessary
 	glutSpecialFunc(keyboardFuntion);
 	glutMouseFunc(mouseClickFuntion);
 	glutReshapeFunc(D2DW_reshape);       // Register callback handler for window re-size event
@@ -92,16 +93,16 @@ void D2DW_Execute()
 void D2DW_RenderSample()
 {
 	// Draw a Red 1x1 Square centered at origin
-		glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
-		glColor3f(1.0f, 0.0f, 0.0f); // Red
-		glVertex2f( 0.0f, 0.0f);    // x, y
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex2f( 1.0f,  0.0f);
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex2f( 1.0f,  1.0f);
-		glColor3f(1.0f, 1.0f, 0.0f);
-		glVertex2f( 0.0f,  1.0f);
-		glEnd();
+	glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
+	glColor3f(1.0f, 0.0f, 0.0f); // Red
+	glVertex2f( -0.5f, 0.0f);    // x, y
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glVertex2f( 1.0f,  0.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex2f( 1.5f,  1.0f);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex2f( 0.0f,  1.0f);
+	glEnd();
 }
 void D2DW_RenderSampleView()
 {
@@ -112,9 +113,9 @@ void D2DW_RenderSampleView()
 	// Draw a Red 1x1 Square centered at origin
 	glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
 	glColor3f(1.0f, 0.0f, 0.0f); // Red
-	glVertex2f( 0.0f, 0.0f);    // x, y
+	glVertex2f( -0.5f, 0.0f);    // x, y
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex2f( 1.0f,  0.0f);
+	glVertex2f( 1.5f,  0.0f);
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glVertex2f( 1.0f,  1.0f);
 	glColor3f(1.0f, 1.0f, 0.0f);
@@ -185,19 +186,21 @@ void D2DW_reshape(GLsizei width, GLsizei height)
 	}
 }
 
+void D2DW_UpdateAspect()
+{
+	thisWrapper2D->aspect = (GLfloat)thisWrapper2D->sizeX / (GLfloat)thisWrapper2D->sizeY;
+}
+
 void D2DW_StartView()
 {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque
 	glClear(GL_COLOR_BUFFER_BIT);         // Clear the color buffer (background)
 
-	glColor3f(1.0f, 0.0f, 0.0f); // Red 	//TODO remove this stuff
+	//glColor3f(1.0f, 0.0f, 0.0f); // Red 	//TODO remove this stuff
 }
 
-void D2DW_UpdateAspect()
-{
-	thisWrapper2D->aspect = (GLfloat)thisWrapper2D->sizeX / (GLfloat)thisWrapper2D->sizeY;
-}
+
 
 void D2DW_StartLineStrip()//TODO inline
 {

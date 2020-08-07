@@ -28,7 +28,7 @@
 
 /* local prototypes -----------------------------------------------------------*/
 bool_t GMFD_IShowingMenu(GMFD_Mfd_t *this);
-
+void GMFD_AddCanvas(GMFD_Mfd_t *this,GCNV_Canvas_t *newCanvas);
 /* public functions -----------------------------------------------------------*/
 void GMFD_Init(GMFD_Mfd_t *this)
 {
@@ -44,6 +44,9 @@ void GMFD_Init(GMFD_Mfd_t *this)
 	this->currentLevel=0;
 	this->currentPanel[0]=GMFD_MAX_PANELS_NO;
 
+	this->childCanvasNo=0;
+	this->childCanvas[0]=NULL;
+
 	/* panels */
 	this->panels[0]=NULL;
 	this->panelsNo=0;
@@ -53,7 +56,7 @@ void GMFD_Init(GMFD_Mfd_t *this)
 			1.0f,				0.1f,
 			(char*)"-",GLAB_JUSTIFICATION_CENTER);
 	GLAB_SetCharSizeType(&this->infoLabel,GLAB_TEXT_SIZE_FIXED,0.025f);
-
+	GMFD_AddCanvas(this,&this->infoLabel.canvas);
 
 
 	/* side buttons and buttons labels */
@@ -99,6 +102,9 @@ void GMFD_Init(GMFD_Mfd_t *this)
 		GLAB_SetCharSizeType(&this->buttonLabels[buttonIx],GLAB_TEXT_SIZE_FIXED,0.05f);
 		this->buttons[buttonIx].canvas.isShowBorder=M_TRUE;//TODO DEBUG
 		this->buttonLabels[buttonIx].canvas.isShowBorder=M_TRUE;//TODO DEBUG
+
+		GMFD_AddCanvas(this,&this->buttons[buttonIx].canvas);
+		GMFD_AddCanvas(this,&this->buttonLabels[buttonIx].canvas);
 	}
 
 	/* up button */
@@ -107,22 +113,25 @@ void GMFD_Init(GMFD_Mfd_t *this)
 			-buttonWidth,
 			buttonWidth,
 			buttonWidth,(char*)"X");
+
+	GMFD_AddCanvas(this,&this->upButton.canvas);
 }
 
 void GMFD_AddPanel(GMFD_Mfd_t *this,GPAN_Panel_t *panel)
 {
 	printf("GMFD_AddPanel %d\n",this->panelsNo);
 	this->panels[this->panelsNo]=panel;
-	GPAN_ApplyParentWindow(this->panels[this->panelsNo],&this->canvas.realWindow);
+	GCNV_Reshape(&this->panels[this->panelsNo]->canvas,&this->canvas.realWindow);
+	GMFD_AddCanvas(this,&panel->canvas);
 	this->panelsNo++;
 }
 
 void GMFD_Execute(GMFD_Mfd_t *this)
 {
 	//printf("GMFD_Execute\n");
-	for (uint16_t panelIx=0;panelIx<this->panelsNo;panelIx++)
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
 	{
-		GPAN_Execute(this->panels[panelIx]);
+		GCNV_Execute(this->childCanvas[canvasIx]);
 	}
 }
 
@@ -161,7 +170,7 @@ void GMFD_Render(GMFD_Mfd_t *this)
 	else /* render a panel */
 	{
 		uint16_t currentPanelIx = this->currentPanel[this->currentLevel];
-		GPAN_Render(this->panels[currentPanelIx]);
+		GCNV_Render(&this->panels[currentPanelIx]->canvas);
 
 		//printf("render panel no %d\n",currentPanelIx);//DEBUG
 		/* side buttons */
@@ -185,6 +194,23 @@ void GMFD_Render(GMFD_Mfd_t *this)
 	GCNV_Render(&this->upButton.canvas);
 
 }
+
+void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
+{
+	printf("GMFD_SetPosition\n");
+	GCNV_Init(			&this->canvas);
+	GCNV_SetPosition(	&this->canvas,
+			GMFD_MARGIN_FOR_BUTTONS+ox				,GMFD_MARGIN_FOR_BUTTONS+oy,
+			(1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f)*dx	,(1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f)*dy,
+			&this->canvas.realWindow);
+
+
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		GCNV_Reshape(this->childCanvas[canvasIx],&this->canvas.realWindow);
+	}
+}
+
 
 void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 {
@@ -240,6 +266,11 @@ void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 
 }
 /* local functions ------------------------------------------------------------*/
+void GMFD_AddCanvas(GMFD_Mfd_t *this,GCNV_Canvas_t *newCanvas)
+{
+	this->childCanvas[this->childCanvasNo]=newCanvas;
+	this->childCanvasNo++;
+}
 bool_t GMFD_IShowingMenu(GMFD_Mfd_t *this)
 {
 	return (this->currentPanel[this->currentLevel]==GMFD_MAX_PANELS_NO);

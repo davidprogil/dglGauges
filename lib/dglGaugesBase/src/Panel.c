@@ -28,7 +28,10 @@
 /* none */
 
 /* local prototypes -----------------------------------------------------------*/
-void GPAN_RecalculateGeometry(GPAN_Panel_t *this);
+void GPAN_Execute(void *thisVoid);
+void GPAN_Render(void *thisVoid);
+void GPAN_AddCanvas(GPAN_Panel_t *this,GCNV_Canvas_t *newCanvas);
+void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 
 /* public functions -----------------------------------------------------------*/
 void GPAN_Init(GPAN_Panel_t *this,char *title)
@@ -36,10 +39,10 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	printf("GPAN_Init\n");
 	/* canvas */
 	GCNV_Init(&this->canvas);
+	GCNV_SetParentFunctions(&this->canvas,GPAN_Render,GPAN_Execute,GPAN_Reshape,this);
 
-	/* instruments */
-	this->instrumentsNo=0;
-	this->instruments[0]=NULL;
+	this->childCanvasNo=0;
+	this->childCanvas[0]=NULL;
 
 	/* side buttons */
 	for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
@@ -52,53 +55,18 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 
 	/* label */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f,  0.1,title,GLAB_JUSTIFICATION_CENTER);
-
 	GCNV_SetRenderFlags(&this->titleLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
+	GPAN_AddCanvas(this,&this->titleLabel.canvas);
 
-	GPAN_RecalculateGeometry(this);
+	this->showTitle=M_TRUE;
+
+	GPAN_Reshape(this,&this->canvas.realWindow);
 }
 
 void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)
 {
-	this->instruments[this->instrumentsNo]=instrument;
-	GCNV_ApplyParentWindow(instrument,&this->canvas.realWindow);
-	this->instrumentsNo++;
-}
-
-void GPAN_ApplyParentWindow(GPAN_Panel_t *this,GWIN_Window_t *parentWindow)
-{
-	GCNV_ApplyParentWindow(&this->canvas,parentWindow);
-	GPAN_RecalculateGeometry(this);
-}
-
-void GPAN_Execute(GPAN_Panel_t *this)
-{
-	//printf("GPAN_Execute\n");
-	/* execute instruments */
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
-	{
-		GCNV_Execute(this->instruments[ix]);
-	}
-}
-void GPAN_Render(GPAN_Panel_t *this)
-{
-	//debug printf("GPAN_Render\n");
-	GCNV_Render(&this->canvas);
-
-	/* render instruments */
-	for (uint16_t ix=0;ix<this->instrumentsNo;ix++)
-	{
-		GCNV_Render(this->instruments[ix]);
-	}
-
-	/* label */
-	GCNV_Render(&this->titleLabel.canvas);
-}
-
-void GPAN_SetPosition(GPAN_Panel_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
-{
-	GCNV_SetPosition(&this->canvas,ox,oy,dx,dy,parentWindow);
-	GPAN_RecalculateGeometry(this);
+	GCNV_Reshape(instrument,&this->canvas.realWindow);
+	GPAN_AddCanvas(this,instrument);
 }
 
 void GPAN_SetButtonNameAndFunction(GPAN_Panel_t *this,uint16_t buttonIx,char *text,GPAN_SideFunctions_t callback,void *data)
@@ -115,10 +83,67 @@ void GPAN_ButtonCallback(GPAN_Panel_t *this,uint16_t buttonIx)
 		this->sideButtonsFunctions[buttonIx](this->sideButtonData[buttonIx]);
 	}
 }
-/* local functions ------------------------------------------------------------*/
-void GPAN_RecalculateGeometry(GPAN_Panel_t *this)
+
+void GPAN_SetShowTitle(GPAN_Panel_t *this,bool_t showTitle)
 {
-	GLAB_ApplyParentWindow(&this->titleLabel,&this->canvas.realWindow);
+	this->showTitle=showTitle;
 }
+
+/* local functions ------------------------------------------------------------*/
+void GPAN_AddCanvas(GPAN_Panel_t *this,GCNV_Canvas_t *newCanvas)
+{
+	this->childCanvas[this->childCanvasNo++]=newCanvas;
+}
+void GPAN_Execute(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
+	//printf("GPAN_Execute\n");
+	/* execute instruments */
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		GCNV_Execute(this->childCanvas[canvasIx]);
+	}
+
+}
+void GPAN_Render(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
+	bool_t isToRender=M_TRUE;
+
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		isToRender=M_TRUE;
+		if (this->childCanvas[canvasIx]==&this->titleLabel.canvas)
+		{
+			isToRender=this->showTitle;
+		}
+		else
+		{
+			isToRender=M_TRUE;
+		}
+
+		if (isToRender)
+		{
+			GCNV_Render(this->childCanvas[canvasIx]);
+		}
+
+	}
+
+}
+void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
+{
+	if (thisVoid==NULL) return;
+	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
+
+	printf("GPAN_Reshape\n");
+
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		GCNV_Reshape(this->childCanvas[canvasIx],&this->canvas.realWindow);
+	}
+}
+
 
 /* end */

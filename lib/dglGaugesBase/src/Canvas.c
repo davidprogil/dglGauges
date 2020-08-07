@@ -65,6 +65,8 @@ void GCNV_Init(GCNV_Canvas_t *this)
 	/* instrument object */
 	this->instrument=NULL;
 
+	this->reshapeFunction=NULL;
+
 	/* type */
 	//TODO
 
@@ -108,24 +110,24 @@ void GCNV_Render(GCNV_Canvas_t *this)
 			GWIN_Render(&this->realWindow);
 		}
 	}
-
 }
 
 void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow)
 {
 	GWIN_Init(&this->window,ox,oy,dx,dy);
-	GCNV_ApplyParentWindow(this,parentWindow);
+	GCNV_Reshape(this,parentWindow);
 	//printf("GCNV_SetPosition2 %f %f\n",this->realWindow.origin.x,this->realWindow.origin.y);
 }
 
-void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),void *instrument)
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,void *instrument)
 {
 	this->instrument=instrument;
 	this->renderFunction=renderFunction;
+	this->reshapeFunction=reshapeFunction;
 	this->updateInstrument=updateInstrument;
 }
 
-void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
+void GCNV_Reshape(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 {
 	float32_t scaleX=parentWindow->length.x;
 	float32_t scaleY=parentWindow->length.y;
@@ -134,7 +136,13 @@ void GCNV_ApplyParentWindow(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 			parentWindow->origin.y+this->window.origin.y*scaleY,
 			this->window.length.x*scaleX,
 			this->window.length.y*scaleY);
+
+	if (this->reshapeFunction!=NULL)
+	{
+		this->reshapeFunction(this->instrument,parentWindow);
+	}
 }
+
 
 void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown)
 {

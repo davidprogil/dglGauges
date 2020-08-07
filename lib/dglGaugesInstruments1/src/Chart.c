@@ -29,8 +29,7 @@
 /* local prototypes -----------------------------------------------------------*/
 void GICH_Execute(void *thisVoid);
 void GICH_Render(void *thisVoid);
-void GICH_Reshape(void *thisVoid);
-
+void GICH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
@@ -39,7 +38,7 @@ void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GICH_Render,GICH_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GICH_Render,GICH_Execute,GICH_Reshape,this);
 	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
 
 	/* indicator*/
@@ -85,7 +84,7 @@ void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	this->samplesNo=0;
 	GICH_SetScale(this,0.0f,10.0f);
 
-	GICH_Reshape(this);
+	GICH_Reshape(this,&this->canvas.realWindow);
 }
 
 void GICH_SetScale(GICH_Chart_t *this,float32_t origin,float32_t scale)
@@ -177,8 +176,7 @@ void GICH_Render(void *thisVoid)
 	GLNS_Render(&this->originH);
 
 }
-
-void GICH_Reshape(void *thisVoid)
+void GICH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 {
 	if (thisVoid==NULL) return;
 	GICH_Chart_t *this=(GICH_Chart_t*)thisVoid;
@@ -209,6 +207,16 @@ void GICH_Reshape(void *thisVoid)
 	GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsOriginH[0]);
 	GLNS_AddPoint(&this->originH,1.0f,0.0f);
 	GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsOriginH[1]);
+
+	//GLAB_Label_t  titleLabel;
+	GCNV_Reshape(&this->titleLabel.canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  valueLabel;
+	GCNV_Reshape(&this->valueLabel.canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  instrumentLabels[2];
+	GCNV_Reshape(&this->instrumentLabels[0].canvas,&this->canvas.realWindow);
+	GCNV_Reshape(&this->instrumentLabels[1].canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  originLabel;
+	GCNV_Reshape(&this->originLabel.canvas,&this->canvas.realWindow);
 }
 
 /* end */

@@ -27,8 +27,9 @@
 /* none */
 
 /* local prototypes -----------------------------------------------------------*/
-void GIBR_RecalculateGeometry(GIBR_Bar_t *this);
-
+void GIBR_Execute(void *thisVoid);
+void GIBR_Render(void *thisVoid);
+void GIBR_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
@@ -37,7 +38,7 @@ void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GIBR_Render,GIBR_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GIBR_Render,GIBR_Execute,GIBR_Reshape,this);
 
 	/* indicator*/
 	GIND_Init(&this->indicator);
@@ -49,7 +50,40 @@ void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_
 	this->nDivs=0;
 	this->value=0.5f;
 
-	GIBR_RecalculateGeometry(this);
+	/* assumes canvas initalised */
+	if (this->canvas.window.length.y>=this->canvas.window.length.x)
+	{ 	/* VERTICAL */
+		this->isVertical = M_TRUE;
+		GWIN_Init(&this->barContour,	0.4f,	0.12f,	0.2f,	0.58f);
+		GWIN_Init(&this->barValue,		0.4f,	0.12f,	0.2f,	0.58f);
+
+		/* initalise sub elements*/
+		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f,  0.9f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f,  0.8f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
+
+		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.0f, 0.7f,		1.0f, 0.1f,	(char*)"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 0.02f,	1.0f, 0.1f,	(char*)"-",GLAB_JUSTIFICATION_CENTER);
+
+	}
+	else
+	{	/* HORIZONTAL */
+		this->isVertical = M_FALSE;
+		GWIN_Init(&this->barContour,	0.1f,	0.3f,	0.8f,	0.2f);
+		GWIN_Init(&this->barValue,		0.1f,	0.3f,	0.8f,	0.2f);
+
+		/* initalise sub elements*/
+		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f, 	0.8f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 	0.6f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
+		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 	0.08f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_LEFT);
+		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.66f, 	0.08f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_RIGHT);
+	}
+
+	GLAB_SetCharSizeType(&this->mainLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->minLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->valueLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+	GLAB_SetCharSizeType(&this->maxLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
+
+	GIBR_Reshape(this,&this->canvas.realWindow);
 
 	/* title */
 	GLAB_SetText(&this->mainLabel,title);
@@ -84,6 +118,48 @@ void GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,float32_t r
 	snprintf(&tempText[0],80,"%4.3f",max);
 	GLAB_SetText(&this->maxLabel,&tempText[0]);
 }
+
+/* local functions ------------------------------------------------------------*/
+void GIBR_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
+{
+	if (thisVoid==NULL) return;
+	//printf("GIBR_Execute\n");
+	GIBR_Bar_t *this=(GIBR_Bar_t*)thisVoid;
+
+	/* assumes canvas initalised */
+	if (this->canvas.window.length.y>=this->canvas.window.length.x)
+	{ 	/* VERTICAL */
+		this->isVertical = M_TRUE;
+		GWIN_Init(&this->barContour,	0.4f,	0.12f,	0.2f,	0.58f);
+		GWIN_Init(&this->barValue,		0.4f,	0.12f,	0.2f,	0.58f);
+
+	}
+	else
+	{	/* HORIZONTAL */
+		this->isVertical = M_FALSE;
+		GWIN_Init(&this->barContour,	0.1f,	0.3f,	0.8f,	0.2f);
+		GWIN_Init(&this->barValue,		0.1f,	0.3f,	0.8f,	0.2f);
+	}
+
+
+
+	/* apply canvas to subelements */
+	GWIN_ApplyParentWindow(&this->barContour,&this->canvas.realWindow);
+
+	//GWIN_Window_t barValue;
+	//GLAB_Label_t  mainLabel;
+	GCNV_Reshape(&this->mainLabel.canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  minLabel;
+	GCNV_Reshape(&this->minLabel.canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  maxLabel;
+	GCNV_Reshape(&this->maxLabel.canvas,&this->canvas.realWindow);
+	//GLAB_Label_t  valueLabel;
+	GCNV_Reshape(&this->valueLabel.canvas,&this->canvas.realWindow);
+
+	//GIBR_SetMinMaxNDiv(GIBR_Bar_t *this,float32_t min,float32_t max,float32_t reference,uint16_t nDivs)
+	GIBR_SetMinMaxNDiv(this,this->min,this->max,this->reference,this->nDivs);
+}
+
 
 void GIBR_Execute(void *thisVoid)
 {
@@ -182,44 +258,5 @@ void GIBR_Render(void *thisVoid)
 	}
 }
 
-/* local functions ------------------------------------------------------------*/
-void GIBR_RecalculateGeometry(GIBR_Bar_t *this)
-{
-	/* assumes canvas initalised */
-	if (this->canvas.window.length.y>=this->canvas.window.length.x)
-	{ 	/* VERTICAL */
-		this->isVertical = M_TRUE;
-		GWIN_Init(&this->barContour,	0.4f,	0.12f,	0.2f,	0.58f);
-		GWIN_Init(&this->barValue,		0.4f,	0.12f,	0.2f,	0.58f);
-
-		/* initalise sub elements*/
-		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f,  0.9f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f,  0.8f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
-
-		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.0f, 0.7f,		1.0f, 0.1f,	(char*)"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 0.02f,	1.0f, 0.1f,	(char*)"-",GLAB_JUSTIFICATION_CENTER);
-
-	}
-	else
-	{	/* HORIZONTAL */
-		this->isVertical = M_FALSE;
-		GWIN_Init(&this->barContour,	0.1f,	0.3f,	0.8f,	0.2f);
-		GWIN_Init(&this->barValue,		0.1f,	0.3f,	0.8f,	0.2f);
-
-		/* initalise sub elements*/
-		GLAB_Init(&this->mainLabel,	&this->canvas.realWindow,	0.0f, 	0.8f,	1.0f,  0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.33f, 	0.6f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_CENTER);
-		GLAB_Init(&this->minLabel,	&this->canvas.realWindow,	0.0f, 	0.08f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_LEFT);
-		GLAB_Init(&this->maxLabel,	&this->canvas.realWindow,	0.66f, 	0.08f,	0.33f, 0.1f,(char*)"-",GLAB_JUSTIFICATION_RIGHT);
-	}
-
-	GLAB_SetCharSizeType(&this->mainLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
-	GLAB_SetCharSizeType(&this->minLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
-	GLAB_SetCharSizeType(&this->valueLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
-	GLAB_SetCharSizeType(&this->maxLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
-
-	/* apply canvas to subelements */
-	GWIN_ApplyParentWindow(&this->barContour,&this->canvas.realWindow);
-}
 
 /* end */

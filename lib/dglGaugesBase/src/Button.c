@@ -27,15 +27,15 @@
 /* none */
 
 /* local prototypes -----------------------------------------------------------*/
-/* none */
+void GBUT_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 
 /* public functions -----------------------------------------------------------*/
 void GBUT_Init(GBUT_Button_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,char *text)
 {
-	printf("GBUT_Init\n");
+	//printf("GBUT_Init\n");//DEBUG
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,ox,oy,dx,dy,parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GBUT_Render,GBUT_Execute,this);
+	GCNV_SetParentFunctions(&this->canvas,GBUT_Render,GBUT_Execute,GBUT_Reshape,this);
 
 	GLAB_Init(&this->title,&this->canvas.realWindow,0.0f,0.0f,1.0f,1.0f,text,GLAB_ALIGN_CENTER);
 	GLAB_SetCharSizeType(&this->title,GLAB_TEXT_SIZE_FIXED,0.03f);
@@ -87,6 +87,12 @@ void GBUT_SetClicked(GBUT_Button_t *this)
 }
 
 /* local functions ------------------------------------------------------------*/
-/* none */
+void GBUT_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
+{
+	if (thisVoid==NULL) return;
+	GBUT_Button_t *this=(GBUT_Button_t*)thisVoid;
+
+	GCNV_Reshape(&this->title.canvas,&this->canvas.realWindow);
+}
 
 /* end */

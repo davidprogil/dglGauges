@@ -38,7 +38,7 @@ void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,v
 	thisView=this;
 	thisView->isEnabled = M_FALSE;
 	thisView->carSimulation=carSimulation;
-	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,MouseFunction,640,480);
+	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,MouseFunction,640*2,480);
 
 
 }
@@ -74,7 +74,8 @@ void SVIW_Execute()
 			//TODO
 
 			/* render mfd */
-			GMFD_Render(&thisView->carSimulation->carMfd.mfd);
+			GMFD_Render(&thisView->carSimulation->carMfd[0].mfd);
+			GMFD_Render(&thisView->carSimulation->carMfd[1].mfd);
 		}
 
 		D2DW_Flush();

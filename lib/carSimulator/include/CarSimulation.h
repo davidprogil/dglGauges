@@ -17,7 +17,7 @@
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-/* none */
+#define SCAR_MFD_NO (2)
 
 /* types------------------------------------------------------------------------*/
 typedef struct _SCAR_CarSimulation_t_
@@ -35,7 +35,7 @@ typedef struct _SCAR_CarSimulation_t_
 	float32_t tank2;
 	float32_t totalFuel;
 
-	SMFD_CarMfd_t carMfd;
+	SMFD_CarMfd_t carMfd[SCAR_MFD_NO];
 }SCAR_CarSimulation_t;
 
 /* public variables-------------------------------------------------------------*/

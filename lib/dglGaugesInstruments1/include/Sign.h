@@ -56,8 +56,6 @@ typedef struct _GISG_Sign_t_
 
 /* public functions--------------------------------------------------------------*/
 void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
-void GISG_Execute(void *thisVoid);
-void GISG_Render(void *thisVoid);
 void GISG_SetColour(GISG_Sign_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 void GISG_AddDecoder(GISG_Sign_t *this,char *name,uint32_t threshold, GCOL_Colour_t *fore, GCOL_Colour_t *back);
 

@@ -63,7 +63,8 @@ void SKBM_MouseClick(int button, int state, int x, int y)
 	{
 		float32_t xFloat; float32_t yFloat;
 		D2DW_Pixel2View(x,y,&xFloat,&yFloat);
-		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd.mfd,xFloat,yFloat);
+		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd[0].mfd,xFloat,yFloat);
+		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd[1].mfd,xFloat,yFloat);
 	}
 }
 
