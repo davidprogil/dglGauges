@@ -53,7 +53,7 @@ void *SCRT_Execute(void *thisVoid)
 	{
 		SCAR_Execute(&this->car);
 
-		sleep(1);
+		usleep(40000);
 	}
 	return NULL;
 }

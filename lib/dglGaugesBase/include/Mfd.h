@@ -19,9 +19,7 @@
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-#define GMFD_MAX_LEVELS (5)
-#define GMFD_MAX_PANELS_NO (8)
-#define GMFD_MAX_SIDE_BUTTONS (GMFD_MAX_PANELS_NO)
+#define GMFD_MAX_SIDE_BUTTONS (8)
 /* types------------------------------------------------------------------------*/
 typedef struct _GMFD_Mfd_t_
 {
@@ -29,8 +27,11 @@ typedef struct _GMFD_Mfd_t_
 	GCNV_Canvas_t canvas;
 
 	/* sub panels */
-	GPAN_Panel_t* panels[GMFD_MAX_PANELS_NO];
-	uint8_t panelsNo;
+	GPAN_PanelSet_t panelSet;
+	uint8_t	currentLevel;
+	bool_t mouseClick;
+	float32_t mouseClick_x;
+	float32_t mouseClick_y;
 
 	/* side buttons and labels */
 	GBUT_Button_t buttons[GMFD_MAX_SIDE_BUTTONS];
@@ -42,9 +43,6 @@ typedef struct _GMFD_Mfd_t_
 	/* up button */
 	GBUT_Button_t upButton;
 
-	/* panel navigation */
-	uint8_t currentPanel[GMFD_MAX_LEVELS];
-	uint8_t currentLevel;
 
 	/* canvas */
 	GCNV_Canvas_t *childCanvas[GPAN_MAX_INSTRUMENTS_NO*2];
@@ -61,6 +59,7 @@ void GMFD_Execute(GMFD_Mfd_t *this);
 void GMFD_Render(GMFD_Mfd_t *this);
 void GMFD_MouseClick(GMFD_Mfd_t *this,float x,float y);
 void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
+
 /* end */
 #endif /* GMFD_Mfd_H */
 

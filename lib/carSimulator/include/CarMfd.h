@@ -29,18 +29,25 @@ typedef struct _SMFD_CarMfd_t_
 {
 	GMFD_Mfd_t mfd;
 
-	GPAN_Panel_t actuatorsPanel;
-	GIBR_Bar_t directionBar;
-	GIBR_Bar_t pedalBar;
-	GISG_Sign_t leftIndicatorLed;
-	GISG_Sign_t rightIndicatorLed;//TODO change to instrument
-	GLAB_Label_t cautionLabel;
+	/* car */
+	GPAN_Panel_t carRootPanel;
+	GPAN_Panel_t carActuatorsPanel;
+	GIBR_Bar_t carDirectionBar;
+	GIBR_Bar_t carPedalBar;
+	GISG_Sign_t carLeftIndicatorLed;
+	GISG_Sign_t carRightIndicatorLed;//TODO change to instrument
+	GLAB_Label_t carCautionLabel;
 
-	GPAN_Panel_t fuelPanel;
-	GIGG_Gauge_t tank1;
-	GIGG_Gauge_t tank2;
-	GICH_Chart_t totalFuel;
+	GPAN_Panel_t carFuelPanel;
+	GIGG_Gauge_t carTank1;
+	GIGG_Gauge_t carTank2;
+	GICH_Chart_t carTotalFuel;
 
+	/* aeroplane */
+	GPAN_Panel_t airRootPanel;
+	GPAN_Panel_t airActuatorsPanel;
+	GPAN_Panel_t airFuelPanel;
+	GPAN_Panel_t airPrimaryPanel;
 }SMFD_CarMfd_t;
 
 /* public variables-------------------------------------------------------------*/

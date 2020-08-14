@@ -53,6 +53,9 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	}
 
 
+	/* sub panels */
+	GPAN_InitSet(&this->panelSet);
+
 	/* label */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f,  0.1,title,GLAB_JUSTIFICATION_CENTER);
 	GCNV_SetRenderFlags(&this->titleLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
@@ -61,6 +64,28 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	this->showTitle=M_TRUE;
 
 	GPAN_Reshape(this,&this->canvas.realWindow);
+}
+
+void GPAN_InitSet(GPAN_PanelSet_t *this)
+{
+	this->panels[0]=NULL;
+	this->panelsNo=0;
+	this->currentPanel=GPAN_MAX_PANELS_NO;
+}
+void GPAN_AddPanel(GPAN_Panel_t *this,GPAN_Panel_t *panel)
+{
+	this->panelSet.panels[this->panelSet.panelsNo]=panel;
+	GCNV_Reshape(&panel->canvas,&this->canvas.realWindow);
+	GPAN_AddCanvas(this,&panel->canvas);
+	this->panelSet.panelsNo++;
+}
+bool_t GPANS_IsShowingMenu(GPAN_PanelSet_t *this)
+{
+	if (this->panelsNo==0)
+	{
+		this->currentPanel=0;
+	}
+	return (this->currentPanel==GPAN_MAX_PANELS_NO);
 }
 
 void GPAN_AddInstrument(GPAN_Panel_t *this,GCNV_Canvas_t *instrument)

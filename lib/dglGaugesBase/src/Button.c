@@ -71,7 +71,7 @@ void GBUT_Render(void *thisVoid)
 
 bool_t GBUT_IsPointInside(GBUT_Button_t *this,GPNT_Point_t *point)
 {
-	bool_t isClicked;
+	bool_t isClicked=M_FALSE;
 	if (GWIN_IsPointInside(&this->canvas.realWindow,point))
 	{
 		GBUT_SetClicked(this);

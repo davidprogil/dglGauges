@@ -38,12 +38,15 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->isShowing=M_FALSE;
 
 	this->direction=0.0f;
+	this->directionSign=1.0f;
 	this->pedal=0.0f;
+	this->pedalSign=1.0f;
 	this->left=0;
 	this->right=0;
 	this->tank1=0.0f;
 	this->tank2=0.0f;
 	this->totalFuel=0.0f;
+	this->fuelSign=1.0f;
 
 	for (uint16_t mfdIx=0;mfdIx<SCAR_MFD_NO;mfdIx++)
 	{
@@ -51,21 +54,24 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 		SMFD_Init(&this->carMfd[mfdIx]);
 
 		/* initialise vars of indicators */
-		GIND_SetData(&this->carMfd[mfdIx].directionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].pedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].leftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].rightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carDirectionBar.indicator,		GIND_TYPE_FLOAT32,	&this->direction,	GIBR_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carPedalBar.indicator,			GIND_TYPE_FLOAT32,	&this->pedal,		GIBR_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carLeftIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->left,		GISG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carRightIndicatorLed.indicator,	GIND_TYPE_UINT8,	&this->right,		GISG_INDICATOR_TYPE);
 
-		GIND_SetData(&this->carMfd[mfdIx].tank1.indicator,		GIND_TYPE_FLOAT32,	&this->tank1,		GIGG_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].tank2.indicator,		GIND_TYPE_FLOAT32,	&this->tank2,		GIGG_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].totalFuel.indicator,	GIND_TYPE_FLOAT32,	&this->totalFuel,	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carTank1.indicator,		GIND_TYPE_FLOAT32,	&this->tank1,		GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carTank2.indicator,		GIND_TYPE_FLOAT32,	&this->tank2,		GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].carTotalFuel.indicator,	GIND_TYPE_FLOAT32,	&this->totalFuel,	GIGG_INDICATOR_TYPE);
 
 		/* initialise buttons */
-		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].actuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
-		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].actuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
 	}
 	GMFD_SetPosition(&this->carMfd[0].mfd,-0.55f,0.0f,1.0f,1.0f);
 	GMFD_SetPosition(&this->carMfd[1].mfd, 0.55f,0.0f,1.0f,1.0f);
+
+	//GMFD_SetPosition(&this->carMfd[0].mfd, 0.0f,0.0f,0.5f,0.5f);
+	//GMFD_SetPosition(&this->carMfd[1].mfd, 0.5f,0.0f,0.5f,0.5f);
 
 }
 
@@ -75,25 +81,55 @@ void SCAR_Start(SCAR_CarSimulation_t *this)
 }
 void SCAR_Execute(SCAR_CarSimulation_t *this)
 {
+
 	//printf("SCAR_Execute\n");//DEBUG
 
 	if (this->isRunning)
 	{
-		this->direction=rand()*1.0/RAND_MAX*90.0f-45.0f;
-		this->pedal=rand()*1.0/RAND_MAX*1.0f-0.0f;
-		//this->left=rand()*1.0/RAND_MAX*3.0f-0.0f;
-		//this->right=rand()*1.0/RAND_MAX*3.0f-0.0f;
-		this->tank1=this->tank1+rand()*1.0/RAND_MAX*3.0f-1.0f;
-		this->tank2=this->tank2+rand()*1.0/RAND_MAX*3.0f-1.0f;
-		//if (this->tank1>50.0f) this->tank1=0.0f;
-		//if (this->tank2>50.0f) this->tank2=0.0f;
+		//		this->direction=rand()*1.0/RAND_MAX*90.0f-45.0f;
+		//		this->pedal=rand()*1.0/RAND_MAX*1.0f-0.0f;
+		//		this->tank1+=rand()*1.0/RAND_MAX*3.0f-1.5f;
+		//		this->tank2+=rand()*1.0/RAND_MAX*3.0f-1.5f;
+		//		this->totalFuel=(this->tank1+this->tank2);
+		//
+		//		if (this->totalFuel>100.0f)
+		//		{
+		//			this->tank1=0.0f;
+		//			this->tank2=0.0f;
+		//			this->totalFuel=0.0f;
+		//		}
+
+		this->direction+=rand()*1.0/RAND_MAX*1.0f-0.5f+0.5f*this->directionSign;
+		if (this->direction>45.0f)
+		{
+			this->directionSign=-1.0f;
+		}
+		else if (this->direction<-45.0f)
+		{
+			this->directionSign=1.0f;
+		}
+
+		this->pedal+=rand()*1.0/RAND_MAX*0.01f-0.005f+0.005f*this->pedalSign;
+		if (this->pedal<0.0f)
+		{
+			this->pedalSign=1.0f;
+		}
+		else if (this->pedal>1.0f)
+		{
+			this->pedalSign=-1.0f;
+		}
+
+		this->tank1+=rand()*1.0/RAND_MAX*1.0f-0.5f+0.5f*this->fuelSign;
+		this->tank2+=rand()*1.0/RAND_MAX*1.0f-0.5f+0.5f*this->fuelSign;
 		this->totalFuel=(this->tank1+this->tank2);
 
-		if (this->totalFuel>100.0f)
+		if ((this->tank1>50.0f)||(this->tank2>50.0f))
 		{
-			this->tank1=0.0f;
-			this->tank2=0.0f;
-			this->totalFuel=0.0f;
+			this->fuelSign=-1.0f;
+		}
+		else if ((this->tank1<0.0f)||(this->tank2<0.0f))
+		{
+			this->fuelSign=1.0f;
 		}
 	}
 

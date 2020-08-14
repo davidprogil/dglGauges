@@ -33,9 +33,14 @@ typedef struct _SCAR_CarSimulation_t_
 
 	float32_t tank1;
 	float32_t tank2;
+	float32_t directionSign;
+	float32_t pedalSign;
 	float32_t totalFuel;
+	float32_t fuelSign;
 
 	SMFD_CarMfd_t carMfd[SCAR_MFD_NO];
+
+
 }SCAR_CarSimulation_t;
 
 /* public variables-------------------------------------------------------------*/

@@ -120,7 +120,7 @@ void GIGG_Render(void *thisVoid)
 	if (GIND_GetDataFloat32(&this->indicator,&this->value))
 	{
 		char tempText[80];
-		snprintf(&tempText[0],80,"%f",this->value);
+		snprintf(&tempText[0],80,"%4.3f",this->value);
 		GLAB_SetText(&this->valueLabel,&tempText[0]);
 	}
 	GCNV_Render(&this->valueLabel.canvas);

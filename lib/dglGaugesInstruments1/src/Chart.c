@@ -108,6 +108,32 @@ void GICH_Execute(void *thisVoid)
 	if (thisVoid==NULL) return;
 	GICH_Chart_t *this=(GICH_Chart_t*)thisVoid;
 	GIND_Execute(&this->indicator);
+
+	/* value */
+	if (GIND_GetDataFloat32(&this->indicator,&this->value))
+	{
+		char tempText[80];
+		snprintf(&tempText[0],80,"%3.2f",this->value);
+		GLAB_SetText(&this->valueLabel,&tempText[0]);
+
+		if (this->samplesNo<GICH_SEGMENTS_NO)
+		{
+			this->values[this->samplesNo]=this->value;
+			this->samplesNo++;
+		}
+		else
+		{
+			//rotate values
+			for (uint16_t sampleIx=0;sampleIx<GICH_SEGMENTS_NO-1;sampleIx++)
+			{
+				this->values[sampleIx]=this->values[sampleIx+1];
+			}
+			this->values[GICH_SEGMENTS_NO-1]=this->value;
+		}
+
+
+
+	}
 }
 
 void GICH_Render(void *thisVoid)
@@ -132,43 +158,21 @@ void GICH_Render(void *thisVoid)
 	/* labels */
 	GCNV_Render(&this->titleLabel.canvas);
 	GCNV_Render(&this->valueLabel.canvas);
-	/* value */
-	if (GIND_GetDataFloat32(&this->indicator,&this->value))
+
+
+	if (this->samplesNo>1)
 	{
-		char tempText[80];
-		snprintf(&tempText[0],80,"%3.2f",this->value);
-		GLAB_SetText(&this->valueLabel,&tempText[0]);
-
-		if (this->samplesNo<GICH_SEGMENTS_NO)
+		//GLNS_LineStrip_t valueStrip;
+		//GLNS_LineStrip_t pointsValueStrip[GICH_SEGMENTS_NO];
+		GLNS_Init(&this->valueStrip,&this->pointsValueStrip[0]);
+		for (uint16_t sampleIx=0;sampleIx<this->samplesNo;sampleIx++)
 		{
-			this->values[this->samplesNo]=this->value;
-			this->samplesNo++;
+			GLNS_AddPoint(&this->valueStrip,
+					sampleIx*1.0f/((this->samplesNo-1)*1.0f),
+					(this->values[sampleIx]-this->origin)/this->scale);
+			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsValueStrip[sampleIx]);
 		}
-		else
-		{
-			//rotate values
-			for (uint16_t sampleIx=0;sampleIx<GICH_SEGMENTS_NO-1;sampleIx++)
-			{
-				this->values[sampleIx]=this->values[sampleIx+1];
-			}
-			this->values[GICH_SEGMENTS_NO-1]=this->value;
-		}
-
-
-		if (this->samplesNo>1)
-		{
-			//GLNS_LineStrip_t valueStrip;
-			//GLNS_LineStrip_t pointsValueStrip[GICH_SEGMENTS_NO];
-			GLNS_Init(&this->valueStrip,&this->pointsValueStrip[0]);
-			for (uint16_t sampleIx=0;sampleIx<this->samplesNo;sampleIx++)
-			{
-				GLNS_AddPoint(&this->valueStrip,
-						sampleIx*1.0f/((this->samplesNo-1)*1.0f),
-						(this->values[sampleIx]-this->origin)/this->scale);
-				GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsValueStrip[sampleIx]);
-			}
-			GLNS_Render(&this->valueStrip);
-		}
+		GLNS_Render(&this->valueStrip);
 	}
 
 	/* axis */

@@ -80,7 +80,7 @@ void SVIW_Execute()
 
 		D2DW_Flush();
 	}
-	D2DW_Timer(SVIW_Execute,1000/*msecs*/);
+	D2DW_Timer(SVIW_Execute,40/*msecs*/);
 }
 
 
