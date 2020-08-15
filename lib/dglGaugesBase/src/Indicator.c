@@ -34,6 +34,7 @@ void GIND_Init(GIND_Indicator_t *this)
 {
 	printf("GIND_Init\n");
 	this->isInitialised=M_FALSE;
+	this->inputData=NULL;
 }
 
 void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GIND_DataType_t outputType)
@@ -43,6 +44,11 @@ void GIND_SetData(GIND_Indicator_t *this,GIND_DataType_t inputType,void* data,GI
 	this->inputType=inputType;
 	this->outputType=outputType;
 	this->isInitialised=M_TRUE;
+}
+
+bool_t GIND_IsInitialised(GIND_Indicator_t *this)
+{
+	return this->isInitialised;
 }
 
 void GIND_Execute(GIND_Indicator_t *this)
@@ -133,6 +139,21 @@ bool_t GIND_GetDataUint32(GIND_Indicator_t *this,uint32_t *output)
 
 	return outputValue;
 }
+bool_t GIND_GetDataUint8(GIND_Indicator_t *this,uint8_t *output)
+{
+	bool_t outputValue=M_FALSE;
+
+	if (this->isInitialised)
+	{
+		if (this->inputData!=NULL)
+		{
+			*output=this->value.uint8;
+			outputValue=M_TRUE;
+		}
+	}
+	return outputValue;
+}
+
 /* local functions ------------------------------------------------------------*/
 /* none */
 

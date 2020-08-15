@@ -48,6 +48,17 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	this->totalFuel=0.0f;
 	this->fuelSign=1.0f;
 
+	/* psu */
+	this->swVolt[0]=3.3f;
+	this->swCurr[0]=0.51f;
+	this->swOvp[0]=3.4f;
+	this->swOcp[0]=0.5f;
+
+	this->swVolt[1]=5.0f;
+	this->swCurr[1]=0.51f;
+	this->swOvp[1]=5.1f;
+	this->swOcp[1]=0.5f;
+
 	for (uint16_t mfdIx=0;mfdIx<SCAR_MFD_NO;mfdIx++)
 	{
 		/* initialise MFD */
@@ -66,7 +77,43 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 		/* initialise buttons */
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
+
+		/* for PSU */
+		for (uint16_t chIx=0;chIx<2;chIx++)
+		{
+			/* set 1 */
+			/* volt */
+			GIND_SetData(&this->carMfd[mfdIx].col2Label[0][1][chIx].indicator,GIND_TYPE_FLOAT32,&this->swVolt[chIx],GIND_TYPE_FLOAT32);
+			GIND_SetData(&this->carMfd[mfdIx].col3Label[0][1][chIx].indicator,GIND_TYPE_FLOAT32,&this->swOvp[chIx],GIND_TYPE_FLOAT32);
+			/* curr */
+			GIND_SetData(&this->carMfd[mfdIx].col2Label[0][2][chIx].indicator,GIND_TYPE_FLOAT32,&this->swCurr[chIx],GIND_TYPE_FLOAT32);
+			GIND_SetData(&this->carMfd[mfdIx].col3Label[0][2][chIx].indicator,GIND_TYPE_FLOAT32,&this->swOcp[chIx],GIND_TYPE_FLOAT32);
+
+			/* set 2 */
+			/* volt */
+			GIND_SetData(&this->carMfd[mfdIx].col2Label[1][1][chIx].indicator,GIND_TYPE_FLOAT32,&this->hwVolt[chIx],GIND_TYPE_FLOAT32);
+			GIND_SetData(&this->carMfd[mfdIx].col3Label[1][1][chIx].indicator,GIND_TYPE_FLOAT32,&this->hwOvp[chIx],GIND_TYPE_FLOAT32);
+			/* curr */
+			GIND_SetData(&this->carMfd[mfdIx].col2Label[1][2][chIx].indicator,GIND_TYPE_FLOAT32,&this->hwCurr[chIx],GIND_TYPE_FLOAT32);
+			GIND_SetData(&this->carMfd[mfdIx].col3Label[1][2][chIx].indicator,GIND_TYPE_FLOAT32,&this->hwOcp[chIx],GIND_TYPE_FLOAT32);
+
+		}
+		GIND_SetData(&this->carMfd[mfdIx].psuVGauge[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwVolt[0],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuVGauge[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwVolt[1],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIGauge[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[0],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIGauge[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[1],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIChart[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[0],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIChart[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[1],	GIGG_INDICATOR_TYPE);
+
+
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,1,(char*)"OFF",SCAR_SetRightIndicator,this);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,2,(char*)"ON",SCAR_SetRightIndicator,this);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,3,(char*)"SET",SCAR_SetRightIndicator,this);
+		/* end of PSU*/
+
 	}
+
+
 	GMFD_SetPosition(&this->carMfd[0].mfd,-0.55f,0.0f,1.0f,1.0f);
 	GMFD_SetPosition(&this->carMfd[1].mfd, 0.55f,0.0f,1.0f,1.0f);
 
@@ -131,6 +178,17 @@ void SCAR_Execute(SCAR_CarSimulation_t *this)
 		{
 			this->fuelSign=1.0f;
 		}
+
+		/* PSU */
+		this->hwVolt[0]=3.3f+rand()*1.0/RAND_MAX*0.2f+0.1f;
+		this->hwCurr[0]=rand()*1.0/RAND_MAX*0.5f+0.25f;
+		this->hwOvp[0]=3.4f;
+		this->hwOcp[0]=0.5f;
+
+		this->hwVolt[1]=5.0f+rand()*1.0/RAND_MAX*0.2f+0.1f;
+		this->hwCurr[1]=rand()*1.0/RAND_MAX*0.5f+0.25f;
+		this->hwOvp[1]=5.1f;
+		this->hwOcp[1]=0.5f;
 	}
 
 	SMFD_Execute(&this->carMfd[0]);

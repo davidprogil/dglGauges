@@ -40,6 +40,15 @@ typedef struct _SCAR_CarSimulation_t_
 
 	SMFD_CarMfd_t carMfd[SCAR_MFD_NO];
 
+	/* for PSU */
+	float32_t swVolt[2];
+	float32_t swCurr[2];
+	float32_t swOvp[2];
+	float32_t swOcp[2];
+	float32_t hwVolt[2];
+	float32_t hwCurr[2];
+	float32_t hwOvp[2];
+	float32_t hwOcp[2];
 
 }SCAR_CarSimulation_t;
 

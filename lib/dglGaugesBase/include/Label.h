@@ -15,6 +15,7 @@
 
 /* component includes----------------------------------------------------------*/
 #include <Canvas.h>
+#include <Indicator.h>
 
 /* macros-----------------------------------------------------------------------*/
 #define GLAB_MAX_TEXT_LENGTH (80)
@@ -43,6 +44,8 @@ typedef enum _GLAB_TextSizeType_t
 typedef struct _GLAB_Label_t_
 {
 	GCNV_Canvas_t canvas;
+	GIND_Indicator_t indicator;
+	GIND_AnyValue_t value;
 	char text[GLAB_MAX_TEXT_LENGTH];
 	GLAB_TextJustification_t justification;
 	GLAB_TextSizeType_t textSizeType;
@@ -63,7 +66,7 @@ void GLAB_SetText(GLAB_Label_t *this,char *text);
 void GLAB_ApplyParentWindow(GLAB_Label_t *this,GWIN_Window_t *parentWindow);
 void GLAB_SetColour(GLAB_Label_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
 void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t charHeight);
-void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_TextJustification_t alignment);
+void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_VerticalAlignment_t alignment);
 /* end */
 #endif /* GLAB_Label_H */
 

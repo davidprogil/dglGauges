@@ -41,7 +41,7 @@ void GCNV_Init(GCNV_Canvas_t *this)
 	this->isShowBorder=M_TRUE;//TODO debug
 	/* is show border */
 	this->isFill=M_TRUE;//TODO debug
-
+//
 	/* window (start and dimensions) */
 	GWIN_Init(&this->window,0.0f,0.0f,1.0f,1.0f);
 	/* window (start and dimensions) */

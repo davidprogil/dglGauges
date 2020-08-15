@@ -112,8 +112,8 @@ void GICH_Execute(void *thisVoid)
 	/* value */
 	if (GIND_GetDataFloat32(&this->indicator,&this->value))
 	{
-		char tempText[80];
-		snprintf(&tempText[0],80,"%3.2f",this->value);
+		char tempText[10];
+		snprintf(&tempText[0],10,"%3.2f",this->value);
 		GLAB_SetText(&this->valueLabel,&tempText[0]);
 
 		if (this->samplesNo<GICH_SEGMENTS_NO)

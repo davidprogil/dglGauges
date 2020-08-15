@@ -22,8 +22,9 @@
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-/* none */
-
+#define PSU_CHANNELS_NO (2)
+#define PSU_ROWS_NO (PSU_CHANNELS_NO+1)
+#define PSU_CHANNELS_SETS_NO (2)
 /* types------------------------------------------------------------------------*/
 typedef struct _SMFD_CarMfd_t_
 {
@@ -48,6 +49,18 @@ typedef struct _SMFD_CarMfd_t_
 	GPAN_Panel_t airActuatorsPanel;
 	GPAN_Panel_t airFuelPanel;
 	GPAN_Panel_t airPrimaryPanel;
+
+	/* test */
+	GPAN_Panel_t testRootPanel;
+	GPAN_Panel_t psuPanel;
+	GLAB_Label_t psuChanelNameLabel[PSU_CHANNELS_NO];
+	GLAB_Label_t col1Label[PSU_CHANNELS_SETS_NO][PSU_ROWS_NO][PSU_CHANNELS_NO];
+	GLAB_Label_t col2Label[PSU_CHANNELS_SETS_NO][PSU_ROWS_NO][PSU_CHANNELS_NO];
+	GLAB_Label_t col3Label[PSU_CHANNELS_SETS_NO][PSU_ROWS_NO][PSU_CHANNELS_NO];
+	GIGG_Gauge_t psuVGauge[PSU_CHANNELS_NO];
+	GIGG_Gauge_t psuIGauge[PSU_CHANNELS_NO];
+	GICH_Chart_t psuIChart[PSU_CHANNELS_NO];
+
 }SMFD_CarMfd_t;
 
 /* public variables-------------------------------------------------------------*/

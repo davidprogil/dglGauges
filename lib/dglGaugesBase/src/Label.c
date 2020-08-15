@@ -148,6 +148,7 @@ void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float
 	this->textSizeWhenFixed=0.05f;/* of the total screen size*/
 	this->charWidth=GLAB_DEFAULT_FIXED_CHAR_HEIGHT*0.8f;
 	this->alignment=GLAB_JUSTIFICATION_CENTER;
+	GIND_Init(&this->indicator);
 
 	GCNV_SetRenderFlags(&this->canvas,M_TRUE,M_FALSE,M_FALSE);
 }
@@ -163,7 +164,37 @@ void GLAB_Execute(void *thisVoid)
 {
 	if (thisVoid==NULL) return;
 	//printf("GLAB_Execute\n");//TODO debug
-	//GLAB_Label_t *this=(GLAB_Label_t*)thisVoid;
+	GLAB_Label_t *this=(GLAB_Label_t*)thisVoid;
+	/* value */
+	if (GIND_IsInitialised(&this->indicator))
+	{
+		GIND_Execute(&this->indicator);
+		char tempText[10];
+		if (this->indicator.inputType==GIND_TYPE_FLOAT32)
+		{
+			if (GIND_GetDataFloat32(&this->indicator,&this->value.float32))
+			{
+				snprintf(&tempText[0],10,"%3.2f",this->value.float32);
+				GLAB_SetText(this,&tempText[0]);
+			}
+		}
+		else if (this->indicator.inputType==GIND_TYPE_UINT32)
+		{
+			if (GIND_GetDataUint32(&this->indicator,&this->value.uint32))
+			{
+				snprintf(&tempText[0],10,"%d",this->value.uint32);
+				GLAB_SetText(this,&tempText[0]);
+			}
+		}
+		else if (this->indicator.inputType==GIND_TYPE_UINT8)
+		{
+			if (GIND_GetDataUint8(&this->indicator,&this->value.uint8))
+			{
+				snprintf(&tempText[0],10,"%d",this->value.uint8);
+				GLAB_SetText(this,&tempText[0]);
+			}
+		}
+	}
 }
 
 void GLAB_Render(void *thisVoid)
@@ -287,7 +318,7 @@ void GLAB_SetCharSizeType(GLAB_Label_t *this,GLAB_TextSizeType_t type,float32_t 
 	}
 }
 
-void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_TextJustification_t alignment)
+void GLAB_SetVerticalAlignment(GLAB_Label_t *this, GLAB_VerticalAlignment_t alignment)
 {
 	this->alignment=alignment;
 }
