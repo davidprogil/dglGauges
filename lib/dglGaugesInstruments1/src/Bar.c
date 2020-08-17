@@ -33,7 +33,7 @@ void GIBR_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
-	printf("GIBR_Init\n");
+	//DEBUG printf("GIBR_Init\n");
 
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);

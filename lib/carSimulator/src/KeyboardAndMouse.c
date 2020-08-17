@@ -33,14 +33,14 @@ SKBM_KeyboardAndMouse_t *thisKeyboardAndMouse=NULL; /* singleton */
 /* public functions -----------------------------------------------------------*/
 void SKBM_Init(SKBM_KeyboardAndMouse_t *this,SCAR_CarSimulation_t *carSimulation)
 {
-	printf("SKBM_Init\n");
+	//DEBUG printf("SKBM_Init\n");
 	thisKeyboardAndMouse=this;
 	thisKeyboardAndMouse->carSimulation=carSimulation;
 }
 
 void SKBM_Execute(SKBM_KeyboardAndMouse_t *this)
 {
-	printf("SKBM_Execute\n");
+	//DEBUG printf("SKBM_Execute\n");
 	if (NULL != thisKeyboardAndMouse)
 	{
 

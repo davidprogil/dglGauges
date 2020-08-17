@@ -36,7 +36,7 @@ void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GPAN_Init(GPAN_Panel_t *this,char *title)
 {
-	printf("GPAN_Init\n");
+	//DEBUG printf("GPAN_Init\n");
 	/* canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetParentFunctions(&this->canvas,GPAN_Render,GPAN_Execute,GPAN_Reshape,this);
@@ -162,7 +162,7 @@ void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 	if (thisVoid==NULL) return;
 	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
 
-	printf("GPAN_Reshape\n");
+	//DEBUG printf("GPAN_Reshape\n");
 
 	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
 	{

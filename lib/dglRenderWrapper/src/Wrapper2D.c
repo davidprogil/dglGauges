@@ -45,7 +45,7 @@ void D2DW_Init(	D2DW_Wrapper2D_t *this,
 		void *mouseClickFuntion,
 		uint16_t sizeX,uint16_t sizeY)
 {
-	printf("D2DW_Init\n");
+	//DEBUG printf("D2DW_Init\n");
 	int argc = 0;
 	char **argv = NULL;
 
@@ -132,7 +132,7 @@ void UpdateView()
 
 void D2DW_Start()
 {
-	printf("D2DW_Start\n");
+	//DEBUG printf("D2DW_Start\n");
 	// Pass control to GLUT for events
 	glutMainLoop();
 }

@@ -35,7 +35,7 @@ void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
-	printf("GIGG_Init\n");
+	//DEBUG printf("GIGG_Init\n");
 
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
@@ -147,7 +147,7 @@ void GIGG_Render(void *thisVoid)
 /* local functions ------------------------------------------------------------*/
 void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 {
-	printf("GIGG_Reshape\n");
+	//DEBUG printf("GIGG_Reshape\n");
 	if (thisVoid==NULL) return;
 	GIGG_Gauge_t *this=(GIGG_Gauge_t*)thisVoid;
 

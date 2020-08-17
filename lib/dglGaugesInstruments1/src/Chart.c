@@ -33,7 +33,7 @@ void GICH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
 /* public functions -----------------------------------------------------------*/
 void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
-	printf("GICH_Init\n");
+	//DEBUG printf("GICH_Init\n");
 
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);

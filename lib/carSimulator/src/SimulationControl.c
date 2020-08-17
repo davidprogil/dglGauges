@@ -34,7 +34,7 @@
 /* public functions -----------------------------------------------------------*/
 void SCRT_Init(SCRT_SimulationControl_t *this)
 {
-	printf("SCRT_Init\n");
+	//DEBUG printf("SCRT_Init\n");
 
 	this->isRunning=M_FALSE;
 	this->isShowing=M_FALSE;
@@ -46,7 +46,7 @@ void SCRT_Init(SCRT_SimulationControl_t *this)
 
 void *SCRT_Execute(void *thisVoid)
 {
-	printf("SCRT_Execute\n");
+	//DEBUG printf("SCRT_Execute\n");
 	SCRT_SimulationControl_t *this=(SCRT_SimulationControl_t *)thisVoid;
 
 	while (this->isRunning)
@@ -61,7 +61,7 @@ void *SCRT_Execute(void *thisVoid)
 void SCRT_Render(SCRT_SimulationControl_t *this)
 {
 	//TODO not used
-	printf("SCRT_Render\n");
+	//DEBUG printf("SCRT_Render\n");
 	if (this->isShowing)
 	{
 		SVIW_Execute();
@@ -70,7 +70,7 @@ void SCRT_Render(SCRT_SimulationControl_t *this)
 
 void SCRT_Start(SCRT_SimulationControl_t *this,bool_t isShowing)
 {
-	printf("SCRT_Start\n");
+	//DEBUG printf("SCRT_Start\n");
 	this->isRunning=M_TRUE;
 	this->isShowing=isShowing;
 	SVIW_Enable(isShowing);

@@ -32,7 +32,7 @@
 /* public functions -----------------------------------------------------------*/
 void SCAR_Init(SCAR_CarSimulation_t *this)
 {
-	printf("SCAR_Init\n");
+	//DEBUG printf("SCAR_Init\n");
 
 	this->isRunning=M_FALSE;
 	this->isShowing=M_FALSE;

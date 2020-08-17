@@ -32,7 +32,7 @@
 /* public functions -----------------------------------------------------------*/
 void GIND_Init(GIND_Indicator_t *this)
 {
-	printf("GIND_Init\n");
+	//DEBUG printf("GIND_Init\n");
 	this->isInitialised=M_FALSE;
 	this->inputData=NULL;
 }

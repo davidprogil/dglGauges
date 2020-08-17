@@ -34,7 +34,7 @@ void SVIW_Execute();
 /* public functions -----------------------------------------------------------*/
 void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction)
 {
-	printf("SVIW_Init\n");
+	//DEBUG printf("SVIW_Init\n");
 	thisView=this;
 	thisView->isEnabled = M_FALSE;
 	thisView->carSimulation=carSimulation;
@@ -45,14 +45,14 @@ void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,v
 
 void SVIW_Enable(bool_t isEnabled)
 {
-	printf("SVIW_Enable\n");
+	//DEBUG printf("SVIW_Enable\n");
 	thisView->isEnabled=isEnabled;
 	UpdateView();
 }
 
 void SVIW_Start()
 {
-	printf("SVIW_Start\n");
+	//DEBUG printf("SVIW_Start\n");
 	D2DW_Start();
 }
 

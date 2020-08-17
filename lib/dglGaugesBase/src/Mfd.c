@@ -35,7 +35,7 @@ void GMFD_ProcessMouseClick(GMFD_Mfd_t *this);
 /* public functions -----------------------------------------------------------*/
 void GMFD_Init(GMFD_Mfd_t *this)
 {
-	printf("GMFD_Init\n");
+	//DEBUG printf("GMFD_Init\n");
 	/* canvas */
 	GCNV_Init(			&this->canvas);
 	GCNV_SetPosition(	&this->canvas,
@@ -206,7 +206,7 @@ void GMFD_Render(GMFD_Mfd_t *this)
 
 void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
-	printf("GMFD_SetPosition\n");
+	//DEBUG printf("GMFD_SetPosition\n");
 	GCNV_Init(			&this->canvas);
 	GCNV_SetPosition(	&this->canvas,
 			GMFD_MARGIN_FOR_BUTTONS+ox				,GMFD_MARGIN_FOR_BUTTONS+oy,
