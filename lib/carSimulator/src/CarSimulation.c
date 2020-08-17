@@ -78,6 +78,10 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,0,(char*)"RIGHT",SCAR_SetRightIndicator,this);
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].carActuatorsPanel,4,(char*)"LEFT",SCAR_SetLeftIndicator,this);
 
+		/* for config */
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].configPanel,0,(char*)"BACK COLOUR",GMFD_RotateBackColour,&this->carMfd[mfdIx].mfd);
+		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].configPanel,1,(char*)"FORE COLOUR",GMFD_RotateForeColour,&this->carMfd[mfdIx].mfd);
+
 		/* for PSU */
 		for (uint16_t chIx=0;chIx<2;chIx++)
 		{
@@ -117,7 +121,7 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	GMFD_SetPosition(&this->carMfd[0].mfd,-0.55f,0.0f,1.0f,1.0f);
 	GMFD_SetPosition(&this->carMfd[1].mfd, 0.55f,0.0f,1.0f,1.0f);
 
-	GMFD_SetColour(&this->carMfd[1].mfd,&GCOL_Red,&GCOL_Red_Half);
+	GMFD_SetColour(&this->carMfd[1].mfd,&GCOL_White,&GCOL_Grey_Half);
 
 	//GMFD_SetPosition(&this->carMfd[0].mfd, 0.0f,0.0f,0.5f,0.5f);
 	//GMFD_SetPosition(&this->carMfd[1].mfd, 0.5f,0.0f,0.5f,0.5f);

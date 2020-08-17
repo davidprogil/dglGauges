@@ -30,6 +30,9 @@ typedef struct _GCOL_Colour_t_
 
 /* public variables-------------------------------------------------------------*/
 extern  GCOL_Colour_t GCOL_White;
+extern  GCOL_Colour_t GCOL_Grey_Half;
+extern  GCOL_Colour_t GCOL_Grey_Quarter;
+extern  GCOL_Colour_t GCOL_Black;
 extern  GCOL_Colour_t GCOL_Red;
 extern  GCOL_Colour_t GCOL_Green;
 extern  GCOL_Colour_t GCOL_Yellow;
@@ -42,9 +45,10 @@ extern  GCOL_Colour_t GCOL_Red_Quarter;
 extern  GCOL_Colour_t GCOL_Green_Quarter;
 extern  GCOL_Colour_t GCOL_Blue_Quarter;
 extern  GCOL_Colour_t GCOL_Yellow_Quarter;
-extern  GCOL_Colour_t GCOL_Black;
-extern  GCOL_Colour_t GCOL_Grey_Half;
-extern  GCOL_Colour_t GCOL_Grey_Quarter;
+
+
+extern GCOL_Colour_t *GCOL_AllColoursVector[];
+extern const uint16_t GCOL_PredefinedColoursNo;
 /* public functions--------------------------------------------------------------*/
 void GCOL_Init(GCOL_Colour_t *this);
 void GCOL_Execute(GCOL_Colour_t *this);

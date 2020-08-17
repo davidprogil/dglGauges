@@ -43,10 +43,13 @@ typedef struct _GMFD_Mfd_t_
 	/* up button */
 	GBUT_Button_t upButton;
 
-
 	/* canvas */
 	GCNV_Canvas_t *childCanvas[GPAN_MAX_INSTRUMENTS_NO*2];
 	uint16_t	   childCanvasNo;
+
+	/* manage colour */
+	uint16_t currentForeColourIx;
+	uint16_t currentBackColourIx;
 }GMFD_Mfd_t;
 
 /* public variables-------------------------------------------------------------*/
@@ -60,6 +63,8 @@ void GMFD_Render(GMFD_Mfd_t *this);
 void GMFD_MouseClick(GMFD_Mfd_t *this,float x,float y);
 void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 void GMFD_SetColour(GMFD_Mfd_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back);
+void GMFD_RotateForeColour(void *thisVoid);
+void GMFD_RotateBackColour(void *thisVoid);
 
 /* end */
 #endif /* GMFD_Mfd_H */

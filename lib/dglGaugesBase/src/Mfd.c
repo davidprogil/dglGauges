@@ -32,6 +32,8 @@ bool_t GMFD_IsShowingMenu(GMFD_Mfd_t *this);
 void GMFD_AddCanvas(GMFD_Mfd_t *this,GCNV_Canvas_t *newCanvas);
 GPAN_PanelSet_t* GMFD_GetCurrentPanelSet(GMFD_Mfd_t *this);
 void GMFD_ProcessMouseClick(GMFD_Mfd_t *this);
+void GMFD_RenderButtonsWithLabels(GMFD_Mfd_t *this,GPAN_PanelSet_t* thisPanelSet);
+
 /* public functions -----------------------------------------------------------*/
 void GMFD_Init(GMFD_Mfd_t *this)
 {
@@ -50,6 +52,9 @@ void GMFD_Init(GMFD_Mfd_t *this)
 	/* panels */
 	GPAN_InitSet(&this->panelSet);
 	this->currentLevel=0;
+
+	this->currentForeColourIx=3;
+	this->currentBackColourIx=11;
 
 	/* info label */
 	GLAB_Init(&this->infoLabel,&this->canvas.realWindow,	0.0f,				-0.1f,
@@ -135,6 +140,8 @@ void GMFD_Execute(GMFD_Mfd_t *this)
 	}
 }
 
+
+
 void GMFD_Render(GMFD_Mfd_t *this)
 {
 	GCNV_Render(&this->canvas);
@@ -148,32 +155,7 @@ void GMFD_Render(GMFD_Mfd_t *this)
 	/* render a menu */
 	if (GPANS_IsShowingMenu(thisPanelSet))
 	{
-		//printf("render menu\n");
-		uint16_t currentPanel=0;
-		//DEBUG printf("GMFD_Render1 %d %d\n",this->currentLevel,this->panelSet.currentPanel);
-		//printf("GMFD_Render1 %d-%d %p-%p\n",this->currentLevel,this->panelSet.currentPanel,thisPanelSet,&this->panelSet);
-		for (uint16_t buttonIx=0;buttonIx<GMFD_MAX_SIDE_BUTTONS;buttonIx++)
-		{
-			/* render button labels */
-			if (buttonIx<thisPanelSet->panelsNo)
-			{
-				GLAB_SetText(&this->buttonLabels[buttonIx],&((GPAN_Panel_t*)thisPanelSet->panels[buttonIx])->titleLabel.text[0]);
-				GCNV_Render(&this->buttonLabels[buttonIx].canvas);
-
-				if (currentPanel<GMFD_MAX_SIDE_BUTTONS/2)
-				{
-					GLAB_SetText(&this->buttons[buttonIx].title,(char*)"<");
-				}
-				else
-				{
-					GLAB_SetText(&this->buttons[buttonIx].title,(char*)">");
-				}
-			}
-			else
-			{
-				GLAB_SetText(&this->buttons[buttonIx].title,(char*)" ");
-			}
-		}
+		GMFD_RenderButtonsWithLabels(this,thisPanelSet);
 	}
 	else /* render a panel */
 	{
@@ -186,9 +168,35 @@ void GMFD_Render(GMFD_Mfd_t *this)
 		/* side buttons */
 		for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
 		{
-			GLAB_SetText(&this->buttons[sideIx].title,thisPanel->sideButtonsLabels[sideIx]);
+			if (thisPanel->isShowBigButtons==M_FALSE)
+			{
+				GLAB_SetText(&this->buttons[sideIx].title,thisPanel->sideButtonsLabels[sideIx]);
+			}
+			else
+			{
+				if (strlen(&thisPanel->sideButtonsLabels[sideIx][0])>1)
+				{
+					GLAB_SetText(&this->buttonLabels[sideIx],&thisPanel->sideButtonsLabels[sideIx][0]);
+					GCNV_Render(&this->buttonLabels[sideIx].canvas);
+
+					if (sideIx<GMFD_MAX_SIDE_BUTTONS/2)
+					{
+						GLAB_SetText(&this->buttons[sideIx].title,(char*)"<");
+					}
+					else
+					{
+						GLAB_SetText(&this->buttons[sideIx].title,(char*)">");
+					}
+				}
+				else
+				{
+					GLAB_SetText(&this->buttons[sideIx].title,(char*)" ");
+				}
+			}
 		}
 	}
+
+
 
 	/* render side buttons */
 	for (uint16_t buttonIx=0;buttonIx<GMFD_MAX_SIDE_BUTTONS;buttonIx++)
@@ -228,6 +236,24 @@ void GMFD_SetColour(GMFD_Mfd_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 		GCNV_Recolour(this->childCanvas[canvasIx],fore,back);
 	}
 }
+
+void GMFD_RotateForeColour(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	GMFD_Mfd_t *this=(GMFD_Mfd_t*)thisVoid;
+	this->currentForeColourIx++;
+	GMFD_SetColour(this,GCOL_AllColoursVector[this->currentForeColourIx%GCOL_PredefinedColoursNo],&this->canvas.backColour);
+}
+
+void GMFD_RotateBackColour(void *thisVoid)
+{
+	if (thisVoid==NULL) return;
+	GMFD_Mfd_t *this=(GMFD_Mfd_t*)thisVoid;
+	this->currentBackColourIx++;
+	GMFD_SetColour(this,&this->canvas.foreColour,GCOL_AllColoursVector[this->currentBackColourIx%GCOL_PredefinedColoursNo]);
+}
+
+
 
 void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 {
@@ -348,5 +374,29 @@ bool_t GMFD_IsShowingMenu(GMFD_Mfd_t *this)
 {
 	return GPANS_IsShowingMenu(GMFD_GetCurrentPanelSet(this));
 }
+void GMFD_RenderButtonsWithLabels(GMFD_Mfd_t *this,GPAN_PanelSet_t* thisPanelSet)
+{
+	for (uint16_t buttonIx=0;buttonIx<GMFD_MAX_SIDE_BUTTONS;buttonIx++)
+	{
+		/* render button labels */
+		if (buttonIx<thisPanelSet->panelsNo)
+		{
+			GLAB_SetText(&this->buttonLabels[buttonIx],&((GPAN_Panel_t*)thisPanelSet->panels[buttonIx])->titleLabel.text[0]);
+			GCNV_Render(&this->buttonLabels[buttonIx].canvas);
 
+			if (buttonIx<GMFD_MAX_SIDE_BUTTONS/2)
+			{
+				GLAB_SetText(&this->buttons[buttonIx].title,(char*)"<");
+			}
+			else
+			{
+				GLAB_SetText(&this->buttons[buttonIx].title,(char*)">");
+			}
+		}
+		else
+		{
+			GLAB_SetText(&this->buttons[buttonIx].title,(char*)" ");
+		}
+	}
+}
 /* end */

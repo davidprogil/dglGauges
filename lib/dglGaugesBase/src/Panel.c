@@ -45,6 +45,8 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	this->childCanvasNo=0;
 	this->childCanvas[0]=NULL;
 
+	this->isShowBigButtons=M_FALSE;
+
 	/* side buttons */
 	for (uint16_t sideIx=0;sideIx<GPAN_MAX_SIDE_BUTTONS;sideIx++)
 	{
@@ -100,7 +102,6 @@ void GPAN_SetButtonNameAndFunction(GPAN_Panel_t *this,uint16_t buttonIx,char *te
 	strcpy(&this->sideButtonsLabels[buttonIx][0],text);
 	this->sideButtonData[buttonIx]=data;
 	this->sideButtonsFunctions[buttonIx]=callback;
-	//TODO missing function and data
 }
 void GPAN_ButtonCallback(GPAN_Panel_t *this,uint16_t buttonIx)
 {
@@ -164,9 +165,7 @@ void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 {
 	if (thisVoid==NULL) return;
 	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
-
 	//DEBUG printf("GPAN_Reshape\n");
-
 	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
 	{
 		GCNV_Reshape(this->childCanvas[canvasIx],&this->canvas.realWindow);

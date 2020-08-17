@@ -189,8 +189,8 @@ void GIGG_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 
 	GCNV_Recolour(&this->titleLabel.canvas,fore,back);
 	GCNV_Recolour(&this->valueLabel.canvas,fore,back);
-	GCNV_Recolour(&this->instrumentLabels[0].canvas,fore,back);
-	GCNV_Recolour(&this->instrumentLabels[1].canvas,fore,back);
+	GCNV_Recolour(&this->instrumentLabels[0].canvas,back,back);
+	GCNV_Recolour(&this->instrumentLabels[1].canvas,back,back);
 }
 
 /* end */

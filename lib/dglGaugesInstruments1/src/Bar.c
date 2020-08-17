@@ -96,8 +96,6 @@ void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_
 
 void GIBR_SetColour(GIBR_Bar_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 {
-	GCOL_CopyFrom(&this->fore,fore);
-	GCOL_CopyFrom(&this->back,back);
 	GLAB_SetColour(&this->mainLabel,fore,back,M_FALSE);
 	GLAB_SetColour(&this->minLabel,back,back,M_FALSE);
 	GLAB_SetColour(&this->maxLabel,back,back,M_FALSE);
@@ -178,7 +176,7 @@ void GIBR_Render(void *thisVoid)
 	GIBR_Bar_t *this=(GIBR_Bar_t*)thisVoid;
 
 	/* contour */
-	GCOL_SetRenderColour(&this->back);
+	GCOL_SetRenderColour(&this->canvas.backColour);
 	GWIN_Render(&this->barContour);
 
 	if (GIND_GetDataFloat32(&this->indicator,&this->value))
@@ -198,7 +196,7 @@ void GIBR_Render(void *thisVoid)
 	/* for divisions */
 	if (this->nDivs>0)
 	{
-		GCOL_SetRenderColour(&this->back);
+		GCOL_SetRenderColour(&this->canvas.backColour);
 		GLNS_LineStrip_t ls1;
 		GPNT_Point_t ps1[2];
 		GLNS_Init(&ls1,&ps1[0]);
@@ -254,7 +252,7 @@ void GIBR_Render(void *thisVoid)
 			GWIN_SetPosition(&this->barValue,refPos,0.0f,length,1.0f);
 			GWIN_ApplyParentWindow(&this->barValue,&this->barContour);
 		}
-		GCOL_SetRenderColour(&this->fore);
+		GCOL_SetRenderColour(&this->canvas.foreColour);
 		GWIN_RenderFill(&this->barValue);
 	}
 }
@@ -266,7 +264,7 @@ void GIBR_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 
 		GCNV_Recolour(&this->valueLabel.canvas,fore,back);
 		GCNV_Recolour(&this->mainLabel.canvas,fore,back);
-		GCNV_Recolour(&this->minLabel.canvas,fore,back);
-		GCNV_Recolour(&this->maxLabel.canvas,fore,back);
+		GCNV_Recolour(&this->minLabel.canvas,back,back);
+		GCNV_Recolour(&this->maxLabel.canvas,back,back);
 }
 /* end */

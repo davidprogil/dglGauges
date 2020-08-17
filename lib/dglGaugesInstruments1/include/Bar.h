@@ -41,9 +41,6 @@ typedef struct _GIBR_Bar_t_
 	float32_t reference;
 	uint16_t nDivs;
 
-	GCOL_Colour_t fore;
-	GCOL_Colour_t back;
-
 }GIBR_Bar_t;
 
 /* public variables-------------------------------------------------------------*/

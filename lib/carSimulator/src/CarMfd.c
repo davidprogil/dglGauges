@@ -112,6 +112,11 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GPAN_Init(&this->airPrimaryPanel,(char*)"Primary");
 	GPAN_AddPanel(&this->airRootPanel,&this->airPrimaryPanel);
 
+	/* CONFIG PANEL ROOT *******************************************************************************************/
+	GPAN_Init(&this->configPanel,(char*)"CONFIG");
+	GMFD_AddPanel(&this->mfd,&this->configPanel);
+	this->configPanel.isShowBigButtons=M_TRUE;
+
 	/* TEST PANEL ROOT *******************************************************************************************/
 	GPAN_Init(&this->testRootPanel,(char*)"Test");
 	GMFD_AddPanel(&this->mfd,&this->testRootPanel);

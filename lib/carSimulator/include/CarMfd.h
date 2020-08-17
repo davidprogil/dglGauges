@@ -61,6 +61,8 @@ typedef struct _SMFD_CarMfd_t_
 	GIGG_Gauge_t psuIGauge[PSU_CHANNELS_NO];
 	GICH_Chart_t psuIChart[PSU_CHANNELS_NO];
 
+	GPAN_Panel_t configPanel;
+
 }SMFD_CarMfd_t;
 
 /* public variables-------------------------------------------------------------*/

@@ -45,6 +45,7 @@ typedef struct _GPAN_Panel_t_
 	uint16_t	   childCanvasNo;
 
 	bool_t 		showTitle;
+	bool_t		isShowBigButtons;
 }GPAN_Panel_t;
 
 
