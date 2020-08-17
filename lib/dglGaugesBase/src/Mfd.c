@@ -220,6 +220,15 @@ void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,fl
 	}
 }
 
+void GMFD_SetColour(GMFD_Mfd_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	GCNV_Recolour(&this->canvas,fore,back);
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		GCNV_Recolour(this->childCanvas[canvasIx],fore,back);
+	}
+}
+
 void GMFD_MouseClick(GMFD_Mfd_t *this,float32_t x,float32_t y)
 {
 	this->mouseClick=M_TRUE;

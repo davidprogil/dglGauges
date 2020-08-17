@@ -32,6 +32,7 @@ void GPAN_Execute(void *thisVoid);
 void GPAN_Render(void *thisVoid);
 void GPAN_AddCanvas(GPAN_Panel_t *this,GCNV_Canvas_t *newCanvas);
 void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
+void GPAN_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 
 /* public functions -----------------------------------------------------------*/
 void GPAN_Init(GPAN_Panel_t *this,char *title)
@@ -39,7 +40,7 @@ void GPAN_Init(GPAN_Panel_t *this,char *title)
 	//DEBUG printf("GPAN_Init\n");
 	/* canvas */
 	GCNV_Init(&this->canvas);
-	GCNV_SetParentFunctions(&this->canvas,GPAN_Render,GPAN_Execute,GPAN_Reshape,this);
+	GCNV_SetParentFunctions(&this->canvas,GPAN_Render,GPAN_Execute,GPAN_Reshape,GPAN_Recolour,this);
 
 	this->childCanvasNo=0;
 	this->childCanvas[0]=NULL;
@@ -119,6 +120,8 @@ void GPAN_AddCanvas(GPAN_Panel_t *this,GCNV_Canvas_t *newCanvas)
 {
 	this->childCanvas[this->childCanvasNo++]=newCanvas;
 }
+
+
 void GPAN_Execute(void *thisVoid)
 {
 	if (thisVoid==NULL) return;
@@ -170,5 +173,15 @@ void GPAN_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 	}
 }
 
+void GPAN_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	if (thisVoid==NULL) return;
+	GPAN_Panel_t *this=(GPAN_Panel_t*)thisVoid;
+	//DEBUG printf("GPAN_Recolour\n");
+	for (uint16_t canvasIx=0;canvasIx<this->childCanvasNo;canvasIx++)
+	{
+		GCNV_Recolour(this->childCanvas[canvasIx],fore,back);
+	}
+}
 
 /* end */

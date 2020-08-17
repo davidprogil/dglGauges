@@ -31,7 +31,7 @@
 void GISG_Execute(void *thisVoid);
 void GISG_Render(void *thisVoid);
 void GISG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
-
+void GISG_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 /* public functions -----------------------------------------------------------*/
 void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
@@ -40,7 +40,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GISG_Render,GISG_Execute,GISG_Reshape,this);
+	GCNV_SetParentFunctions(&this->canvas,GISG_Render,GISG_Execute,GISG_Reshape,GISG_Recolour,this);
 	GISG_SetColour(this,&GCOL_Green,&GCOL_Green_Half);
 
 	/* indicator*/
@@ -136,6 +136,11 @@ void GISG_Render(void *thisVoid)
 	GCNV_Render(&this->titleLabel.canvas);
 	GCNV_Render(&this->valueLabel.canvas);
 
+}
+
+void GISG_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+//TODO
 }
 
 /* end */

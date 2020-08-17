@@ -30,6 +30,8 @@
 void GICH_Execute(void *thisVoid);
 void GICH_Render(void *thisVoid);
 void GICH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
+void GICH_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
+
 /* public functions -----------------------------------------------------------*/
 void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
@@ -38,7 +40,7 @@ void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GICH_Render,GICH_Execute,GICH_Reshape,this);
+	GCNV_SetParentFunctions(&this->canvas,GICH_Render,GICH_Execute,GICH_Reshape,GICH_Recolour,this);
 	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
 
 	/* indicator*/
@@ -223,4 +225,16 @@ void GICH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 	GCNV_Reshape(&this->originLabel.canvas,&this->canvas.realWindow);
 }
 
+void GICH_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	if (thisVoid==NULL) return;
+	GICH_Chart_t *this=(GICH_Chart_t*)thisVoid;
+
+	GCNV_Recolour(&this->titleLabel.canvas,fore,back);
+	GCNV_Recolour(&this->valueLabel.canvas,fore,back);
+	GCNV_Recolour(&this->instrumentLabels[0].canvas,fore,back);
+	GCNV_Recolour(&this->instrumentLabels[1].canvas,fore,back);
+	GCNV_Recolour(&this->originLabel.canvas,fore,back);
+
+}
 /* end */

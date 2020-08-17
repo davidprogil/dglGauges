@@ -23,6 +23,7 @@
 
 /* types------------------------------------------------------------------------*/
 typedef void (*GCNV_ReshapeFunction_t)(void *thisVoid,GWIN_Window_t *parentWindow);
+typedef void (*GCNV_RecolourFunction_t)(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 
 typedef struct _GCNV_Canvas_t_
 {
@@ -58,11 +59,12 @@ typedef struct _GCNV_Canvas_t_
 	/* function to reshape */
 	GCNV_ReshapeFunction_t reshapeFunction;
 
+	/* function to recolour */
+	GCNV_RecolourFunction_t recolourFunction;
+
 	/* instrument object */
 	void *instrument;
 
-	/* type */
-	//TODO
 
 	/* children */
 	void* children;
@@ -76,13 +78,14 @@ typedef struct _GCNV_Canvas_t_
 /* public functions--------------------------------------------------------------*/
 void GCNV_Init(GCNV_Canvas_t *this);
 void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy,GWIN_Window_t *parentWindow);
-void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,void *instrument);
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,GCNV_RecolourFunction_t recolourFunction,void *instrument);
 void GCNV_Execute(GCNV_Canvas_t *this);
 void GCNV_Render(GCNV_Canvas_t *this);
 void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,bool_t isBorderShown);
 void GCNV_SetFillColour(GCNV_Canvas_t *this,bool_t highLight);
 void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill);
 void GCNV_Reshape(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow);
+void GCNV_Recolour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 /* end */
 #endif /* GCNV_Canvas_H */
 

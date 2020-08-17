@@ -30,6 +30,7 @@
 void GIBR_Execute(void *thisVoid);
 void GIBR_Render(void *thisVoid);
 void GIBR_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
+void GIBR_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 /* public functions -----------------------------------------------------------*/
 void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
 {
@@ -38,7 +39,7 @@ void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GIBR_Render,GIBR_Execute,GIBR_Reshape,this);
+	GCNV_SetParentFunctions(&this->canvas,GIBR_Render,GIBR_Execute,GIBR_Reshape,GIBR_Recolour,this);
 
 	/* indicator*/
 	GIND_Init(&this->indicator);
@@ -258,5 +259,14 @@ void GIBR_Render(void *thisVoid)
 	}
 }
 
+void GIBR_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	if (thisVoid==NULL) return;
+	GIBR_Bar_t *this=(GIBR_Bar_t*)thisVoid;
 
+		GCNV_Recolour(&this->valueLabel.canvas,fore,back);
+		GCNV_Recolour(&this->mainLabel.canvas,fore,back);
+		GCNV_Recolour(&this->minLabel.canvas,fore,back);
+		GCNV_Recolour(&this->maxLabel.canvas,fore,back);
+}
 /* end */

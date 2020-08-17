@@ -31,6 +31,7 @@
 void GIGG_Execute(void *thisVoid);
 void GIGG_Render(void *thisVoid);
 void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow);
+void GIGG_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 
 /* public functions -----------------------------------------------------------*/
 void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy)
@@ -40,7 +41,7 @@ void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	/* initalise canvas */
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GIGG_Render,GIGG_Execute,GIGG_Reshape,this);
+	GCNV_SetParentFunctions(&this->canvas,GIGG_Render,GIGG_Execute,GIGG_Reshape,GIGG_Recolour,this);
 	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
 
 	/* indicator*/
@@ -179,6 +180,17 @@ void GIGG_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 		GLNS_AddPoint(&this->lineDis[lineIx],0.5f+0.35f*sin(DGL_DEG2RAD(lineFloat)),0.5f+0.35f*cos(DGL_DEG2RAD(lineFloat)));
 		GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsDivs[lineIx*2+1]);
 	}
+}
+
+void GIGG_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	if (thisVoid==NULL) return;
+	GIGG_Gauge_t *this=(GIGG_Gauge_t*)thisVoid;
+
+	GCNV_Recolour(&this->titleLabel.canvas,fore,back);
+	GCNV_Recolour(&this->valueLabel.canvas,fore,back);
+	GCNV_Recolour(&this->instrumentLabels[0].canvas,fore,back);
+	GCNV_Recolour(&this->instrumentLabels[1].canvas,fore,back);
 }
 
 /* end */

@@ -41,7 +41,7 @@ void GCNV_Init(GCNV_Canvas_t *this)
 	this->isShowBorder=M_TRUE;//TODO debug
 	/* is show border */
 	this->isFill=M_TRUE;//TODO debug
-//
+	//
 	/* window (start and dimensions) */
 	GWIN_Init(&this->window,0.0f,0.0f,1.0f,1.0f);
 	/* window (start and dimensions) */
@@ -119,12 +119,13 @@ void GCNV_SetPosition(GCNV_Canvas_t *this,float32_t ox,float32_t oy,float32_t dx
 	//printf("GCNV_SetPosition2 %f %f\n",this->realWindow.origin.x,this->realWindow.origin.y);
 }
 
-void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,void *instrument)
+void GCNV_SetParentFunctions(GCNV_Canvas_t *this,void (*renderFunction)(void*),void (*updateInstrument)(void*),GCNV_ReshapeFunction_t reshapeFunction,GCNV_RecolourFunction_t recolourFunction,void *instrument)
 {
-	this->instrument=instrument;
-	this->renderFunction=renderFunction;
-	this->reshapeFunction=reshapeFunction;
-	this->updateInstrument=updateInstrument;
+	this->instrument	   = instrument;
+	this->renderFunction   = renderFunction;
+	this->reshapeFunction  = reshapeFunction;
+	this->recolourFunction = recolourFunction;
+	this->updateInstrument = updateInstrument;
 }
 
 void GCNV_Reshape(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
@@ -151,6 +152,18 @@ void GCNV_SetColour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back,
 	GCOL_CopyFrom(&this->foreColour,fore);
 	GCOL_CopyFrom(&this->backColour,back);
 	GCNV_SetFillColour(this,M_FALSE);
+}
+
+void GCNV_Recolour(GCNV_Canvas_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+	GCOL_CopyFrom(&this->foreColour,fore);
+	GCOL_CopyFrom(&this->backColour,back);
+	GCNV_SetFillColour(this,M_FALSE);
+
+	if (this->recolourFunction!=NULL)
+	{
+		this->recolourFunction(this->instrument,fore,back);
+	}
 }
 
 void GCNV_SetRenderFlags(GCNV_Canvas_t *this,bool_t isShowing,bool_t isShowBorder,bool_t isFill)

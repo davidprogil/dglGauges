@@ -133,6 +133,7 @@ GLAB_CharRenderFunctionElement_t GLAB_charRenderLut[]=
 };
 
 #define GLAB_NCHARS_CAN_RENDER sizeof(GLAB_charRenderLut)/sizeof(GLAB_CharRenderFunctionElement_t)
+void GLAB_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 
 /* public functions -----------------------------------------------------------*/
 void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,
@@ -141,7 +142,7 @@ void GLAB_Init(GLAB_Label_t *this,GWIN_Window_t *parentWindow,float32_t ox,float
 	//printf("GLAB_Init\n");//DEBUG
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,ox,oy,dx,dy,parentWindow);
-	GCNV_SetParentFunctions(&this->canvas,GLAB_Render,GLAB_Execute,NULL,this);
+	GCNV_SetParentFunctions(&this->canvas,GLAB_Render,GLAB_Execute,NULL,GLAB_Recolour,this);
 	GLAB_SetText(this,text);
 	this->justification=justification;
 	this->textSizeType=GLAB_TEXT_SIZE_AUTO;
@@ -1013,6 +1014,11 @@ void GLAB_Render_otherSlash(GLAB_Label_t *this,GWIN_Window_t *window)
 	GLNS_AddPoint(&ls1,P18,P18);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
 	GLNS_AddPoint(&ls1,P78,P78);GWIN_ApplyThisWindowToPoint(window,&ps1[pointIx++]);
 	GLNS_Render(&ls1);
+}
+
+void GLAB_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
+{
+//TODO
 }
 
 /* end */

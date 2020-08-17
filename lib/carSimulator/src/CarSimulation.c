@@ -117,6 +117,8 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 	GMFD_SetPosition(&this->carMfd[0].mfd,-0.55f,0.0f,1.0f,1.0f);
 	GMFD_SetPosition(&this->carMfd[1].mfd, 0.55f,0.0f,1.0f,1.0f);
 
+	GMFD_SetColour(&this->carMfd[1].mfd,&GCOL_Red,&GCOL_Red_Half);
+
 	//GMFD_SetPosition(&this->carMfd[0].mfd, 0.0f,0.0f,0.5f,0.5f);
 	//GMFD_SetPosition(&this->carMfd[1].mfd, 0.5f,0.0f,0.5f,0.5f);
 

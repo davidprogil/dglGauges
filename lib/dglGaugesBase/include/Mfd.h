@@ -59,6 +59,7 @@ void GMFD_Execute(GMFD_Mfd_t *this);
 void GMFD_Render(GMFD_Mfd_t *this);
 void GMFD_MouseClick(GMFD_Mfd_t *this,float x,float y);
 void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
+void GMFD_SetColour(GMFD_Mfd_t *this,GCOL_Colour_t *fore,GCOL_Colour_t *back);
 
 /* end */
 #endif /* GMFD_Mfd_H */
