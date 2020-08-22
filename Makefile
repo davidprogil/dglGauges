@@ -10,7 +10,7 @@ PROJECT_PATH=$(CWD)
 COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)include
 COMMON_INCLUDES=$(PROJECT_PATH)include/myTypes.h
 CC=gcc
-CFLAGS=-Wall -c
+CFLAGS=-Wall -Wdiscarded-qualifiers -c 
 LDFLAGS=-Wall 
 
 #--------------------------------------------------------------------------------
