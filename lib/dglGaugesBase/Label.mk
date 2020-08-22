@@ -32,5 +32,5 @@ LABEL_OBJ=$(LABEL_OUTPUT_FOLDER)/$(LABEL_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(LABEL_OBJ): $(LABEL_INCLUDES) $(LABEL_SRC)  $(LABEL_OUTPUT_FOLDER) 
+$(LABEL_OBJ): $(LABEL_INCLUDES) $(LABEL_SRC)  
 	$(CC) $(CFLAGS) -o $(LABEL_OBJ) $(LABEL_INCLUDES_PATHS) $(LABEL_SRC)

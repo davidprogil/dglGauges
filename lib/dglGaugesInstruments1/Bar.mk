@@ -32,5 +32,5 @@ BAR_OBJ=$(BAR_OUTPUT_FOLDER)/$(BAR_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(BAR_OBJ): $(BAR_INCLUDES) $(BAR_SRC) 
+$(BAR_OBJ): $(BAR_INCLUDES) $(BAR_SRC) $(DGLGAUGESINSTRUMENTS1_COMPONENT_OUTPUT_FOLDER)
 	$(CC) $(CFLAGS) -o $(BAR_OBJ) $(BAR_INCLUDES_PATHS) $(BAR_SRC)

@@ -33,5 +33,5 @@ CANVAS_OBJ=$(CANVAS_OUTPUT_FOLDER)/$(CANVAS_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(CANVAS_OBJ): $(CANVAS_INCLUDES) $(CANVAS_SRC)  
+$(CANVAS_OBJ): $(CANVAS_INCLUDES) $(CANVAS_SRC) $(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER)
 	$(CC) $(CFLAGS) -o $(CANVAS_OBJ) $(CANVAS_INCLUDES_PATHS) $(CANVAS_SRC)

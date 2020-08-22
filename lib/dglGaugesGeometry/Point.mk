@@ -32,5 +32,5 @@ POINT_OBJ=$(POINT_OUTPUT_FOLDER)/$(POINT_OBJ_NAME).o
 
 #------------------------------------------------------------------------------#
 # compile object
-$(POINT_OBJ): $(POINT_INCLUDES) $(POINT_SRC) 
+$(POINT_OBJ): $(POINT_INCLUDES) $(POINT_SRC)  $(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER)
 	$(CC) $(CFLAGS) -o $(POINT_OBJ) $(POINT_INCLUDES_PATHS) $(POINT_SRC)
