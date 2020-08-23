@@ -5,14 +5,13 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/Point.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+#include <Point.h>
+#include <Wrapper2D.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 
