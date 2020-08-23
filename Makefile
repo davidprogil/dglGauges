@@ -7,10 +7,10 @@
 #--------------------------------------------------------------------------------
 # project set-up
 PROJECT_PATH=$(CWD)
-COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)../dgUtils/include
-COMMON_INCLUDES=$(PROJECT_PATH)../dgUtils/include/myTypes.h
+COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)../dgUtils/lib/include
+COMMON_INCLUDES=$(PROJECT_PATH)../dgUtils/lib/include/myTypes.h
 CC=gcc
-CFLAGS=-Wall -Wdiscarded-qualifiers -c 
+CFLAGS=-Wall -c 
 LDFLAGS=-Wall 
 
 #--------------------------------------------------------------------------------
