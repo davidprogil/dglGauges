@@ -15,13 +15,8 @@ LDFLAGS=-Wall
 
 #--------------------------------------------------------------------------------
 # project components
-include ./lib/dglRenderWrapper/dglRenderWrapper.mk
-include ./lib/dglGaugesGeometry/dglGaugesGeometry.mk
-include ./lib/dglGaugesBase/dglGaugesBase.mk
-include ./lib/dglGaugesInstruments1/dglGaugesInstruments1.mk
-
-include ./lib/carSimulator/carSimulator.mk
-
+include ./libdglGauges/dglGauges.mk
+include ./application/carSimulator/carSimulator.mk
 
 #--------------------------------------------------------------------------------
 # includes and objects 
@@ -32,17 +27,11 @@ MAIN_INCLUDES=		$(sort 	$(COMMON_INCLUDES) \
 							Makefile \
 							$(CARSIMULATOR_COMPONENT_INCLUDES))
 
-MAIN_OBJECTS=		$(DGLGAUGESBASE_COMPONENT_OBJ) \
-					$(DGLGAUGESGEOMETRY_COMPONENT_OBJ) \
+MAIN_OBJECTS=		$(DGLGAUGES_OBJECTS) \
 					$(CARSIMULATOR_COMPONENT_OBJ) \
-					$(DGLRENDERWRAPPER_COMPONENT_OBJ) \
-					$(DGLGAUGESINSTRUMENTS1_COMPONENT_OBJ)
 
-MAIN_OUTPUT_FOLDERS =  	$(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER) \
-						$(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER) \
+MAIN_OUTPUT_FOLDERS =  	$(DGLGAUGES_OUTPUT_FOLDERS) \
 						$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER) \
-						$(DGLRENDERWRAPPER_COMPONENT_OUTPUT_FOLDER) \
-						$(DGLGAUGESINSTRUMENTS1_COMPONENT_OUTPUT_FOLDER)
 
 #--------------------------------------------------------------------------------
 # no need to change anything below this line
@@ -73,19 +62,16 @@ $(MAIN_OBJ): $(MAIN_INCLUDES) $(MAIN_SRC) | $(MAIN_OUTPUT_FOLDER) $(MAIN_OUTPUT_
 $(MAIN_EXE):  $(MAIN_OBJECTS) $(MAIN_OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(MAIN_OBJ) $(MAIN_OBJECTS) $(MAIN_LIBS)
 
-compile: $(MAIN_EXE)
+compile: dglGaugesCompile $(MAIN_EXE)
 
 all: compile
 	
 run: compile
 	$(MAIN_EXE)
 	
-clean:
+clean: dglGaugesClean
 	rm -rf $(MAIN_EXE) $(MAIN_OBJ) $(MAIN_OBJECTS)
 	rm -rf $(MAIN_OUTPUT_FOLDER) \
-	$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER) \
-	$(DGLGAUGESBASE_COMPONENT_OUTPUT_FOLDER) \
-	$(DGLGAUGESGEOMETRY_COMPONENT_OUTPUT_FOLDER) \
-	$(DGLGAUGESINSTRUMENTS1_COMPONENT_OUTPUT_FOLDER) \
-	$(DGLRENDERWRAPPER_COMPONENT_OUTPUT_FOLDER)
+	$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER)
+	
 	
