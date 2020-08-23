@@ -4,16 +4,16 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef SVIW_SimulationView_H
-#define SVIW_SimulationView_H
+#ifndef GLNS_LineStrip_H
+#define GLNS_LineStrip_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
-#include <CarSimulation.h>
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+
+#include "../../../lib/dglGaugesGeometry/include/Point.h"
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -22,22 +22,21 @@
 /* none */
 
 /* types------------------------------------------------------------------------*/
-typedef struct _SVIW_SimulationView_t_
+typedef struct _GLNS_LineStrip_t_
 {
-	bool_t isEnabled;
-	D2DW_Wrapper2D_t wrapper2D;
-	SCAR_CarSimulation_t *carSimulation;
-}SVIW_SimulationView_t;
+	uint16_t pointsNo;
+	GPNT_Point_t *points;
+}GLNS_LineStrip_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction);
-void SVIW_Execute();
-void SVIW_Enable(bool_t isEnabled);
-void SVIW_Start();
-
+void GLNS_Init(GLNS_LineStrip_t *this,GPNT_Point_t *points);
+void GLNS_Execute(GLNS_LineStrip_t *this);
+void GLNS_Render(GLNS_LineStrip_t *this);
+void GLNS_RenderFill(GLNS_LineStrip_t *this);
+void GLNS_AddPoint(GLNS_LineStrip_t *this,float32_t x,float32_t y);
 /* end */
-#endif /* SVIW_SimulationView_H */
+#endif /* GLNS_LineStrip_H */
 

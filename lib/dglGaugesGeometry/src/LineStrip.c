@@ -5,14 +5,13 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
+#include "../../../lib/dglGaugesGeometry/include/LineStrip.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
 /* application includes--------------------------------------------------------*/
-#include <KeyboardAndMouse.h>
-
 #include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
-
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -26,47 +25,49 @@
 /* none */
 
 /* local variables ------------------------------------------------------------*/
-SKBM_KeyboardAndMouse_t *thisKeyboardAndMouse=NULL; /* singleton */
+/* none */
 
 /* local prototypes -----------------------------------------------------------*/
 /* none */
 
 /* public functions -----------------------------------------------------------*/
-void SKBM_Init(SKBM_KeyboardAndMouse_t *this,SCAR_CarSimulation_t *carSimulation)
+void GLNS_Init(GLNS_LineStrip_t *this,GPNT_Point_t *points)
 {
-	//DEBUG printf("SKBM_Init\n");
-	thisKeyboardAndMouse=this;
-	thisKeyboardAndMouse->carSimulation=carSimulation;
+	//DEBUG printf("GLNS_Init\n");
+	this->pointsNo=0;
+	this->points=points;
 }
 
-void SKBM_Execute(SKBM_KeyboardAndMouse_t *this)
+void GLNS_Execute(GLNS_LineStrip_t *this)
 {
-	//DEBUG printf("SKBM_Execute\n");
-	if (NULL != thisKeyboardAndMouse)
-	{
-
-	}
+	//DEBUG printf("GLNS_Execute\n");
 }
 
-void SKBM_Keyboard(int key, int x, int y)
+void GLNS_Render(GLNS_LineStrip_t *this)
 {
-	printf("SKBM_Keyboard\n");
-	if (NULL != thisKeyboardAndMouse)
+	//DEBUG printf("GLNS_Render\n");
+	D2DW_StartLineStrip();
+	for (uint16_t pIx=0;pIx<this->pointsNo;pIx++)
 	{
-
+		GPNT_Render(&this->points[pIx]);
 	}
+	D2DW_EndLineStrip();
 }
-
-void SKBM_MouseClick(int button, int state, int x, int y)
+void GLNS_RenderFill(GLNS_LineStrip_t *this)
 {
-	//printf("SKBM_MouseClick %d %d %d %d\n",button,state,x,y);
-	if ((NULL != thisKeyboardAndMouse)&&(state==0))
+	//DEBUG printf("GLNS_Render\n");
+	D2DW_StartPolygon();
+	for (uint16_t pIx=0;pIx<this->pointsNo-1;pIx++)
 	{
-		float32_t xFloat; float32_t yFloat;
-		D2DW_Pixel2View(x,y,&xFloat,&yFloat);
-		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd[0].mfd,xFloat,yFloat);
-		GMFD_MouseClick(&thisKeyboardAndMouse->carSimulation->carMfd[1].mfd,xFloat,yFloat);
+		GPNT_Render(&this->points[pIx]);
 	}
+	D2DW_EndPolygon();
+}
+void GLNS_AddPoint(GLNS_LineStrip_t *this,float32_t x,float32_t y)
+{
+	//printf("GLNS_AddPoint %f %f\n",x,y);
+	GPNT_Init(&this->points[this->pointsNo],  x,  y);
+	this->pointsNo++;
 }
 
 /* local functions ------------------------------------------------------------*/

@@ -4,40 +4,54 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef SVIW_SimulationView_H
-#define SVIW_SimulationView_H
+#ifndef GIGG_Gauge_H
+#define GIGG_Gauge_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include <myTypes.h>
-#include <CarSimulation.h>
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+#include "../../../lib/dglGaugesBase/include/Indicator.h"
+#include "../../../lib/dglGaugesBase/include/Label.h"
 
 /* component includes----------------------------------------------------------*/
 /* none */
 
 /* macros-----------------------------------------------------------------------*/
-/* none */
-
+#define GIGG_INDICATOR_TYPE (GIND_TYPE_FLOAT32)
+#define GIGG_LABELS_MAX_NO (2)
+#define GIGG_SEGMENTS_NO (48)
+#define GIGG_DIVS_NO (10)
 /* types------------------------------------------------------------------------*/
-typedef struct _SVIW_SimulationView_t_
+typedef struct _GIGG_Gauge_t_
 {
-	bool_t isEnabled;
-	D2DW_Wrapper2D_t wrapper2D;
-	SCAR_CarSimulation_t *carSimulation;
-}SVIW_SimulationView_t;
+	GCNV_Canvas_t canvas;
+	GIND_Indicator_t indicator;
+
+	GLAB_Label_t  titleLabel;
+	GLAB_Label_t  valueLabel;
+	GLAB_Label_t  instrumentLabels[GIGG_LABELS_MAX_NO];
+	float32_t value;
+	float32_t origin;
+	float32_t scale;
+
+	GLNS_LineStrip_t pointer;
+	GPNT_Point_t	pointerPoints[2];
+
+	GLNS_LineStrip_t lineAround;
+	GPNT_Point_t pointsAround[GIGG_SEGMENTS_NO+1];
+
+	GLNS_LineStrip_t lineDis[GIGG_DIVS_NO];
+	GPNT_Point_t pointsDivs[GIGG_DIVS_NO*2];
+}GIGG_Gauge_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction);
-void SVIW_Execute();
-void SVIW_Enable(bool_t isEnabled);
-void SVIW_Start();
+void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
+void GIGG_SetScale(GIGG_Gauge_t *this,float32_t origin,float32_t scale);
 
 /* end */
-#endif /* SVIW_SimulationView_H */
+#endif /* GIGG_Gauge_H */
 

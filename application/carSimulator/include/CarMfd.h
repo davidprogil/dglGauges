@@ -12,11 +12,12 @@
 
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
-#include <Mfd.h>
-#include <Sign.h>
-#include <Bar.h>
-#include <Gauge.h>
-#include <Chart.h>
+
+#include "../../../lib/dglGaugesBase/include/Mfd.h"
+#include "../../../lib/dglGaugesInstruments1/include/Bar.h"
+#include "../../../lib/dglGaugesInstruments1/include/Chart.h"
+#include "../../../lib/dglGaugesInstruments1/include/Gauge.h"
+#include "../../../lib/dglGaugesInstruments1/include/Sign.h"
 
 /* component includes----------------------------------------------------------*/
 /* none */

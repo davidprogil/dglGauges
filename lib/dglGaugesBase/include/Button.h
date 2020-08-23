@@ -4,16 +4,15 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef SVIW_SimulationView_H
-#define SVIW_SimulationView_H
+#ifndef GBUT_Button_H
+#define GBUT_Button_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include <myTypes.h>
-#include <CarSimulation.h>
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+#include "../../../lib/dglGaugesBase/include/Canvas.h"
+#include "../../../lib/dglGaugesBase/include/Label.h"
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -22,22 +21,23 @@
 /* none */
 
 /* types------------------------------------------------------------------------*/
-typedef struct _SVIW_SimulationView_t_
+typedef struct _GBUT_Button_t_
 {
-	bool_t isEnabled;
-	D2DW_Wrapper2D_t wrapper2D;
-	SCAR_CarSimulation_t *carSimulation;
-}SVIW_SimulationView_t;
+	GCNV_Canvas_t canvas;
+	GLAB_Label_t  title;
+	bool_t isClicked;
+}GBUT_Button_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction);
-void SVIW_Execute();
-void SVIW_Enable(bool_t isEnabled);
-void SVIW_Start();
+void GBUT_Init(GBUT_Button_t *this,GWIN_Window_t *parentWindow,float32_t ox,float32_t oy,float32_t dx,float32_t dy,char *text);
+void GBUT_Execute(void *thisVoid);
+void GBUT_Render(void *thisVoid);
 
+bool_t GBUT_IsPointInside(GBUT_Button_t *this,GPNT_Point_t *point);
+void GBUT_SetClicked(GBUT_Button_t *this);
 /* end */
-#endif /* SVIW_SimulationView_H */
+#endif /* GBUT_Button_H */
 

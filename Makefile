@@ -7,15 +7,15 @@
 #--------------------------------------------------------------------------------
 # project set-up
 PROJECT_PATH=$(CWD)
-COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)../dgUtils/lib/include
-COMMON_INCLUDES=$(PROJECT_PATH)../dgUtils/lib/include/myTypes.h
+COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)../dgUtils/lib/dgUtils/include
+COMMON_INCLUDES=$(PROJECT_PATH)../dgUtils/lib/dgUtils/include/myTypes.h
 CC=gcc
 CFLAGS=-Wall -c 
 LDFLAGS=-Wall 
 
 #--------------------------------------------------------------------------------
 # project components
-include ./libdglGauges/dglGauges.mk
+include ./lib/dglGauges.mk
 include ./application/carSimulator/carSimulator.mk
 
 #--------------------------------------------------------------------------------
