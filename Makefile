@@ -7,8 +7,8 @@
 #--------------------------------------------------------------------------------
 # project set-up
 PROJECT_PATH=$(CWD)
-COMMON_INCLUDES_PATHS=-I$(PROJECT_PATH)../dgUtils/lib/dgUtils/include -I$(PROJECT_PATH)/../dglWrapperOpenGl/lib/dglRenderWrapper/include
-COMMON_INCLUDES=$(PROJECT_PATH)../dgUtils/lib/dgUtils/include/myTypes.h
+COMMON_INCLUDES_PATHS=-I/usr/local/include/dgl -I$(PROJECT_PATH)/../dglWrapperOpenGl/lib/dglRenderWrapper/include
+COMMON_INCLUDES=
 CC=gcc
 CFLAGS=-Wall -c 
 LDFLAGS=-Wall 
@@ -47,7 +47,7 @@ MAIN_SRC=$(MAIN_OBJ_PATH)/$(MAIN_OBJ_NAME).c
 MAIN_OUTPUT_FOLDER=$(MAIN_OBJ_PATH)/bin
 MAIN_OBJ=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).o
 MAIN_EXE=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).exe
-MAIN_LIBS=-lrt -lpthread -lm $(PROJECT_PATH)../dglWrapperOpenGl/bin/dglRenderWrapper.sa -lGL -lglut -lGLU  
+MAIN_LIBS=-lrt -lpthread -lm -L/usr/local/lib/dgl -ldglRenderWrapper -lGL -lglut -lGLU  
 
 #------------------------------------------------------------------------------#							
 # may need to delete this
@@ -67,7 +67,7 @@ compile: dglGaugesCompile $(MAIN_EXE)
 all: compile
 	
 run: compile
-	$(MAIN_EXE)
+	export LD_LIBRARY_PATH=/usr/local/lib/dgl; $(MAIN_EXE)
 	
 clean: dglGaugesClean
 	rm -rf $(MAIN_EXE) $(MAIN_OBJ) $(MAIN_OBJECTS)
