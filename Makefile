@@ -84,9 +84,9 @@ clean: dglGaugesClean
 	
 
 	
-installSymbolic: $(DGLGAUGES_COMPONENT_INCLUDES) $(DGLGAUGES_LIB)
+installSymbolic: $(DGLGAUGES_INCLUDES) $(DGLGAUGES_LIB)
 	sudo mkdir -p /usr/local/include/dgl
-	sudo ln -s -f $(DGLGAUGES_COMPONENT_INCLUDES) /usr/local/include/dgl
+	sudo ln -s -f $(DGLGAUGES_INCLUDES) /usr/local/include/dgl
 	sudo mkdir -p /usr/local/lib/dgl
 	sudo ln -s -f $(DGLGAUGES_LIB) /usr/local/lib/dgl/lib$(DGLGAUGES_LIB_NAME)
 	
