@@ -6,11 +6,11 @@
 
 #--------------------------------------------------------------------------------
 # project set-up
-PROJECT_PATH=$(CWD)
+PROJECT_PATH=$(shell pwd)
 COMMON_INCLUDES_PATHS=-I/usr/local/include/dgl -I$(PROJECT_PATH)/../dglWrapperOpenGl/lib/dglRenderWrapper/include
 COMMON_INCLUDES=
 CC=gcc
-CFLAGS=-Wall -c 
+CFLAGS=-Wall -c -fpic
 LDFLAGS=-Wall 
 
 #--------------------------------------------------------------------------------
@@ -49,6 +49,9 @@ MAIN_OBJ=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).o
 MAIN_EXE=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).exe
 MAIN_LIBS=-lrt -lpthread -lm -L/usr/local/lib/dgl -ldglRenderWrapper -lGL -lglut -lGLU  
 
+DGLGAUGES_LIB_NAME=dglGauges.so
+DGLGAUGES_LIB=$(MAIN_OUTPUT_FOLDER)/$(DGLGAUGES_LIB_NAME)
+
 #------------------------------------------------------------------------------#							
 # may need to delete this
 $(MAIN_OUTPUT_FOLDER):
@@ -62,7 +65,12 @@ $(MAIN_OBJ): $(MAIN_INCLUDES) $(MAIN_SRC) | $(MAIN_OUTPUT_FOLDER) $(MAIN_OUTPUT_
 $(MAIN_EXE):  $(MAIN_OBJECTS) $(MAIN_OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(MAIN_OBJ) $(MAIN_OBJECTS) $(MAIN_LIBS)
 
-compile: dglGaugesCompile $(MAIN_EXE)
+#------------------------------------------------------------------------------#							
+# compile lib	
+$(DGLGAUGES_LIB): $(DGLGAUGES_OBJECTS)
+	$(CC) $(LDFLAGS) -shared -o $@ $(DGLGAUGES_OBJECTS)
+	 
+compile: dglGaugesCompile $(MAIN_EXE) $(DGLGAUGES_LIB)
 
 all: compile
 	
@@ -73,5 +81,13 @@ clean: dglGaugesClean
 	rm -rf $(MAIN_EXE) $(MAIN_OBJ) $(MAIN_OBJECTS)
 	rm -rf $(MAIN_OUTPUT_FOLDER) \
 	$(CARSIMULATOR_COMPONENT_OUTPUT_FOLDER)
+	
+
+	
+installSymbolic: $(DGLGAUGES_COMPONENT_INCLUDES) $(DGLGAUGES_LIB)
+	sudo mkdir -p /usr/local/include/dgl
+	sudo ln -s -f $(DGLGAUGES_COMPONENT_INCLUDES) /usr/local/include/dgl
+	sudo mkdir -p /usr/local/lib/dgl
+	sudo ln -s -f $(DGLGAUGES_LIB) /usr/local/lib/dgl/lib$(DGLGAUGES_LIB_NAME)
 	
 	
