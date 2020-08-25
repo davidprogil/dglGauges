@@ -67,7 +67,7 @@ $(MAIN_EXE):  $(MAIN_OBJECTS) $(MAIN_OBJ)
 
 #------------------------------------------------------------------------------#							
 # compile lib	
-$(DGLGAUGES_LIB): $(DGLGAUGES_OBJECTS)
+$(DGLGAUGES_LIB): $(DGLGAUGES_OBJECTS) $(MAIN_OUTPUT_FOLDER)
 	$(CC) $(LDFLAGS) -shared -o $@ $(DGLGAUGES_OBJECTS)
 	 
 compile: dglGaugesCompile $(MAIN_EXE) $(DGLGAUGES_LIB)
