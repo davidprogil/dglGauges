@@ -108,6 +108,13 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	/* AIR FUEL PANEL ***************************************/
 	GPAN_Init(&this->airFuelPanel,(char*)"Fuel");
 	GPAN_AddPanel(&this->airRootPanel,&this->airFuelPanel);
+
+	G2CH_Init(&this->airFuelChart,&this->airFuelPanel.canvas.realWindow,(char*)"FUEL",0.01f,0.01f,0.98f,0.38f);
+	G2CH_SetScale(&this->airFuelChart,0.0f,50.0f);
+	G2CH_SetIndicatorName(&this->airFuelChart,0,"Tank 1");
+	G2CH_SetIndicatorName(&this->airFuelChart,1,"Tank 2");
+	GPAN_AddInstrument(&this->airFuelPanel,&this->airFuelChart.canvas);
+
 	/*AIR  PRIMARY PANEL ***************************************/
 	GPAN_Init(&this->airPrimaryPanel,(char*)"Primary");
 	GPAN_AddPanel(&this->airRootPanel,&this->airPrimaryPanel);

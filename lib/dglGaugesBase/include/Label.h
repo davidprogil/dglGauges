@@ -14,8 +14,8 @@
 /* none */
 
 /* component includes----------------------------------------------------------*/
-#include "../../../lib/dglGaugesBase/include/Canvas.h"
-#include "../../../lib/dglGaugesBase/include/Indicator.h"
+#include <Canvas.h>
+#include <Indicator.h>
 
 /* macros-----------------------------------------------------------------------*/
 #define GLAB_MAX_TEXT_LENGTH (80)

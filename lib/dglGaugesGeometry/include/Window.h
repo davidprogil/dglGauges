@@ -11,7 +11,7 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/LineStrip.h"
+#include <LineStrip.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */

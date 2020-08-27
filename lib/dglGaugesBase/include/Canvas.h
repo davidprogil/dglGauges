@@ -13,8 +13,8 @@
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
 
-#include "../../../lib/dglGaugesGeometry/include/Colour.h"
-#include "../../../lib/dglGaugesGeometry/include/Window.h"
+#include <Colour.h>
+#include <Window.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */

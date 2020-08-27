@@ -4,16 +4,14 @@
 /* davidgil@dgadv.com 			                                               */
 /*******************************************************************************/
 
-#ifndef SVIW_SimulationView_H
-#define SVIW_SimulationView_H
+#ifndef G2SP_Spread_H
+#define G2SP_Spread_H
 
 /* system includes-------------------------------------------------------------*/
 /* none */
 
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
-#include <CarSimulation.h>
-#include <Wrapper2D.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -22,22 +20,19 @@
 /* none */
 
 /* types------------------------------------------------------------------------*/
-typedef struct _SVIW_SimulationView_t_
+typedef struct _G2SP_Spread_t_
 {
-	bool_t isEnabled;
-	D2DW_Wrapper2D_t wrapper2D;
-	SCAR_CarSimulation_t *carSimulation;
-}SVIW_SimulationView_t;
+
+}G2SP_Spread_t;
 
 /* public variables-------------------------------------------------------------*/
 /* none */
 
 /* public functions--------------------------------------------------------------*/
-void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,void *keyboardFunction,void *MouseFunction);
-void SVIW_Execute();
-void SVIW_Enable(bool_t isEnabled);
-void SVIW_Start();
+void G2SP_Init(G2SP_Spread_t *this);
+void G2SP_Execute(G2SP_Spread_t *this);
+
 
 /* end */
-#endif /* SVIW_SimulationView_H */
+#endif /* G2SP_Spread_H */
 

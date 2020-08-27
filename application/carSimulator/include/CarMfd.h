@@ -13,12 +13,12 @@
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
 
-#include "../../../lib/dglGaugesBase/include/Mfd.h"
-#include "../../../lib/dglGaugesInstruments1/include/Bar.h"
-#include "../../../lib/dglGaugesInstruments1/include/Chart.h"
-#include "../../../lib/dglGaugesInstruments1/include/Gauge.h"
-#include "../../../lib/dglGaugesInstruments1/include/Sign.h"
-
+#include <Mfd.h>
+#include <Bar.h>
+#include <Chart.h>
+#include <Gauge.h>
+#include <Sign.h>
+#include <GGI2_MultiChart.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -49,6 +49,7 @@ typedef struct _SMFD_CarMfd_t_
 	GPAN_Panel_t airRootPanel;
 	GPAN_Panel_t airActuatorsPanel;
 	GPAN_Panel_t airFuelPanel;
+	G2CH_MultiChart_t airFuelChart;
 	GPAN_Panel_t airPrimaryPanel;
 
 	/* test */

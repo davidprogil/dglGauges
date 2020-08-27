@@ -82,6 +82,10 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].configPanel,0,(char*)"BACK COLOUR",GMFD_RotateBackColour,&this->carMfd[mfdIx].mfd);
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].configPanel,1,(char*)"FORE COLOUR",GMFD_RotateForeColour,&this->carMfd[mfdIx].mfd);
 
+		/* aeroplane */
+		GIND_SetData(&this->carMfd[mfdIx].airFuelChart.indicator[0],	GIND_TYPE_FLOAT32,	&this->tank1,	G2CH_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].airFuelChart.indicator[1],	GIND_TYPE_FLOAT32,	&this->tank2,	G2CH_INDICATOR_TYPE);
+
 		/* for PSU */
 		for (uint16_t chIx=0;chIx<2;chIx++)
 		{
@@ -106,14 +110,16 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 		GIND_SetData(&this->carMfd[mfdIx].psuVGauge[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwVolt[1],	GIGG_INDICATOR_TYPE);
 		GIND_SetData(&this->carMfd[mfdIx].psuIGauge[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[0],	GIGG_INDICATOR_TYPE);
 		GIND_SetData(&this->carMfd[mfdIx].psuIGauge[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[1],	GIGG_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].psuIChart[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[0],	GIGG_INDICATOR_TYPE);
-		GIND_SetData(&this->carMfd[mfdIx].psuIChart[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[1],	GIGG_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIChart[0].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[0],	GICH_INDICATOR_TYPE);
+		GIND_SetData(&this->carMfd[mfdIx].psuIChart[1].indicator,	GIND_TYPE_FLOAT32,	&this->hwCurr[1],	GICH_INDICATOR_TYPE);
 
 
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,1,(char*)"OFF",SCAR_SetRightIndicator,this);
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,2,(char*)"ON",SCAR_SetRightIndicator,this);
 		GPAN_SetButtonNameAndFunction(&this->carMfd[mfdIx].psuPanel,3,(char*)"SET",SCAR_SetRightIndicator,this);
 		/* end of PSU*/
+
+
 
 	}
 

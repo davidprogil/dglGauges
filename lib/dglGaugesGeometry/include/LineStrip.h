@@ -13,7 +13,7 @@
 /* application includes--------------------------------------------------------*/
 #include <myTypes.h>
 
-#include "../../../lib/dglGaugesGeometry/include/Point.h"
+#include <Point.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
