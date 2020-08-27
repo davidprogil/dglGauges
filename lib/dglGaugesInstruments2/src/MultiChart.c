@@ -224,7 +224,7 @@ void G2CH_Render(void *thisVoid)
 		}
 	}
 
-	GCOL_SetRenderColour(&this->canvas.backColour);
+	GCOL_SetRenderColour(&this->canvas.foreColour);
 	/* axis */
 	GLNS_Render(&this->originV);
 	GLNS_Render(&this->originH);
