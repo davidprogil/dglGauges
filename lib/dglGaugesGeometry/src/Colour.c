@@ -24,31 +24,36 @@
 /* none */
 
 /* public variables -----------------------------------------------------------*/
-GCOL_Colour_t GCOL_White ={			.r = 1.0f,		.g = 1.0f,		.b = 1.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Red ={			.r = 1.0f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Green ={			.r = 0.0f,		.g = 1.0f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Blue ={			.r = 0.0f,		.g = 0.0f,		.b = 1.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Yellow ={		.r = 1.0f,		.g = 1.0f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Cyan ={			.r = 0.0f,		.g = 1.0f,		.b = 1.0f,		.a = 1.0f};
 
-GCOL_Colour_t GCOL_Red_3Quarter ={	.r = 0.27f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
-GCOL_Colour_t GCOL_Green_3Quarter ={.r = 0.0f,		.g = 0.27f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Red_3Quarter ={	.r = 0.75f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Green_3Quarter ={.r = 0.0f,		.g = 0.75f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Blue_3Quarter ={	.r = 0.0f,		.g = 0.0f,		.b = 0.75f,		.a = 1.0f};
-GCOL_Colour_t GCOL_Yellow_3Quarter ={.r = 0.27f,		.g = 0.27f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Yellow_3Quarter={.r = 0.75f,		.g = 0.75f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Cyan_3Quarter ={	.r = 0.0f,		.g = 0.75f,		.b = 0.75f,		.a = 1.0f};
+
 
 GCOL_Colour_t GCOL_Red_Half ={		.r = 0.5f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Green_Half ={	.r = 0.0f,		.g = 0.5f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Blue_Half ={		.r = 0.0f,		.g = 0.0f,		.b = 0.5f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Yellow_Half ={	.r = 0.5f,		.g = 0.5f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Cyan_Half ={		.r = 0.0f,		.g = 0.5f,		.b = 0.5f,		.a = 1.0f};
 
 GCOL_Colour_t GCOL_Red_Quarter ={	.r = 0.25f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Green_Quarter ={	.r = 0.0f,		.g = 0.25f,		.b = 0.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Blue_Quarter ={	.r = 0.0f,		.g = 0.0f,		.b = 0.25f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Yellow_Quarter ={.r = 0.25f,		.g = 0.25f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Cyan_Quarter ={	.r = 0.0f,		.g = 0.25f,		.b = 0.25f,		.a = 1.0f};
 
-GCOL_Colour_t GCOL_Black ={			.r = 0.0f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
+GCOL_Colour_t GCOL_White ={			.r = 1.0f,		.g = 1.0f,		.b = 1.0f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Grey_3Quarter ={	.r = 0.75f,		.g = 0.75f,		.b = 0.75f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Grey_Half ={		.r = 0.5f,		.g = 0.5f,		.b = 0.5f,		.a = 1.0f};
 GCOL_Colour_t GCOL_Grey_Quarter ={	.r = 0.25f,		.g = 0.25f,		.b = 0.25f,		.a = 1.0f};
+GCOL_Colour_t GCOL_Black ={			.r = 0.0f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
 
 GCOL_Colour_t *GCOL_AllColoursVector[]=
 {

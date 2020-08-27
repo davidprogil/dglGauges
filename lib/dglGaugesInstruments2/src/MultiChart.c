@@ -62,14 +62,23 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 		/* title */
 		GLAB_SetText(&this->titleLabel[indicatorIx],title);
 		GLAB_SetText(&this->valueLabel[indicatorIx],(char*)"-");
-		//	GCNV_SetRenderFlags(&this->titleLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
-		//	GCNV_SetRenderFlags(&this->valueLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
+		//GCNV_SetRenderFlags(&this->titleLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
+		//GCNV_SetRenderFlags(&this->valueLabel.canvas,M_TRUE,M_FALSE,M_FALSE);
 		//	GCNV_SetRenderFlags(&this->canvas,M_TRUE,M_FALSE,M_FALSE);
 
 		/* values */
 		this->value[indicatorIx]=0;
 		this->samplesNo[indicatorIx]=0;
 	}
+	GLAB_SetColour(&this->titleLabel[0],&GCOL_Green,	&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[1],&GCOL_Cyan,		&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[3],&GCOL_Yellow,	&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[4],&GCOL_Red,		&GCOL_Green_Half,M_FALSE);
+	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
+	{
+		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	&GCOL_Green_Half,M_FALSE);
+	}
+
 
 	/* instrumentLabels[GIGG_LABELS_MAX_NO] */
 	GLAB_Init(&this->instrumentLabels[0],&this->canvas.realWindow,	0.0f, 0.5f,		1.0f,  0.1f,"-",		GLAB_JUSTIFICATION_CENTER);
@@ -191,9 +200,9 @@ void G2CH_Render(void *thisVoid)
 				labelWidth,						this->titleLabel[indicatorIx].canvas.window.length.y,
 				&this->canvas.realWindow);
 		GCNV_SetPosition(&this->valueLabel[indicatorIx].canvas,
-						0.0f+indicatorIx*labelWidth,	this->valueLabel[indicatorIx].canvas.window.origin.y,
-						labelWidth,						this->valueLabel[indicatorIx].canvas.window.length.y,
-						&this->canvas.realWindow);
+				0.0f+indicatorIx*labelWidth,	this->valueLabel[indicatorIx].canvas.window.origin.y,
+				labelWidth,						this->valueLabel[indicatorIx].canvas.window.length.y,
+				&this->canvas.realWindow);
 
 		GCNV_Render(&this->titleLabel[indicatorIx].canvas);
 		GCNV_Render(&this->valueLabel[indicatorIx].canvas);
@@ -215,6 +224,7 @@ void G2CH_Render(void *thisVoid)
 		}
 	}
 
+	GCOL_SetRenderColour(&this->canvas.backColour);
 	/* axis */
 	GLNS_Render(&this->originV);
 	GLNS_Render(&this->originH);

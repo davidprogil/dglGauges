@@ -37,14 +37,21 @@ extern  GCOL_Colour_t GCOL_Red;
 extern  GCOL_Colour_t GCOL_Green;
 extern  GCOL_Colour_t GCOL_Yellow;
 extern  GCOL_Colour_t GCOL_Blue;
+extern  GCOL_Colour_t GCOL_Cyan;
+extern  GCOL_Colour_t GCOL_Red_3Quarter;
+extern  GCOL_Colour_t GCOL_Green_3Quarter;
+extern  GCOL_Colour_t GCOL_Blue_3Quarter;
+extern  GCOL_Colour_t GCOL_Yellow_3Quarter;
 extern  GCOL_Colour_t GCOL_Red_Half;
 extern  GCOL_Colour_t GCOL_Green_Half;
 extern  GCOL_Colour_t GCOL_Blue_Half;
 extern  GCOL_Colour_t GCOL_Yellow_Half;
+extern  GCOL_Colour_t GCOL_Cyan_Hald;
 extern  GCOL_Colour_t GCOL_Red_Quarter;
 extern  GCOL_Colour_t GCOL_Green_Quarter;
 extern  GCOL_Colour_t GCOL_Blue_Quarter;
 extern  GCOL_Colour_t GCOL_Yellow_Quarter;
+extern  GCOL_Colour_t GCOL_Cyan_Quarter;
 
 
 extern GCOL_Colour_t *GCOL_AllColoursVector[];
