@@ -72,8 +72,8 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 	}
 	GLAB_SetColour(&this->titleLabel[0],&GCOL_Green,	&GCOL_Green_Half,M_FALSE);
 	GLAB_SetColour(&this->titleLabel[1],&GCOL_Cyan,		&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[3],&GCOL_Yellow,	&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[4],&GCOL_Red,		&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[2],&GCOL_Yellow,	&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[3],&GCOL_Red,		&GCOL_Green_Half,M_FALSE);
 	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
 	{
 		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	&GCOL_Green_Half,M_FALSE);
