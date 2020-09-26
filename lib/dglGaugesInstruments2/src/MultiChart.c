@@ -246,6 +246,7 @@ void G2CH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 		GLNS_AddPoint(&this->lineDis[lineIx],1.0f,lineFloat);
 		GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsDivs[lineIx*2+1]);
 	}
+
 	//	GLNS_LineStrip_t originV;
 	//	GPNT_Point_t pointsOriginV[2];
 	GLNS_Init(&this->originV,&this->pointsOriginV[0]);
@@ -262,18 +263,26 @@ void G2CH_Reshape(void *thisVoid,GWIN_Window_t *parentWindow)
 	GLNS_AddPoint(&this->originH,1.0f,0.0f);
 	GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointsOriginH[1]);
 
+	float32_t charSizeFactor=this->canvas.realWindow.length.y*4.0f;
 	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
 	{
 		//GLAB_Label_t  titleLabel;
 		GCNV_Reshape(&this->titleLabel[indicatorIx].canvas,&this->canvas.realWindow);
 		//GLAB_Label_t  valueLabel;
 		GCNV_Reshape(&this->valueLabel[indicatorIx].canvas,&this->canvas.realWindow);
+
+		GLAB_SetCharSizeType(&this->titleLabel[indicatorIx],GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
+		GLAB_SetCharSizeType(&this->valueLabel[indicatorIx],GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
 	}
 	//GLAB_Label_t  instrumentLabels[2];
 	GCNV_Reshape(&this->instrumentLabels[0].canvas,&this->canvas.realWindow);
 	GCNV_Reshape(&this->instrumentLabels[1].canvas,&this->canvas.realWindow);
+	GLAB_SetCharSizeType(&this->instrumentLabels[0],GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
+	GLAB_SetCharSizeType(&this->instrumentLabels[1],GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
 	//GLAB_Label_t  originLabel;
 	GCNV_Reshape(&this->originLabel.canvas,&this->canvas.realWindow);
+	GLAB_SetCharSizeType(&this->originLabel,GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
+	GLAB_SetCharSizeType(&this->originLabel,GLAB_TEXT_SIZE_FIXED,0.02f*charSizeFactor);
 }
 
 void G2CH_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
