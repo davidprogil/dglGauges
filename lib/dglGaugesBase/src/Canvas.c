@@ -49,13 +49,13 @@ void GCNV_Init(GCNV_Canvas_t *this)
 	GWIN_Init(&this->realWindow,0.0f,0.0f,1.0f,1.0f);
 
 	/* fill colour */
-	GCOL_CopyFrom(&this->fillColour,&GCOL_Green_Quarter);
+	GCOL_CopyFrom(&this->fillColour,&GCOL_FILL_COLOUR);
 
 	/* background colour */
-	GCOL_CopyFrom(&this->backColour,&GCOL_Green_Half);
+	GCOL_CopyFrom(&this->backColour,&GCOL_BACK_COLOUR);
 
 	/* foreground colour */
-	GCOL_CopyFrom(&this->foreColour,&GCOL_Green);
+	GCOL_CopyFrom(&this->foreColour,&GCOL_FORE_COLOUR);
 
 	/* function to render */
 	this->renderFunction=NULL;

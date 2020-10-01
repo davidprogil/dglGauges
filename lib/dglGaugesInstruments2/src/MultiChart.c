@@ -10,6 +10,7 @@
 
 /* application includes--------------------------------------------------------*/
 #include <GGI2_MultiChart.h>
+#include <MathUtils.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -43,7 +44,7 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
 	GCNV_SetParentFunctions(&this->canvas,G2CH_Render,G2CH_Execute,G2CH_Reshape,G2CH_Recolour,this);
-	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
+	GCNV_SetColour(&this->canvas,&GCOL_FORE_COLOUR,&GCOL_BACK_COLOUR,M_FALSE);
 
 
 
@@ -70,13 +71,14 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 		this->value[indicatorIx]=0;
 		this->samplesNo[indicatorIx]=0;
 	}
-	GLAB_SetColour(&this->titleLabel[0],&GCOL_Green,	&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[1],&GCOL_Cyan,		&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[2],&GCOL_Yellow,	&GCOL_Green_Half,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[3],&GCOL_Red,		&GCOL_Green_Half,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[0],&GCOL_White,	&GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[1],&GCOL_Green,	&GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[2],&GCOL_Cyan,		&GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[3],&GCOL_Yellow,	&GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[4],&GCOL_Red,		&GCOL_BACK_COLOUR,M_FALSE);
 	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
 	{
-		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	&GCOL_Green_Half,M_FALSE);
+		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	&GCOL_BACK_COLOUR,M_FALSE);
 	}
 
 
@@ -95,6 +97,7 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 	GLAB_SetVerticalAlignment(&this->originLabel, GLAB_ALIGN_CENTER);
 	GLAB_SetColour(&this->originLabel,&this->canvas.backColour,&this->canvas.fillColour,M_FALSE);
 
+	this->isAutoScale=M_FALSE;
 
 	G2CH_SetScale(this,0.0f,10.0f);
 
@@ -119,6 +122,10 @@ void G2CH_SetScale(G2CH_MultiChart_t *this,float32_t origin,float32_t scale)
 	GLAB_SetText(&this->originLabel,&tempText[0]);
 }
 
+void G2CH_SetAutoScale(G2CH_MultiChart_t *this,bool_t isAutoScale)
+{
+	this->isAutoScale=M_TRUE;
+}
 
 /* local functions ------------------------------------------------------------*/
 void G2CH_Execute(void *thisVoid)
@@ -126,6 +133,8 @@ void G2CH_Execute(void *thisVoid)
 	//printf("G2CH_Execute\n");
 	if (thisVoid==NULL) return;
 	G2CH_MultiChart_t *this=(G2CH_MultiChart_t*)thisVoid;
+	float32_t min=FLOAT32_MAX;
+	float32_t max=FLOAT32_MIN;
 
 	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
 	{
@@ -153,6 +162,16 @@ void G2CH_Execute(void *thisVoid)
 				}
 				this->values[indicatorIx][G2CH_SEGMENTS_NO-1]=this->value[indicatorIx];
 			}
+		}
+		if (this->isAutoScale)
+		{
+			//printf("min %f max %f\n",min,max);
+			for (uint16_t sampleIx=0;sampleIx<this->samplesNo[indicatorIx];sampleIx++)
+			{
+				min=DGUH_Float32_Min(min,this->values[indicatorIx][sampleIx]);
+				max=DGUH_Float32_Max(max,this->values[indicatorIx][sampleIx]);
+			}
+			G2CH_SetScale(this,min,max-min);
 		}
 	}
 }

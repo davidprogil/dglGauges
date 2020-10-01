@@ -42,7 +42,7 @@ void GICH_Init(GICH_Chart_t *this,GWIN_Window_t *parentWindow,char *title,float3
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
 	GCNV_SetParentFunctions(&this->canvas,GICH_Render,GICH_Execute,GICH_Reshape,GICH_Recolour,this);
-	GCNV_SetColour(&this->canvas,&GCOL_Green,&GCOL_Green_Half,M_FALSE);
+	GCNV_SetColour(&this->canvas,&GCOL_FORE_COLOUR,&GCOL_BACK_COLOUR,M_FALSE);
 
 	/* indicator*/
 	GIND_Init(&this->indicator);

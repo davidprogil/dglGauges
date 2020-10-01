@@ -42,7 +42,7 @@ void GISG_Init(GISG_Sign_t *this,GWIN_Window_t *parentWindow,char *title,float32
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
 	GCNV_SetParentFunctions(&this->canvas,GISG_Render,GISG_Execute,GISG_Reshape,GISG_Recolour,this);
-	GISG_SetColour(this,&GCOL_Green,&GCOL_Green_Half);
+	GISG_SetColour(this,&GCOL_FORE_COLOUR,&GCOL_BACK_COLOUR);
 
 	/* indicator*/
 	GIND_Init(&this->indicator);

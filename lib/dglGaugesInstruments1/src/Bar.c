@@ -90,7 +90,7 @@ void GIBR_Init(GIBR_Bar_t *this,GWIN_Window_t *parentWindow,char *title,float32_
 	/* title */
 	GLAB_SetText(&this->mainLabel,title);
 
-	GIBR_SetColour(this,&GCOL_Green,&GCOL_Green_Half);
+	GIBR_SetColour(this,&GCOL_FORE_COLOUR,&GCOL_BACK_COLOUR);
 
 
 }

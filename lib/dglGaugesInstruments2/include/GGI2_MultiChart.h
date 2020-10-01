@@ -21,7 +21,7 @@
 #define G2CH_DIVS_NO (10)
 #define G2CH_SEGMENTS_NO (100)
 #define G2CH_INDICATOR_TYPE (GIND_TYPE_FLOAT32)
-#define G2CH_INDICATOR_MAX_NO (4)
+#define G2CH_INDICATOR_MAX_NO (5)
 /* types------------------------------------------------------------------------*/
 typedef struct _G2CH_MultiChart_t_t_
 {
@@ -49,6 +49,7 @@ typedef struct _G2CH_MultiChart_t_t_
 	GPNT_Point_t pointsOriginV[2];
 	GLNS_LineStrip_t originH;
 	GPNT_Point_t pointsOriginH[2];
+	bool_t isAutoScale;
 }G2CH_MultiChart_t;
 /* public variables-------------------------------------------------------------*/
 /* none */
@@ -57,6 +58,7 @@ typedef struct _G2CH_MultiChart_t_t_
 void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 void G2CH_SetScale(G2CH_MultiChart_t *this,float32_t origin,float32_t scale);
 void G2CH_SetIndicatorName(G2CH_MultiChart_t *this,uint16_t indicatorId,char *title);
+void G2CH_SetAutoScale(G2CH_MultiChart_t *this,bool_t isAutoScale);
 /* end */
 #endif /* G2CH_MultiChart_H */
 

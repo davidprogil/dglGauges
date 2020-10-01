@@ -47,7 +47,7 @@ MAIN_SRC=$(MAIN_OBJ_PATH)/$(MAIN_OBJ_NAME).c
 MAIN_OUTPUT_FOLDER=$(MAIN_OBJ_PATH)/bin
 MAIN_OBJ=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).o
 MAIN_EXE=$(MAIN_OUTPUT_FOLDER)/$(MAIN_OBJ_NAME).exe
-MAIN_LIBS=-lrt -lpthread -lm -L/usr/local/lib/dgl -ldglRenderWrapper -lGL -lglut -lGLU  
+MAIN_LIBS=-lrt -lpthread -lm -L/usr/local/lib/dgl -ldglRenderWrapper  -ldgUtils -lGL -lglut -lGLU  
 
 DGLGAUGES_LIB_NAME=dglGauges.so
 DGLGAUGES_LIB=$(MAIN_OUTPUT_FOLDER)/$(DGLGAUGES_LIB_NAME)

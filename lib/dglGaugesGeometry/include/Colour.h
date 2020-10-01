@@ -14,7 +14,9 @@
 #include <myTypes.h>
 
 /* component includes----------------------------------------------------------*/
-/* none */
+#define GCOL_FILL_COLOUR (GCOL_Grey_Quarter)
+#define GCOL_BACK_COLOUR (GCOL_Grey_Half)
+#define GCOL_FORE_COLOUR (GCOL_White)
 
 /* macros-----------------------------------------------------------------------*/
 /* none */
