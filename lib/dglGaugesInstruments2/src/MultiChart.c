@@ -171,7 +171,7 @@ void G2CH_Execute(void *thisVoid)
 				min=DGUH_Float32_Min(min,this->values[indicatorIx][sampleIx]);
 				max=DGUH_Float32_Max(max,this->values[indicatorIx][sampleIx]);
 			}
-			G2CH_SetScale(this,min,max-min);
+			G2CH_SetScale(this,min,sqrt((max-min)*(max-min)));
 		}
 	}
 }
