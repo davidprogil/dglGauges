@@ -14,8 +14,8 @@
 /* none */
 
 /* component includes----------------------------------------------------------*/
-#include "../../../lib/dglGaugesBase/include/Indicator.h"
-#include "../../../lib/dglGaugesBase/include/Label.h"
+#include <Indicator.h>
+#include <Label.h>
 
 
 /* macros-----------------------------------------------------------------------*/
