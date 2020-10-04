@@ -7,6 +7,7 @@
 /* system includes-------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 /* application includes--------------------------------------------------------*/
 #include <GGI2_MultiChart.h>
@@ -44,7 +45,7 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 	GCNV_Init(&this->canvas);
 	GCNV_SetPosition(&this->canvas,	ox,oy,dx,dy,	parentWindow);
 	GCNV_SetParentFunctions(&this->canvas,G2CH_Render,G2CH_Execute,G2CH_Reshape,G2CH_Recolour,this);
-	GCNV_SetColour(&this->canvas,&GCOL_FORE_COLOUR,&GCOL_BACK_COLOUR,M_FALSE);
+	GCNV_SetColour(&this->canvas,GCOL_FORE_COLOUR,GCOL_BACK_COLOUR,M_FALSE);
 
 
 
@@ -71,14 +72,14 @@ void G2CH_Init(G2CH_MultiChart_t *this,GWIN_Window_t *parentWindow,char *title,f
 		this->value[indicatorIx]=0;
 		this->samplesNo[indicatorIx]=0;
 	}
-	GLAB_SetColour(&this->titleLabel[0],&GCOL_White,	&GCOL_BACK_COLOUR,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[1],&GCOL_Green,	&GCOL_BACK_COLOUR,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[2],&GCOL_Cyan,		&GCOL_BACK_COLOUR,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[3],&GCOL_Yellow,	&GCOL_BACK_COLOUR,M_FALSE);
-	GLAB_SetColour(&this->titleLabel[4],&GCOL_Red,		&GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[0],&GCOL_White,	GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[1],&GCOL_Green,	GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[2],&GCOL_Cyan,		GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[3],&GCOL_Yellow,	GCOL_BACK_COLOUR,M_FALSE);
+	GLAB_SetColour(&this->titleLabel[4],&GCOL_Red,		GCOL_BACK_COLOUR,M_FALSE);
 	for (uint16_t indicatorIx=0;indicatorIx<G2CH_INDICATOR_MAX_NO;indicatorIx++)
 	{
-		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	&GCOL_BACK_COLOUR,M_FALSE);
+		GLAB_SetColour(&this->valueLabel[indicatorIx],&this->titleLabel[indicatorIx].canvas.foreColour,	GCOL_BACK_COLOUR,M_FALSE);
 	}
 
 

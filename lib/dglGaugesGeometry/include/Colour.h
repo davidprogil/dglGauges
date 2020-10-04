@@ -14,9 +14,7 @@
 #include <myTypes.h>
 
 /* component includes----------------------------------------------------------*/
-#define GCOL_FILL_COLOUR (GCOL_Grey_Quarter)
-#define GCOL_BACK_COLOUR (GCOL_Grey_Half)
-#define GCOL_FORE_COLOUR (GCOL_White)
+/* none */
 
 /* macros-----------------------------------------------------------------------*/
 /* none */
@@ -58,6 +56,11 @@ extern  GCOL_Colour_t GCOL_Cyan_Quarter;
 
 extern GCOL_Colour_t *GCOL_AllColoursVector[];
 extern const uint16_t GCOL_PredefinedColoursNo;
+
+extern GCOL_Colour_t* GCOL_FILL_COLOUR;
+extern GCOL_Colour_t* GCOL_BACK_COLOUR;
+extern GCOL_Colour_t* GCOL_FORE_COLOUR;
+
 /* public functions--------------------------------------------------------------*/
 void GCOL_Init(GCOL_Colour_t *this);
 void GCOL_Execute(GCOL_Colour_t *this);
