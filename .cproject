@@ -101,6 +101,8 @@
     	
     <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
     	
+    <storageModule moduleId="refreshScope"/>
+    	
     <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
         		
         <buildTargets>
@@ -108,8 +110,6 @@
             <target name="all" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
                 				
                 <buildCommand>make</buildCommand>
-                				
-                <buildArguments/>
                 				
                 <buildTarget>all</buildTarget>
                 				
@@ -125,8 +125,6 @@
                 				
                 <buildCommand>make</buildCommand>
                 				
-                <buildArguments/>
-                				
                 <buildTarget>clean</buildTarget>
                 				
                 <stopOnError>true</stopOnError>
@@ -140,8 +138,6 @@
             <target name="compile" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
                 				
                 <buildCommand>make</buildCommand>
-                				
-                <buildArguments/>
                 				
                 <buildTarget>compile</buildTarget>
                 				
@@ -157,9 +153,23 @@
                 				
                 <buildCommand>make</buildCommand>
                 				
+                <buildTarget>run</buildTarget>
+                				
+                <stopOnError>true</stopOnError>
+                				
+                <useDefaultCommand>true</useDefaultCommand>
+                				
+                <runAllBuilders>true</runAllBuilders>
+                			
+            </target>
+            			
+            <target name="installSymbolic" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+                				
+                <buildCommand>make</buildCommand>
+                				
                 <buildArguments/>
                 				
-                <buildTarget>run</buildTarget>
+                <buildTarget>installSymbolic</buildTarget>
                 				
                 <stopOnError>true</stopOnError>
                 				
@@ -172,7 +182,5 @@
         </buildTargets>
         	
     </storageModule>
-    	
-    <storageModule moduleId="refreshScope"/>
     
 </cproject>
