@@ -16,12 +16,12 @@ MULTICHART_OBJ_SRC_PATH=$(MULTICHART_OBJ_PATH)/src
 # used includes
 MULTICHART_INCLUDES_PATHS=$(sort	-I$(MULTICHART_OBJ_INCLUDE_PATH) \
 									$(COMMON_INCLUDES_PATHS) \
-									$(SOMETHING_INCLUDES_PATHS))
+									$(LABEL_INCLUDES_PATHS))
 
 MULTICHART_INCLUDES=$(sort	$(MULTICHART_OBJ_INCLUDE_PATH)/GGI2_$(MULTICHART_OBJ_NAME).h \
 									$(MULTICHART_OBJ_PATH)/$(MULTICHART_OBJ_NAME).mk \
 									$(COMMON_INCLUDES) \
-									$(SOMETHING_INCLUDES))
+									$(LABEL_INCLUDES))
 
 
 #------------------------------------------------------------------------------#
