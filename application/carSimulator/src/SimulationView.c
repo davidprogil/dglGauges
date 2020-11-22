@@ -38,7 +38,7 @@ void SVIW_Init(SVIW_SimulationView_t *this,SCAR_CarSimulation_t *carSimulation,v
 	thisView=this;
 	thisView->isEnabled = M_FALSE;
 	thisView->carSimulation=carSimulation;
-	D2DW_Init(&this->wrapper2D,SVIW_Execute,keyboardFunction,MouseFunction,640*2,480);
+	D2DW_Init(&this->wrapper2D,SVIW_Execute,NULL,keyboardFunction,MouseFunction,640*2,480);
 
 
 }
@@ -66,7 +66,7 @@ void SVIW_Execute()
 		//D2DW_RenderSampleView();//TODO remove
 
 		D2DW_StartView();
-		//D2DW_RenderSample();
+		D2DW_RenderSample();
 
 		if (NULL!=thisView->carSimulation)
 		{
