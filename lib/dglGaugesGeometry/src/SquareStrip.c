@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/SquareStrip.h"
+#include <SquareStrip.h>
 
 #include <stdlib.h>
 #include <stdio.h>

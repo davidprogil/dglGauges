@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/Shape.h"
+#include <Shape.h>
 
 #include <stdlib.h>
 #include <stdio.h>

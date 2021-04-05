@@ -5,13 +5,13 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/LineStrip.h"
+#include <LineStrip.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+#include <Wrapper2D.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 

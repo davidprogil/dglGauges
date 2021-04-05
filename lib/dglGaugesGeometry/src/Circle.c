@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/Circle.h"
+#include <Circle.h>
 
 #include <stdlib.h>
 #include <stdio.h>

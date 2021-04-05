@@ -5,14 +5,14 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/Colour.h"
+#include <Colour.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglRenderWrapper/include/Wrapper2D.h"
+#include <Wrapper2D.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
@@ -56,7 +56,7 @@ GCOL_Colour_t GCOL_Grey_Quarter ={	.r = 0.25f,		.g = 0.25f,		.b = 0.25f,		.a = 1
 GCOL_Colour_t GCOL_Black ={			.r = 0.0f,		.g = 0.0f,		.b = 0.0f,		.a = 1.0f};
 
 GCOL_Colour_t* GCOL_FILL_COLOUR=&GCOL_Grey_Quarter;
-GCOL_Colour_t* GCOL_BACK_COLOUR=&GCOL_Black;
+GCOL_Colour_t* GCOL_BACK_COLOUR=&GCOL_Grey_Half;
 GCOL_Colour_t* GCOL_FORE_COLOUR=&GCOL_White;
 
 //GCOL_Colour_t* GCOL_FILL_COLOUR=&GCOL_Green_Quarter;

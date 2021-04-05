@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesGeometry/include/Window.h"
+#include <Window.h>
 
 #include <stdlib.h>
 #include <stdio.h>
