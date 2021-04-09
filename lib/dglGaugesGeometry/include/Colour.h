@@ -46,7 +46,7 @@ extern  GCOL_Colour_t GCOL_Red_Half;
 extern  GCOL_Colour_t GCOL_Green_Half;
 extern  GCOL_Colour_t GCOL_Blue_Half;
 extern  GCOL_Colour_t GCOL_Yellow_Half;
-extern  GCOL_Colour_t GCOL_Cyan_Hald;
+extern  GCOL_Colour_t GCOL_Cyan_Half;
 extern  GCOL_Colour_t GCOL_Red_Quarter;
 extern  GCOL_Colour_t GCOL_Green_Quarter;
 extern  GCOL_Colour_t GCOL_Blue_Quarter;
