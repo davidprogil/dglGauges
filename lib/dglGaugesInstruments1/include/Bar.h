@@ -11,10 +11,10 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglGaugesBase/include/Canvas.h"
-#include "../../../lib/dglGaugesBase/include/Indicator.h"
-#include "../../../lib/dglGaugesBase/include/Label.h"
-#include "../../../lib/dglGaugesGeometry/include/Colour.h"
+#include <Canvas.h>
+#include <Indicator.h>
+#include <Label.h>
+#include <Colour.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */

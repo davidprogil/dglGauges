@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesBase/include/Indicator.h"
+#include <Indicator.h>
 
 #include <stdlib.h>
 #include <stdio.h>

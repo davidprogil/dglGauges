@@ -11,8 +11,8 @@
 /* none */
 
 /* application includes--------------------------------------------------------*/
-#include "../../../lib/dglGaugesBase/include/Indicator.h"
-#include "../../../lib/dglGaugesBase/include/Label.h"
+#include <Indicator.h>
+#include <Label.h>
 
 /* component includes----------------------------------------------------------*/
 /* none */
