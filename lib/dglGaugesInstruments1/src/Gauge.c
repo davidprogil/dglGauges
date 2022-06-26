@@ -50,7 +50,7 @@ void GIGG_Init(GIGG_Gauge_t *this,GWIN_Window_t *parentWindow,char *title,float3
 
 	/* labels */
 	GLAB_Init(&this->titleLabel,&this->canvas.realWindow,	0.0f, 0.9f,		1.0f,  0.1f,title,	GLAB_JUSTIFICATION_CENTER);
-	GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f, 0.8f,		1.0f,  0.1f,(char*)"-",		GLAB_JUSTIFICATION_CENTER);
+	GLAB_Init(&this->valueLabel,&this->canvas.realWindow,	0.0f, 0.5f,		1.0f,  0.1f,(char*)"-",		GLAB_JUSTIFICATION_CENTER);
 	GLAB_SetCharSizeType(&this->titleLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
 	GLAB_SetCharSizeType(&this->valueLabel,GLAB_TEXT_SIZE_FIXED,0.02f);
 	GLAB_SetVerticalAlignment(&this->titleLabel, GLAB_ALIGN_CENTER);
@@ -119,26 +119,56 @@ void GIGG_Render(void *thisVoid)
 
 	/* labels */
 	GCNV_Render(&this->titleLabel.canvas);
-	if (GIND_GetDataFloat32(&this->indicator,&this->value))
+	char tempText[80];
+
+	if (this->indicator.outputType==GIND_TYPE_FLOAT32)
 	{
-		char tempText[80];
-		snprintf(&tempText[0],80,"%4.3f",this->value);
-		GLAB_SetText(&this->valueLabel,&tempText[0]);
+		if (GIND_GetDataFloat32(&this->indicator,&this->value))
+		{
+
+			snprintf(&tempText[0],80,"%4.3f",this->value);
+			GLAB_SetText(&this->valueLabel,&tempText[0]);
+		}
+	}
+	else if (this->indicator.outputType==GIND_TYPE_UINT32)
+	{
+		if (GIND_GetDataUint32(&this->indicator,&this->valueUint32))
+		{
+			snprintf(&tempText[0],80,"%d",this->valueUint32);
+			GLAB_SetText(&this->valueLabel,&tempText[0]);
+		}
 	}
 	GCNV_Render(&this->valueLabel.canvas);
 
 	/* pointer */
 	float32_t lineFloat;
-	if (GIND_GetDataFloat32(&this->indicator,&this->value))
+	if (this->indicator.outputType==GIND_TYPE_FLOAT32)
 	{
-		GLNS_Init(&this->pointer,&this->pointerPoints[0]);
-		lineFloat=((this->value-this->origin)/this->scale)*360.0f;
-		GLNS_AddPoint(&this->pointer,0.5f,0.5f);
-		GLNS_AddPoint(&this->pointer,0.5f+0.49f*sin(DGL_DEG2RAD(lineFloat)),0.5f+0.49f*cos(DGL_DEG2RAD(lineFloat)));
-		GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[0]);
-		GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[1]);
+		if (GIND_GetDataFloat32(&this->indicator,&this->value))
+		{
+			GLNS_Init(&this->pointer,&this->pointerPoints[0]);
+			lineFloat=((this->value-this->origin)/this->scale)*360.0f;
+			GLNS_AddPoint(&this->pointer,0.5f,0.5f);
+			GLNS_AddPoint(&this->pointer,0.5f+0.49f*sin(DGL_DEG2RAD(lineFloat)),0.5f+0.49f*cos(DGL_DEG2RAD(lineFloat)));
+			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[0]);
+			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[1]);
 
-		GLNS_Render(&this->pointer);
+			GLNS_Render(&this->pointer);
+		}
+	}
+	else if (this->indicator.outputType==GIND_TYPE_UINT32)
+	{
+		if (GIND_GetDataUint32(&this->indicator,&this->valueUint32))
+		{
+			GLNS_Init(&this->pointer,&this->pointerPoints[0]);
+			lineFloat=((this->valueUint32-this->origin)/this->scale)*360.0f;
+			GLNS_AddPoint(&this->pointer,0.5f,0.5f);
+			GLNS_AddPoint(&this->pointer,0.5f+0.49f*sin(DGL_DEG2RAD(lineFloat)),0.5f+0.49f*cos(DGL_DEG2RAD(lineFloat)));
+			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[0]);
+			GWIN_ApplyThisWindowToPoint(&this->canvas.realWindow,&this->pointerPoints[1]);
+
+			GLNS_Render(&this->pointer);
+		}
 	}
 
 

@@ -32,6 +32,7 @@ typedef struct _GIGG_Gauge_t_
 	GLAB_Label_t  valueLabel;
 	GLAB_Label_t  instrumentLabels[GIGG_LABELS_MAX_NO];
 	float32_t value;
+	uint32_t valueUint32;
 	float32_t origin;
 	float32_t scale;
 
