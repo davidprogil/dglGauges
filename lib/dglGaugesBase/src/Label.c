@@ -221,15 +221,24 @@ void GLAB_Render(void *thisVoid)
 
 	if (this->textSizeType==GLAB_TEXT_SIZE_AUTO)
 	{
-		charWidth=this->canvas.realWindow.length.y*0.8;
+		//float dx=this->canvas.realWindow.length.x;
+		//charWidth=this->canvas.realWindow.length.y*0.8;
 		charWindow.length.y=this->canvas.realWindow.length.y;
-		charWindow.length.x=charWidth;
+		charWindow.length.x=charWindow.length.y*0.8;
+		charWidth=charWindow.length.x;
 	}
 	else
 	{
-		charWidth=this->charWidth*0.8f;
-		charWindow.length.y=this->charWidth;
-		charWindow.length.x=charWidth;
+//				charWidth=this->charWidth*0.8f;
+//				charWindow.length.y=this->charWidth;
+//				charWindow.length.x=charWidth;
+
+		//float dx=this->canvas.realWindow.length.x;
+		//float dy=this->canvas.realWindow.length.y;
+		//charWidth=this->charWidth*0.8f;
+		charWindow.length.y=this->charWidth*this->canvas.realWindow.scale;
+		charWindow.length.x=charWindow.length.y*0.8f;
+		charWidth=charWindow.length.x;
 	}
 
 	if (this->alignment==GLAB_ALIGN_TOP)
@@ -1019,7 +1028,7 @@ void GLAB_Render_otherSlash(GLAB_Label_t *this,GWIN_Window_t *window)
 
 void GLAB_Recolour(void *thisVoid,GCOL_Colour_t *fore,GCOL_Colour_t *back)
 {
-//TODO
+	//TODO
 }
 
 /* end */

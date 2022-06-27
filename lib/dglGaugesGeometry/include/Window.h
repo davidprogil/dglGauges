@@ -26,6 +26,7 @@ typedef struct _GWIN_Window_t_
 	GPNT_Point_t length;
 	GLNS_LineStrip_t lineStrip;
 	GPNT_Point_t points[GWIN_POINTS_NO];
+	float32_t scale;
 }GWIN_Window_t;
 
 /* public variables-------------------------------------------------------------*/

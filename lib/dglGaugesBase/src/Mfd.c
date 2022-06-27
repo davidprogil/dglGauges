@@ -217,6 +217,7 @@ void GMFD_SetPosition(GMFD_Mfd_t *this,float32_t ox,float32_t oy,float32_t dx,fl
 {
 	//DEBUG printf("GMFD_SetPosition\n");
 	GCNV_Init(			&this->canvas);
+	this->canvas.realWindow.scale=dx;
 	GCNV_SetPosition(	&this->canvas,
 			GMFD_MARGIN_FOR_BUTTONS+ox				,GMFD_MARGIN_FOR_BUTTONS+oy,
 			(1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f)*dx	,(1.0f-GMFD_MARGIN_FOR_BUTTONS*2.0f)*dy,

@@ -131,9 +131,10 @@ void SCAR_Init(SCAR_CarSimulation_t *this)
 
 	//GMFD_SetPosition(&this->carMfd[0].mfd, 0.0f,0.0f,0.5f,0.5f);
 	//GMFD_SetPosition(&this->carMfd[1].mfd, 0.5f,0.0f,0.5f,0.5f);
-
-	GMFD_SetPosition(&this->carMfd[0].mfd, -1.0f,-0.5f,1.0f,1.0f);
-	GMFD_SetPosition(&this->carMfd[1].mfd,  0.0f,-0.5f,1.0f,1.0f);
+	float32_t size=1.0;
+	GMFD_SetPosition(&this->carMfd[0].mfd, -1.0f,-0.5f,size,size);
+	size=0.5;
+	GMFD_SetPosition(&this->carMfd[1].mfd,  0.0f,-0.5f,size,size);
 
 }
 

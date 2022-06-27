@@ -133,6 +133,7 @@ void GCNV_Reshape(GCNV_Canvas_t *this,GWIN_Window_t *parentWindow)
 {
 	float32_t scaleX=parentWindow->length.x;
 	float32_t scaleY=parentWindow->length.y;
+	this->realWindow.scale=parentWindow->scale;
 	GWIN_SetPosition(&this->realWindow,
 			parentWindow->origin.x+this->window.origin.x*scaleX,
 			parentWindow->origin.y+this->window.origin.y*scaleY,

@@ -5,7 +5,7 @@
 /*******************************************************************************/
 
 /* system includes-------------------------------------------------------------*/
-#include "../../../lib/dglGaugesInstruments1/include/Bar.h"
+#include <Bar.h>
 
 #include <stdlib.h>
 #include <stdio.h>
