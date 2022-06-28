@@ -19,6 +19,7 @@
 #include <Gauge.h>
 #include <Sign.h>
 #include <GGI2_MultiChart.h>
+#include <GGI2_Table.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -64,6 +65,9 @@ typedef struct _SMFD_CarMfd_t_
 	GICH_Chart_t psuIChart[PSU_CHANNELS_NO];
 
 	GPAN_Panel_t configPanel;
+
+	GPAN_Panel_t tablePanel;
+	G2TB_Table_t table;
 
 }SMFD_CarMfd_t;
 

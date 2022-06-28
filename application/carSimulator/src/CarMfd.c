@@ -7,6 +7,7 @@
 /* system includes-------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /* application includes--------------------------------------------------------*/
 #include <CarMfd.h>
@@ -78,7 +79,6 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GPAN_AddInstrument(&this->carActuatorsPanel,&this->carRightIndicatorLed.canvas);
 
 	/* CAR FUEL PANEL ***************************************/
-	//	//GPAN_Panel_t fuelPanel;
 	GPAN_Init(&this->carFuelPanel,(char*)"Fuel");
 	GPAN_AddPanel(&this->carRootPanel,&this->carFuelPanel);
 
@@ -123,6 +123,17 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	GPAN_Init(&this->configPanel,(char*)"CONFIG");
 	GMFD_AddPanel(&this->mfd,&this->configPanel);
 	this->configPanel.isShowBigButtons=M_TRUE;
+
+	/* TABLE PANEL  *******************************************************************************************/
+	GPAN_Init(&this->tablePanel,(char*)"TABLE");
+	GMFD_AddPanel(&this->mfd,&this->tablePanel);
+	G2TB_Init(&this->table,&this->tablePanel.canvas.realWindow,(char*)"TABLE",0.01f,0.01f,0.98f,0.9f);
+	this->table.colsNo[0]=3;		this->table.colsNo[1]=1;
+	this->table.sizes[0][0]=0.33f;	this->table.sizes[0][1]=0.3f;	this->table.sizes[0][2]=0.3f;
+	this->table.sizes[1][0]=1.0f;
+	this->table.isInverseOrder=M_TRUE;
+	G2TB_Init2(&this->table,&this->tablePanel.canvas.realWindow,(char*)"TABLE",0.01f,0.01f,0.98f,0.9f);
+	GPAN_AddInstrument(&this->tablePanel,&this->table.canvas);
 
 	/* TEST PANEL ROOT *******************************************************************************************/
 	GPAN_Init(&this->testRootPanel,(char*)"Test");
@@ -200,10 +211,23 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	}
 }
 
+static uint16_t counter=0;
 void SMFD_Execute(SMFD_CarMfd_t *this)
 {
 	//printf("SMFD_Execute\n");
 	GMFD_Execute(&this->mfd);
+	shortText_t hello[8];
+
+
+	strcpy(hello[0],"A1");	strcpy(hello[1],"B2");	strcpy(hello[2],"C3");
+	sprintf(hello[3],"%d",counter);
+
+	if ((counter%50==0)||(counter%51==0))
+	{
+		G2TB_AddLine(&this->table,&hello[0]);
+		//printf("counter %d\n",counter);
+	}
+	counter++;
 }
 
 
