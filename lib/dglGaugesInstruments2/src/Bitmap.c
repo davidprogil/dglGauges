@@ -58,7 +58,7 @@ void G2BM_Init(G2BM_Bitmap_t *this,GWIN_Window_t *parentWindow,char *title,uint1
 	}
 }
 
-void G2BM_SetPixelColour(G2BM_Bitmap_t *this,uint16_t rowIx, uint16_t colIx, uint8_t r,uint8_t g,uint8_t b)
+void G2BM_SetPixelColour(G2BM_Bitmap_t *this,uint16_t rowIx, uint16_t colIx, float32_t r,float32_t g,float32_t b)
 {
 	if ((rowIx<this->rowsNo)&&(colIx<this->colsNo))
 	{

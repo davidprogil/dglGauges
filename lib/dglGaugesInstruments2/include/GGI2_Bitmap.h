@@ -26,9 +26,9 @@
 /* types------------------------------------------------------------------------*/
 typedef struct _G2BM_Pixel_t_
 {
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
+	float32_t r;
+	float32_t g;
+	float32_t b;
 }G2BM_Pixel_t;
 
 typedef struct _G2BM_Bitmap_t_
@@ -46,7 +46,7 @@ typedef struct _G2BM_Bitmap_t_
 
 /* public functions--------------------------------------------------------------*/
 void G2BM_Init(G2BM_Bitmap_t *this,GWIN_Window_t *parentWindow,char *title,uint16_t rowsNo,uint16_t colsNo,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
-void G2BM_SetPixelColour(G2BM_Bitmap_t *this,uint16_t rowIx, uint16_t colIx, uint8_t r,uint8_t g,uint8_t b);
+void G2BM_SetPixelColour(G2BM_Bitmap_t *this,uint16_t rowIx, uint16_t colIx, float32_t r,float32_t g,float32_t b);
 
 /* end */
 #endif /* G2BM_Bitmap_H */
