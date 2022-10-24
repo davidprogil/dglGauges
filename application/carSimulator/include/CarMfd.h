@@ -20,6 +20,7 @@
 #include <Sign.h>
 #include <GGI2_MultiChart.h>
 #include <GGI2_Table.h>
+#include <GGI2_Bitmap.h>
 /* component includes----------------------------------------------------------*/
 /* none */
 
@@ -68,6 +69,9 @@ typedef struct _SMFD_CarMfd_t_
 
 	GPAN_Panel_t tablePanel;
 	G2TB_Table_t table;
+
+	GPAN_Panel_t bitmapPanel;
+	G2BM_Bitmap_t bitmap;
 
 }SMFD_CarMfd_t;
 

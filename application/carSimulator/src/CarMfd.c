@@ -135,6 +135,12 @@ void SMFD_Init(SMFD_CarMfd_t *this)
 	G2TB_Init2(&this->table,&this->tablePanel.canvas.realWindow,(char*)"TABLE",0.01f,0.01f,0.98f,0.9f);
 	GPAN_AddInstrument(&this->tablePanel,&this->table.canvas);
 
+	/* BITMAP PANEL  *******************************************************************************************/
+	GPAN_Init(&this->bitmapPanel,(char*)"BITMAP");
+	GMFD_AddPanel(&this->mfd,&this->bitmapPanel);
+	G2BM_Init(&this->bitmap,&this->bitmapPanel.canvas.realWindow,(char*)"BITMAP",20,40,0.1f,0.1f,0.8f,0.8f);
+	GPAN_AddInstrument(&this->bitmapPanel,&this->bitmap.canvas);
+
 	/* TEST PANEL ROOT *******************************************************************************************/
 	GPAN_Init(&this->testRootPanel,(char*)"Test");
 	GMFD_AddPanel(&this->mfd,&this->testRootPanel);
