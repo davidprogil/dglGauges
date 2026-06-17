@@ -64,6 +64,7 @@ typedef struct _G2TB_Table_t_
 void G2TB_Init(G2TB_Table_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 void G2TB_Init2(G2TB_Table_t *this,GWIN_Window_t *parentWindow,char *title,float32_t ox,float32_t oy,float32_t dx,float32_t dy);
 void G2TB_AddLine(G2TB_Table_t *this,shortText_t *text);
+void G2TB_Clear(G2TB_Table_t *this);
 
 
 /* end */

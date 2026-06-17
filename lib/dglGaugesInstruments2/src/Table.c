@@ -137,6 +137,32 @@ void G2TB_AddLine(G2TB_Table_t *this,shortText_t *text)
 
 	//printf("totalRowsNo %d\n",this->totalRowsNo);
 }
+
+void G2TB_Clear(G2TB_Table_t *this)
+{
+	//uint16_t tIx=0;
+	shortText_t text[7];
+	//date
+	strcpy(text[0],"");
+	//packet id
+	strcpy(text[1],"");
+	//event id
+	strcpy(text[2],"");
+	//description
+	strcpy(text[3],"");
+
+	//for (uint16_t adjustedIndex=0;adjustedIndex<this->rowsNo;adjustedIndex++)
+	{
+		for (uint16_t lIx=0;lIx<this->rowsNo;lIx++)
+		{
+
+				G2TB_AddLine(this,text);
+						//strcpy(&this->linesText[lIx].text[tIx][0]," ");
+						//tIx++;
+
+		}
+	}
+}
 /* local functions ------------------------------------------------------------*/
 void G2TB_Execute(void *thisVoid)
 {
